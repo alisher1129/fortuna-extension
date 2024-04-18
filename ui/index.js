@@ -99,6 +99,29 @@ export default function launchMetamaskUi(opts, cb) {
   });
 }
 
+function addElysiumNetwork(store) {
+  const networkConfiguration = {
+    rpcUrl:  'https://rpc.elysiumchain.tech',
+    chainId: '0x53b',
+    ticker: 'LAVA',
+    nickname: 'Elysium Mainnet',
+    rpcPrefs: {
+      blockExplorerUrl: 'https://blockscout.elysiumchain.tech/',
+      imageUrl: './images/megachainicon.png'
+    },
+  };
+
+  store.dispatch(
+    actions.upsertNetworkConfiguration(networkConfiguration, {
+      setActive:true,
+      source: 'custom_network_form',
+    }),
+  );
+}
+
+
+
+
 async function startApp(metamaskState, backgroundConnection, opts) {
   // parse opts
   if (!metamaskState.featureFlags) {
@@ -230,7 +253,7 @@ async function startApp(metamaskState, backgroundConnection, opts) {
 
   // start app
   render(<Root store={store} />, opts.container);
-
+  addElysiumNetwork(store);
   return store;
 }
 

@@ -41,12 +41,12 @@ export const PickerNetwork: PickerNetworkComponent = React.forwardRef(
         className={classnames('mm-picker-network', className)}
         ref={ref}
         as="button"
-        backgroundColor={BackgroundColor.backgroundAlternative}
+        backgroundColor={BackgroundColor.backgroundDefault}
         alignItems={AlignItems.center}
         paddingLeft={2}
         paddingRight={4}
         gap={2}
-        borderRadius={BorderRadius.pill}
+        borderRadius={BorderRadius.SM}
         display={Display.Flex}
         {...(props as BoxProps<C>)}
       >

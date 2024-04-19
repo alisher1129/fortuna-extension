@@ -32,12 +32,12 @@ html {
   @media (prefers-color-scheme: dark) {
     &:not([data-theme]) {
       color: var(--brand-colors-white-white000);
-      background-color: var(--brand-colors-grey-grey900);
+      background-color: var(--color-background-default);
     }
 
     @include design-system.screen-sm-max {
       &:not([data-theme]) {
-        background-color: var(--brand-colors-grey-grey800);
+        background-color: var(--color-background-default);
       }
     }
   }

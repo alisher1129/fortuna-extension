@@ -33,3 +33,28 @@
 */
 @import 'react-tippy/dist/tippy';
 @import '@metamask/design-tokens/src/css/design-tokens';
+
+:root, [data-theme=light] {
+  --color-background-default: #140533;
+  --color-background-alternative: #241446;
+  --color-primary-alternative: #9FC131;
+  --color-primary-muted: #9FC13126;
+  --color-primary-disabled: #9FC131;
+  --color-primary-default: #9FC131;
+  --color-primary-inverse: #ffffff;
+  --color-primary-shadow:#9FC13133;
+}
+
+.bg-dark-purple {
+  background-color: #140533;
+}
+.bg-light-purple {
+  background-color: #3B2864;
+}
+.primary-green-color {
+  span {
+    color: #9FC131;
+  }
+}
+
+

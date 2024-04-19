@@ -11,6 +11,41 @@
 @import 'pin-extension/index';
 @import 'metametrics/index';
 
+.relative {
+  position: relative;
+}
+.z-10 {
+  z-index: 10;
+}
+.GradientBox {
+  background: radial-gradient(115.77% 115.77% at 50% -18.77%, rgba(255, 22, 203, 0.7) 0%, rgba(20, 5, 51, 0) 100%),
+  linear-gradient(0deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2));
+  padding: 1px;
+  border-radius: 24px;
+  overflow: hidden;
+  .InnerGradientBox {
+    position: relative;
+    border-radius: 24px;
+    height: 100%;
+    background-color: #150537;
+    padding: 32px 16px;
+    @include design-system.screen-sm-min {
+      padding: 32px;
+    }
+    &::before {
+      background: transparent radial-gradient(closest-side at 50% 25%, #ff16cb 0%, #24144600 100%) 0% 0% no-repeat padding-box;
+      opacity: 0.7;
+      content: "";
+      position: absolute;
+      top: -70%;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 0;
+    }
+  }
+}
+
 .onboarding-flow {
   background-color: var(--color-background-default);
   padding: 0 16px;
@@ -18,14 +53,12 @@
 
   &__wrapper {
     margin: 24px auto;
-    padding: 32px 16px;
     max-width: 600px;
     border: 1px solid var(--color-border-muted);
     border-radius: 24px;
 
     @include design-system.screen-sm-min {
       margin: 64px auto 40px;
-      padding: 32px;
     }
   }
 

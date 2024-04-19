@@ -211,7 +211,7 @@ export const AppHeader = ({ location }) => {
         width={BlockSize.Full}
         backgroundColor={
           !isUnlocked || popupStatus
-            ? BackgroundColor.backgroundDefault
+            ? BackgroundColor.backgroundAlternative
             : BackgroundColor.backgroundAlternative
         }
       >
@@ -223,7 +223,6 @@ export const AppHeader = ({ location }) => {
               })}
               alignItems={AlignItems.center}
               width={BlockSize.Full}
-              backgroundColor={BackgroundColor.backgroundDefault}
               padding={2}
               paddingLeft={4}
               paddingRight={4}
@@ -479,7 +478,6 @@ export const AppHeader = ({ location }) => {
               alignItems={AlignItems.center}
               width={BlockSize.Full}
               justifyContent={JustifyContent.spaceBetween}
-              backgroundColor={BackgroundColor.backgroundDefault}
               padding={2}
               gap={2}
             >

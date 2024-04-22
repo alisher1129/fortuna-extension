@@ -33,7 +33,9 @@ const AdvancedGasFeeGasLimit = () => {
   };
 
   useEffect(() => {
+    // setGasLimit(300000);
     setGasLimitInContext(gasLimit);
+
     const error = validateGasLimit(gasLimit, minimumGasLimitDec);
     setGasLimitError(error);
     setErrorValue('gasLimit', error === 'editGasLimitOutOfBoundsV2');

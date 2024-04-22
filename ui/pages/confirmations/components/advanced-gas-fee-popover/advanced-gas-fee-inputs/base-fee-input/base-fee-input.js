@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-
+import { NetworkController } from '@metamask/network-controller';
 import { HIGH_FEE_WARNING_MULTIPLIER } from '../../../../send/send.constants';
 import {
   EditGasModes,
   PriorityLevels,
 } from '../../../../../../../shared/constants/gas';
 import { PRIMARY } from '../../../../../../helpers/constants/common';
-import { getAdvancedGasFeeValues } from '../../../../../../selectors';
+import { getAdvancedGasFeeValues, getCurrentChainId } from '../../../../../../selectors';
 import { useGasFeeContext } from '../../../../../../contexts/gasFee';
 import { useI18nContext } from '../../../../../../hooks/useI18nContext';
 import { useUserPreferencedCurrency } from '../../../../../../hooks/useUserPreferencedCurrency';
@@ -19,6 +19,9 @@ import { useAdvancedGasFeePopoverContext } from '../../context';
 import AdvancedGasFeeInputSubtext from '../../advanced-gas-fee-input-subtext';
 import { decGWEIToHexWEI } from '../../../../../../../shared/modules/conversion.utils';
 import { Numeric } from '../../../../../../../shared/modules/Numeric';
+import { ChainId } from '@metamask/controller-utils';
+import { CHAIN_IDS } from '../../../../../../../shared/constants/network';
+import { isChainId } from '@metamask/snaps-utils';
 
 const validateBaseFee = (value, gasFeeEstimates, maxPriorityFeePerGas) => {
   const baseFeeValue = new Numeric(value, 10);
@@ -76,9 +79,19 @@ const BaseFeeInput = () => {
       ? advancedGasFeeValues.maxBaseFee
       : maxFeePerGas;
 
+
   const [baseFee, setBaseFee] = useState(defaultBaseFee);
   useEffect(() => {
-    setBaseFee(defaultBaseFee);
+
+    console.log("Check", NetworkController);
+
+    // if(getCurrentChainId){
+      setBaseFee(100)
+    // }
+    // else{
+      // setBaseFee(defaultBaseFee);
+
+    // }
   }, [defaultBaseFee, setBaseFee]);
 
   const [baseFeeInPrimaryCurrency] = useCurrencyDisplay(

@@ -15,7 +15,8 @@
     align-self: stretch;
     justify-content: center;
     flex: 1 0 auto;
-    background: var(--color-background-default);
+    /*background: var(--color-background-default);*/
+    background: url("images/bg-unlock.png") no-repeat center top;
   }
 
   &__mascot-container {

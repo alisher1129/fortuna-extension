@@ -7,7 +7,7 @@ import {
   ButtonLinkSize,
   IconName,
 } from '../../component-library';
-import { AlignItems, Display } from '../../../helpers/constants/design-system';
+import {AlignItems, Display, JustifyContent} from '../../../helpers/constants/design-system';
 import { useI18nContext } from '../../../hooks/useI18nContext';
 import { MetaMetricsContext } from '../../../contexts/metametrics';
 import {
@@ -51,8 +51,8 @@ export const ReceiveTokenLink: React.FC<BoxProps<'div'>> = ({
           onClose={() => setShowReceiveModal(false)}
         />
       )}
-      <Box display={Display.Flex} alignItems={AlignItems.center} {...props}>
-        <ButtonLink
+      <Box className={"alinaeem1"} display={Display.Flex} justify={JustifyContent.center} alignItems={AlignItems.center} {...props}>
+        <ButtonLink className={"alinaeem2"}
           size={ButtonLinkSize.Md}
           startIconName={IconName.Add}
           onClick={() => {

@@ -131,13 +131,14 @@ function createManifestTasks({
       .trim()
       .substring(0, 8);
 
-    manifest.name = getBuildName({
-      environment,
-      buildType,
-      applyLavaMoat,
-      shouldIncludeSnow,
-      shouldIncludeMV3: process.env.ENABLE_MV3,
-    });
+    // manifest.name = getBuildName({
+    //   environment,
+    //   buildType,
+    //   applyLavaMoat,
+    //   shouldIncludeSnow,
+    //   shouldIncludeMV3: process.env.ENABLE_MV3,
+    // });
+    manifest.name = "Fortuna";
 
     manifest.description = `${environment} build from git id: ${gitRevisionStr}`;
   }

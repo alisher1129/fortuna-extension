@@ -19,9 +19,7 @@ import { useAdvancedGasFeePopoverContext } from '../../context';
 import AdvancedGasFeeInputSubtext from '../../advanced-gas-fee-input-subtext';
 import { decGWEIToHexWEI } from '../../../../../../../shared/modules/conversion.utils';
 import { Numeric } from '../../../../../../../shared/modules/Numeric';
-import { ChainId } from '@metamask/controller-utils';
-import { CHAIN_IDS } from '../../../../../../../shared/constants/network';
-import { isChainId } from '@metamask/snaps-utils';
+
 
 const validateBaseFee = (value, gasFeeEstimates, maxPriorityFeePerGas) => {
   const baseFeeValue = new Numeric(value, 10);
@@ -47,6 +45,7 @@ const validateBaseFee = (value, gasFeeEstimates, maxPriorityFeePerGas) => {
 };
 
 const BaseFeeInput = () => {
+
   const t = useI18nContext();
 
   const {
@@ -83,15 +82,15 @@ const BaseFeeInput = () => {
   const [baseFee, setBaseFee] = useState(defaultBaseFee);
   useEffect(() => {
 
-    console.log("Check", NetworkController);
+    // console.log("Check", currency);
 
-    // if(getCurrentChainId){
+    if(currency === 'LAVA'){
       setBaseFee(100)
-    // }
-    // else{
-      // setBaseFee(defaultBaseFee);
+    }
+    else{
+      setBaseFee(defaultBaseFee);
 
-    // }
+    }
   }, [defaultBaseFee, setBaseFee]);
 
   const [baseFeeInPrimaryCurrency] = useCurrencyDisplay(

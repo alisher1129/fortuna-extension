@@ -77,12 +77,22 @@ const PriorityFeeInput = () => {
       : maxPriorityFeePerGas;
 
   const [priorityFee, setPriorityFee] = useState(defaultPriorityFee);
+  const { currency, numberOfDecimals } = useUserPreferencedCurrency(PRIMARY);
+
   useEffect(() => {
-    // setPriorityFee(defaultPriorityFee);
-    setPriorityFee(100);
+
+
+    if(currency === 'LAVA'){
+      setPriorityFee(100);
+    }
+    else{
+    setPriorityFee(defaultPriorityFee);
+
+    }
+
+
   }, [defaultPriorityFee, setPriorityFee]);
 
-  const { currency, numberOfDecimals } = useUserPreferencedCurrency(PRIMARY);
 
   const [priorityFeeInPrimaryCurrency] = useCurrencyDisplay(
     decGWEIToHexWEI(priorityFee * gasLimit),

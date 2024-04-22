@@ -4,6 +4,9 @@ import { clone } from 'lodash';
 import React from 'react';
 import { render } from 'react-dom';
 import browser from 'webextension-polyfill';
+// import {
+//   ImportTokensModal
+// } from "../ui/components/multichain/import-tokens-modal/import-tokens-modal";
 
 import { getEnvironmentType } from '../app/scripts/lib/util';
 import { AlertTypes } from '../shared/constants/alerts';

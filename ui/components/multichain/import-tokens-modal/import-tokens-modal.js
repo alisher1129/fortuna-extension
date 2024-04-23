@@ -178,6 +178,18 @@ export const ImportTokensModal = ({ onClose }) => {
   const pendingTokens = useSelector(getPendingTokens);
   const networkClientId = useSelector(getSelectedNetworkClientId);
 
+
+
+
+
+
+
+
+
+
+
+
+
   const handleAddTokens = useCallback(async () => {
     try {
       const addedTokenValues = Object.values(pendingTokens);
@@ -787,6 +799,9 @@ export const ImportTokensModal = ({ onClose }) => {
     </Modal>
   );
 };
+
+
+
 
 ImportTokensModal.propTypes = {
   onClose: PropTypes.func.isRequired,

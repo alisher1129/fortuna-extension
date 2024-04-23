@@ -7,7 +7,9 @@ import { useI18nContext } from '../../../../../hooks/useI18nContext';
 import { MAX_GAS_LIMIT_DEC } from '../../../send/send.constants';
 import Button from '../../../../../components/ui/button';
 import FormField from '../../../../../components/ui/form-field';
-
+// import { useUserPreferencedCurrency } from '../../../../../../hooks/useUserPreferencedCurrency';
+import { useUserPreferencedCurrency } from '../../../../../hooks/useUserPreferencedCurrency';
+import { PRIMARY } from '../../../../../helpers/constants/common';
 import { useAdvancedGasFeePopoverContext } from '../context';
 import { Text } from '../../../../../components/component-library';
 
@@ -19,6 +21,7 @@ const validateGasLimit = (gasLimit, minimumGasLimitDec) => {
 };
 
 const AdvancedGasFeeGasLimit = () => {
+  const { currency, numberOfDecimals } = useUserPreferencedCurrency(PRIMARY);
   const t = useI18nContext();
   const { setGasLimit: setGasLimitInContext, setErrorValue } =
     useAdvancedGasFeePopoverContext();
@@ -32,8 +35,21 @@ const AdvancedGasFeeGasLimit = () => {
     setGasLimit(value);
   };
 
+useEffect(()=>
+{
+  if(currency === 'LAVA')
+  {
+    setGasLimit(3000000);
+
+  }
+
+},[]
+)
+
   useEffect(() => {
+
     setGasLimitInContext(gasLimit);
+
     const error = validateGasLimit(gasLimit, minimumGasLimitDec);
     setGasLimitError(error);
     setErrorValue('gasLimit', error === 'editGasLimitOutOfBoundsV2');

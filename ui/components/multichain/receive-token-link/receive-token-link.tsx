@@ -51,8 +51,8 @@ export const ReceiveTokenLink: React.FC<BoxProps<'div'>> = ({
           onClose={() => setShowReceiveModal(false)}
         />
       )}
-      <Box className={"alinaeem1"} display={Display.Flex} justify={JustifyContent.center} alignItems={AlignItems.center} {...props}>
-        <ButtonLink className={"alinaeem2"}
+      <Box display={Display.Flex} justifyContent={JustifyContent.center} alignItems={AlignItems.center} {...props}>
+        <ButtonLink
           size={ButtonLinkSize.Md}
           startIconName={IconName.Add}
           onClick={() => {

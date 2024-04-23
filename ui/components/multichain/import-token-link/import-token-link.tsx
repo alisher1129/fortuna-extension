@@ -44,7 +44,7 @@ export const ImportTokenLink: React.FC<ImportTokenLinkProps> = ({
       className={classnames('multichain-import-token-link', className)}
       {...(props as BoxProps<'div'>)}
     >
-      <Box display={Display.Flex} justify={JustifyContent.center} alignItems={AlignItems.center}>
+      <Box display={Display.Flex} justifyContent={JustifyContent.center} alignItems={AlignItems.center}>
         <ButtonLink
           size={ButtonLinkSize.Md}
           data-testid="import-token-button"
@@ -66,7 +66,7 @@ export const ImportTokenLink: React.FC<ImportTokenLinkProps> = ({
               t('importTokensCamelCase').slice(1)}
         </ButtonLink>
       </Box>
-      <Box display={Display.Flex} justify={JustifyContent.center} alignItems={AlignItems.center} paddingTop={2}>
+      <Box display={Display.Flex} justifyContent={JustifyContent.center} alignItems={AlignItems.center} paddingTop={2}>
         <ButtonLink
           size={ButtonLinkSize.Md}
           startIconName={IconName.Refresh}

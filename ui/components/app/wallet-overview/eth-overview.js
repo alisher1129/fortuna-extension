@@ -406,7 +406,7 @@ const EthOverview = ({ className, showAddress }) => {
           }
           {
             ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
-            <IconButton
+            /*<IconButton
               className="eth-overview__button"
               data-testid="eth-overview-portfolio"
               Icon={
@@ -434,7 +434,7 @@ const EthOverview = ({ className, showAddress }) => {
                   },
                 });
               }}
-            />
+            />*/
             ///: END:ONLY_INCLUDE_IF
           }
         </>

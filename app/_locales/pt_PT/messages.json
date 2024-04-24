@@ -12,15 +12,15 @@
     "message": "Quantia"
   },
   "appName": {
-    "message": "MetaMask",
+    "message": "Fortuna",
     "description": "The name of the application"
   },
   "appNameBeta": {
-    "message": "MetaMask Beta",
+    "message": "Fortuna Beta",
     "description": "The name of the application (Beta)"
   },
   "appNameFlask": {
-    "message": "MetaMask Flask",
+    "message": "Fortuna Flask",
     "description": "The name of the application (Flask)"
   },
   "back": {

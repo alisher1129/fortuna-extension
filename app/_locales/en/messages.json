@@ -1056,7 +1056,7 @@
     "message": "Create account"
   },
   "crossChainSwapsLink": {
-    "message": "Swap across networks with MetaMask Portfolio"
+    "message": "Swap across networks with Elysium Portfolio"
   },
   "cryptoCompare": {
     "message": "CryptoCompare"
@@ -1108,7 +1108,7 @@
     "message": "Custodian"
   },
   "custodianAccountAddedDesc": {
-    "message": "You can now use your accounts in MetaMask Institutional."
+    "message": "You can now use your accounts in Elysium Institutional."
   },
   "custodianAccountAddedTitle": {
     "message": "Selected $1 accounts have been added."
@@ -1117,7 +1117,7 @@
     "message": "Please go to $1 and click the 'Connect to MMI' button within their user interface to connect your accounts to MMI again."
   },
   "custodianReplaceRefreshTokenChangedSubtitle": {
-    "message": "You can now use your custodian accounts in MetaMask Institutional."
+    "message": "You can now use your custodian accounts in Elysium Institutional."
   },
   "custodianReplaceRefreshTokenChangedTitle": {
     "message": "Your custodian token has been refreshed"
@@ -1135,7 +1135,7 @@
     "message": "Please go to $1 and click the 'Connect to MMI' button within their user interface to connect your accounts to MMI again."
   },
   "custodyRefreshTokenModalDescription1": {
-    "message": "Your custodian issues a token that authenticates the MetaMask Institutional extension, allowing you to connect your accounts."
+    "message": "Your custodian issues a token that authenticates the Elysium Institutional extension, allowing you to connect your accounts."
   },
   "custodyRefreshTokenModalDescription2": {
     "message": "This token expires after a certain period for security reasons. This requires you to reconnect to MMI."
@@ -1267,7 +1267,7 @@
     "message": "Deposit"
   },
   "deprecatedAuroraNetworkMsg": {
-    "message": "MetaMask will be deprecating support for Aurora network. Please add it as a custom network if you want to continue to use it"
+    "message": "Elysium will be deprecating support for Aurora network. Please add it as a custom network if you want to continue to use it"
   },
   "deprecatedGoerliNtwrkMsg": {
     "message": "Because of updates to the Ethereum system, the Goerli test network will be phased out soon."
@@ -1279,7 +1279,7 @@
     "message": "Got it"
   },
   "deprecatedNetworkDescription": {
-    "message": "The network you're trying to connect to is no longer supported by Metamask. $1"
+    "message": "The network you're trying to connect to is no longer supported by Elysium. $1"
   },
   "description": {
     "message": "Description"
@@ -1292,22 +1292,22 @@
     "message": "Desktop App"
   },
   "desktopConnectionCriticalErrorDescription": {
-    "message": "This error could be intermittent, so try restarting the extension or disable MetaMask Desktop."
+    "message": "This error could be intermittent, so try restarting the extension or disable Elysium Desktop."
   },
   "desktopConnectionCriticalErrorTitle": {
-    "message": "MetaMask had trouble starting"
+    "message": "Elysium had trouble starting"
   },
   "desktopConnectionLostErrorDescription": {
-    "message": "Please make sure you have the desktop app up and running or disable MetaMask Desktop."
+    "message": "Please make sure you have the desktop app up and running or disable Elysium Desktop."
   },
   "desktopConnectionLostErrorTitle": {
-    "message": "MetaMask Desktop connection was lost"
+    "message": "Elysium Desktop connection was lost"
   },
   "desktopDisableButton": {
     "message": "Disable Desktop App"
   },
   "desktopDisableErrorCTA": {
-    "message": "Disable MetaMask Desktop"
+    "message": "Disable Elysium Desktop"
   },
   "desktopEnableButton": {
     "message": "Enable Desktop App"
@@ -1319,52 +1319,52 @@
     "message": "Return to Settings Page"
   },
   "desktopErrorRestartMMCTA": {
-    "message": "Restart MetaMask"
+    "message": "Restart Elysium"
   },
   "desktopNotFoundErrorCTA": {
-    "message": "Download MetaMask Desktop"
+    "message": "Download Elysium Desktop"
   },
   "desktopNotFoundErrorDescription1": {
     "message": "Please make sure you have the desktop app up and running."
   },
   "desktopNotFoundErrorDescription2": {
-    "message": "If you have no desktop app installed, please download it on the MetaMask website."
+    "message": "If you have no desktop app installed, please download it on the Elysium website."
   },
   "desktopNotFoundErrorTitle": {
-    "message": "MetaMask Desktop was not found"
+    "message": "Elysium Desktop was not found"
   },
   "desktopOpenOrDownloadCTA": {
-    "message": "Open MetaMask Desktop"
+    "message": "Open Elysium Desktop"
   },
   "desktopOutdatedErrorCTA": {
-    "message": "Update MetaMask Desktop"
+    "message": "Update Elysium Desktop"
   },
   "desktopOutdatedErrorDescription": {
-    "message": "Your MetaMask desktop app needs to be upgraded."
+    "message": "Your Elysium desktop app needs to be upgraded."
   },
   "desktopOutdatedErrorTitle": {
-    "message": "MetaMask Desktop is outdated"
+    "message": "Elysium Desktop is outdated"
   },
   "desktopOutdatedExtensionErrorCTA": {
-    "message": "Update MetaMask Extension"
+    "message": "Update Elysium Extension"
   },
   "desktopOutdatedExtensionErrorDescription": {
-    "message": "Your MetaMask extension needs to be upgraded."
+    "message": "Your Elysium extension needs to be upgraded."
   },
   "desktopOutdatedExtensionErrorTitle": {
-    "message": "MetaMask Extension is outdated"
+    "message": "Elysium Extension is outdated"
   },
   "desktopPageDescription": {
     "message": "If the pairing is successful, extension will restart and you'll have to re-enter your password."
   },
   "desktopPageSubTitle": {
-    "message": "Open your MetaMask Desktop and type this code"
+    "message": "Open your Elysium Desktop and type this code"
   },
   "desktopPageTitle": {
     "message": "Pair with Desktop"
   },
   "desktopPairedWarningDeepLink": {
-    "message": "Go to Settings in MetaMask Desktop"
+    "message": "Go to Settings in Elysium Desktop"
   },
   "desktopPairedWarningDescription": {
     "message": "If you want to start a new pairing, please remove the current connection."
@@ -1382,10 +1382,10 @@
     "message": "desktopRouteNotFoundErrorTitle"
   },
   "desktopUnexpectedErrorCTA": {
-    "message": "Return MetaMask Home"
+    "message": "Return Elysium Home"
   },
   "desktopUnexpectedErrorDescription": {
-    "message": "Check your MetaMask Desktop to restore connection"
+    "message": "Check your Elysium Desktop to restore connection"
   },
   "desktopUnexpectedErrorTitle": {
     "message": "Something went wrong..."
@@ -1627,13 +1627,13 @@
     "message": "Enhanced token detection is currently available on $1. $2"
   },
   "ensDomainsSettingDescriptionIntroduction": {
-    "message": "MetaMask lets you see ENS domains right in your browser's address bar. Here's how it works:"
+    "message": "Elysium lets you see ENS domains right in your browser's address bar. Here's how it works:"
   },
   "ensDomainsSettingDescriptionOutroduction": {
     "message": "Keep in mind that using this feature exposes your IP address to IPFS third-party services."
   },
   "ensDomainsSettingDescriptionPart1": {
-    "message": "MetaMask checks with Ethereum's ENS contract to find the code connected to the ENS name."
+    "message": "Elysium checks with Ethereum's ENS contract to find the code connected to the ENS name."
   },
   "ensDomainsSettingDescriptionPart2": {
     "message": "If the code links to IPFS, you can see the content associated with it (usually a website)."
@@ -1699,7 +1699,7 @@
     "description": "Message displayed on generic error page in the popup UI, $1 is a clickable link with text defined by the 'here' key. The link will open to a form where users can file support tickets."
   },
   "errorPageTitle": {
-    "message": "MetaMask encountered an error",
+    "message": "Elysium encountered an error",
     "description": "Title of generic error page"
   },
   "errorStack": {
@@ -1746,7 +1746,7 @@
     "description": "Banner description displayed on Snaps list page in Settings when less than 6 Snaps is installed."
   },
   "extensionInsallCompleteDescription": {
-    "message": "Return to the MetaMask Institutional product onboarding to connect your custodial or self-custodial accounts."
+    "message": "Return to the Elysium Institutional product onboarding to connect your custodial or self-custodial accounts."
   },
   "extensionInsallCompleteTitle": {
     "message": "Extension install complete"
@@ -1799,15 +1799,15 @@
   },
   "flaskWelcomeWarning2": {
     "message": "We do not guarantee the safety or stability of this extension. The new APIs offered by Flask are not hardened against phishing attacks, meaning that any site or snap that requires Flask might be a malicious attempt to steal your assets.",
-    "description": "This explains the risks of using MetaMask Flask"
+    "description": "This explains the risks of using Elysium Flask"
   },
   "flaskWelcomeWarning3": {
-    "message": "All Flask APIs are experimental. They may be changed or removed without notice, or they might stay on Flask indefinitely without ever being migrated to stable MetaMask. Use them at your own risk.",
+    "message": "All Flask APIs are experimental. They may be changed or removed without notice, or they might stay on Flask indefinitely without ever being migrated to stable Elysium. Use them at your own risk.",
     "description": "This message warns developers about unstable Flask APIs"
   },
   "flaskWelcomeWarning4": {
-    "message": "Make sure to disable your regular MetaMask extension when using Flask.",
-    "description": "This message calls to pay attention about multiple versions of MetaMask running on the same site (Flask + Prod)"
+    "message": "Make sure to disable your regular Elysium extension when using Flask.",
+    "description": "This message calls to pay attention about multiple versions of Elysium running on the same site (Flask + Prod)"
   },
   "flaskWelcomeWarningAcceptButton": {
     "message": "I accept the risks",
@@ -1992,7 +1992,7 @@
     "message": "Hardware wallet integrations use API calls to external servers, which can see your IP address and the smart contract addresses you interact with."
   },
   "hardwareWalletsMsg": {
-    "message": "Select a hardware wallet you would like to use with MetaMask."
+    "message": "Select a hardware wallet you would like to use with Elysium."
   },
   "here": {
     "message": "here",
@@ -2058,7 +2058,7 @@
     "description": "$1 is a message from 'holdToRevealContent4' and $2 is a text link with the message from 'holdToRevealContent5'"
   },
   "holdToRevealContent4": {
-    "message": "MetaMask Support will not request this,",
+    "message": "Elysium Support will not request this,",
     "description": "Part of 'holdToRevealContent3'"
   },
   "holdToRevealContent5": {
@@ -2123,13 +2123,13 @@
     "message": "This is not a valid private key. You must enter a hexadecimal string of length 64."
   },
   "importAccountJsonLoading1": {
-    "message": "Expect this JSON import to take a few minutes and freeze MetaMask."
+    "message": "Expect this JSON import to take a few minutes and freeze Elysium."
   },
   "importAccountJsonLoading2": {
     "message": "We apologize, and we will make it faster in the future."
   },
   "importAccountMsg": {
-    "message": "Imported accounts won’t be associated with your MetaMask Secret Recovery Phrase. Learn more about imported accounts"
+    "message": "Imported accounts won’t be associated with your Elysium Secret Recovery Phrase. Learn more about imported accounts"
   },
   "importMyWallet": {
     "message": "Import my wallet"
@@ -2176,7 +2176,7 @@
     "message": "in your Settings"
   },
   "infuraBlockedNotification": {
-    "message": "MetaMask is unable to connect to the blockchain host. Review possible reasons $1.",
+    "message": "Elysium is unable to connect to the blockchain host. Review possible reasons $1.",
     "description": "$1 is a clickable link with with text defined by the 'here' key"
   },
   "initialTransactionConfirmed": {
@@ -2227,7 +2227,7 @@
     "message": "Install extension"
   },
   "installExtensionDescription": {
-    "message": "The institution-compliant version of the world's leading web3 wallet, MetaMask."
+    "message": "The institution-compliant version of the world's leading web3 wallet, Elysium."
   },
   "installOrigin": {
     "message": "Install origin"
@@ -2329,7 +2329,7 @@
     "message": "IPFS gateway"
   },
   "ipfsGatewayDescription": {
-    "message": "MetaMask uses third-party services to show images of your NFTs stored on IPFS, display information related to ENS addresses entered in your browser's address bar, and fetch icons for different tokens. Your IP address may be exposed to these services when you’re using them."
+    "message": "Elysium uses third-party services to show images of your NFTs stored on IPFS, display information related to ENS addresses entered in your browser's address bar, and fetch icons for different tokens. Your IP address may be exposed to these services when you’re using them."
   },
   "ipfsToggleModalDescriptionOne": {
     "message": "We use third-party services to show images of your NFTs stored on IPFS, display information related to ENS addresses entered in your browser's address bar, and fetch icons for different tokens. Your IP address may be exposed to these services when you’re using them."
@@ -2426,10 +2426,10 @@
     "message": "Learn to bridge"
   },
   "leaveMetaMask": {
-    "message": "Leave MetaMask?"
+    "message": "Leave Elysium?"
   },
   "leaveMetaMaskDesc": {
-    "message": "You're about to visit a site outside of MetaMask. Double-check the URL before continuing."
+    "message": "You're about to visit a site outside of Elysium. Double-check the URL before continuing."
   },
   "ledgerAccountRestriction": {
     "message": "You need to make use your last account before you can add a new one."
@@ -2526,7 +2526,7 @@
     "message": "Lock"
   },
   "lockMetaMask": {
-    "message": "Lock MetaMask"
+    "message": "Lock Elysium"
   },
   "lockTimeInvalid": {
     "message": "Lock time must be a number between 0 and 10080"
@@ -2587,7 +2587,7 @@
     "message": "Message"
   },
   "metaMaskConnectStatusParagraphOne": {
-    "message": "You now have more control over your account connections in MetaMask."
+    "message": "You now have more control over your account connections in Elysium."
   },
   "metaMaskConnectStatusParagraphThree": {
     "message": "Click it to manage your connected accounts."
@@ -2600,16 +2600,16 @@
     "description": "$1 is the snap name and $2 is the snap NPM id."
   },
   "metamaskInstitutionalVersion": {
-    "message": "MetaMask Institutional Version"
+    "message": "Elysium Institutional Version"
   },
   "metamaskPortfolio": {
-    "message": "MetaMask Portfolio."
+    "message": "Elysium Portfolio."
   },
   "metamaskSwapsOfflineDescription": {
-    "message": "MetaMask Swaps is undergoing maintenance. Please check back later."
+    "message": "Elysium Swaps is undergoing maintenance. Please check back later."
   },
   "metamaskVersion": {
-    "message": "MetaMask Version"
+    "message": "Elysium Version"
   },
   "methodNotSupported": {
     "message": "Not supported with this account."
@@ -2647,13 +2647,13 @@
     "message": "Request here"
   },
   "mmiBuiltAroundTheWorld": {
-    "message": "MetaMask Institutional is designed and built around the world."
+    "message": "Elysium Institutional is designed and built around the world."
   },
   "mmiNewNFTDetectedInNFTsTabMessage": {
-    "message": "Let MetaMask Institutional automatically detect and display NFTs in your wallet."
+    "message": "Let Elysium Institutional automatically detect and display NFTs in your wallet."
   },
   "mmiPasswordSetupDetails": {
-    "message": "This password will unlock your MetaMask Institutional extension only."
+    "message": "This password will unlock your Elysium Institutional extension only."
   },
   "more": {
     "message": "more"
@@ -2718,7 +2718,7 @@
     "message": "Lens Protocol"
   },
   "nameProvider_token": {
-    "message": "MetaMask"
+    "message": "Elysium"
   },
   "nameSetPlaceholder": {
     "message": "Choose a nickname...",
@@ -2878,7 +2878,7 @@
     "description": "$1 is used for newNFTDetectedInImportNFTsMessageStrongText"
   },
   "newNFTDetectedInNFTsTabMessage": {
-    "message": "Let MetaMask automatically detect and display NFTs in your wallet."
+    "message": "Let Elysium automatically detect and display NFTs in your wallet."
   },
   "newNFTsAutodetected": {
     "message": "NFT autodetection"
@@ -2904,7 +2904,7 @@
   },
   "nextNonceWarning": {
     "message": "Nonce is higher than suggested nonce of $1",
-    "description": "The next nonce according to MetaMask's internal logic"
+    "description": "The next nonce according to Elysium's internal logic"
   },
   "nftAddFailedMessage": {
     "message": "NFT can’t be added as the ownership details do not match. Make sure you have entered correct information."
@@ -2917,7 +2917,7 @@
     "message": "NFT has already been added."
   },
   "nftDisclaimer": {
-    "message": "Disclaimer: MetaMask pulls the media file from the source url. This url sometimes gets changed by the marketplace on which the NFT was minted."
+    "message": "Disclaimer: Elysium pulls the media file from the source url. This url sometimes gets changed by the marketplace on which the NFT was minted."
   },
   "nftOptions": {
     "message": "NFT Options"
@@ -2955,7 +2955,7 @@
     "message": "Select an account you want to use on this site to continue."
   },
   "noConnectedAccountTitle": {
-    "message": "MetaMask isn’t connected to this site"
+    "message": "Elysium isn’t connected to this site"
   },
   "noConversionDateAvailable": {
     "message": "No currency conversion date available"
@@ -3070,7 +3070,7 @@
     "description": "Description on an action button that appears in the What's New popup. Tells the user that if they click it, they will go to our Advanced settings page."
   },
   "notifications8DescriptionOne": {
-    "message": "As of MetaMask v10.4.0, you no longer need Ledger Live to connect your Ledger device to MetaMask.",
+    "message": "As of Elysium v10.4.0, you no longer need Ledger Live to connect your Ledger device to Elysium.",
     "description": "Description of a notification in the 'See What's New' popup. Describes changes for how Ledger Live is no longer needed to connect the device."
   },
   "notifications8DescriptionTwo": {
@@ -3094,8 +3094,8 @@
     "message": "Stay safe with security alerts"
   },
   "notificationsDropLedgerFirefoxDescription": {
-    "message": "Firefox no longer supports U2F, so Ledger won't work with MetaMask on Firefox. Try MetaMask on Google Chrome instead.",
-    "description": "Description of a notification in the 'See What's New' popup. Describes that ledger will not longer be supported for firefox users and they should use MetaMask on chrome for ledger support instead."
+    "message": "Firefox no longer supports U2F, so Ledger won't work with Elysium on Firefox. Try Elysium on Google Chrome instead.",
+    "description": "Description of a notification in the 'See What's New' popup. Describes that ledger will not longer be supported for firefox users and they should use Elysium on chrome for ledger support instead."
   },
   "notificationsDropLedgerFirefoxTitle": {
     "message": "Dropping Ledger Support for Firefox",
@@ -3138,7 +3138,7 @@
     "message": "See Portfolio"
   },
   "notificationsPortfolioV2DescriptionOne": {
-    "message": "Still missing out on MetaMask Portfolio?"
+    "message": "Still missing out on Elysium Portfolio?"
   },
   "notificationsPortfolioV2DescriptionThree": {
     "message": "Your Portfolio is waiting."
@@ -3147,7 +3147,7 @@
     "message": "Manage your web3 assets across different networks and accounts in one powerful dashboard. Swap, Buy, Sell, Bridge, and Stake in a secure, convenient, and easy to use dapp. Stay up to speed with the pulse of the cryptoverse, see your DeFi positions, manage your NFT collection, and more. All in one place."
   },
   "notificationsPortfolioV2Title": {
-    "message": "MetaMask Portfolio - join millions"
+    "message": "Elysium Portfolio - join millions"
   },
   "notificationsSimulationsDescriptionOne": {
     "message": "Now you can see the potential outcome of your transactions before you make them!"
@@ -3237,16 +3237,16 @@
     "message": "This data is aggregated and is therefore anonymous for the purposes of General Data Protection Regulation (EU) 2016/679."
   },
   "onboardingMetametricsDescription": {
-    "message": "MetaMask would like to gather usage data to better understand how our users interact with MetaMask. This data will be used to provide the service, which includes improving the service based on your use."
+    "message": "Elysium would like to gather usage data to better understand how our users interact with Elysium. This data will be used to provide the service, which includes improving the service based on your use."
   },
   "onboardingMetametricsDescription2": {
-    "message": "MetaMask will..."
+    "message": "Elysium will..."
   },
   "onboardingMetametricsDisagree": {
     "message": "No thanks"
   },
   "onboardingMetametricsInfuraTerms": {
-    "message": "* When you use Infura as your default RPC provider in MetaMask, Infura will collect your IP address and your Ethereum wallet address when you send a transaction. We don’t store this information in a way that allows our systems to associate those two pieces of data. For more information on how MetaMask and Infura interact from a data collection perspective, see our update $1. For more information on our privacy practices in general, see our $2.",
+    "message": "* When you use Infura as your default RPC provider in Elysium, Infura will collect your IP address and your Ethereum wallet address when you send a transaction. We don’t store this information in a way that allows our systems to associate those two pieces of data. For more information on how Elysium and Infura interact from a data collection perspective, see our update $1. For more information on our privacy practices in general, see our $2.",
     "description": "$1 represents `onboardingMetametricsInfuraTermsPolicyLink`, $2 represents `onboardingMetametricsInfuraTermsPolicy`"
   },
   "onboardingMetametricsInfuraTermsPolicy": {
@@ -3277,7 +3277,7 @@
     "message": "Send anonymized click and pageview events"
   },
   "onboardingMetametricsTitle": {
-    "message": "Help us improve MetaMask"
+    "message": "Help us improve Elysium"
   },
   "onboardingPinExtensionBillboardAccess": {
     "message": "Full access"
@@ -3295,16 +3295,16 @@
     "message": "Click the browser extension icon"
   },
   "onboardingPinExtensionDescription": {
-    "message": "Pin MetaMask on your browser so it's accessible and easy to view transaction confirmations."
+    "message": "Pin Elysium on your browser so it's accessible and easy to view transaction confirmations."
   },
   "onboardingPinExtensionDescription2": {
-    "message": "You can open MetaMask by clicking on the extension and access your wallet with 1 click."
+    "message": "You can open Elysium by clicking on the extension and access your wallet with 1 click."
   },
   "onboardingPinExtensionDescription3": {
     "message": "Click browser extension icon to access it instantly"
   },
   "onboardingPinExtensionLabel": {
-    "message": "Pin MetaMask"
+    "message": "Pin Elysium"
   },
   "onboardingPinExtensionStep1": {
     "message": "1"
@@ -3313,10 +3313,10 @@
     "message": "2"
   },
   "onboardingPinExtensionTitle": {
-    "message": "Your MetaMask install is complete!"
+    "message": "Your Elysium install is complete!"
   },
   "onboardingPinMmiExtensionLabel": {
-    "message": "Pin MetaMask Institutional"
+    "message": "Pin Elysium Institutional"
   },
   "onboardingUsePhishingDetectionDescription": {
     "message": "Phishing detection alerts rely on communication with $1. jsDeliver will have access to your IP address. View $2.",
@@ -3334,7 +3334,7 @@
   },
   "openFullScreenForLedgerWebHid": {
     "message": "Go to full screen to connect your Ledger.",
-    "description": "Shown to the user on the confirm screen when they are viewing MetaMask in a popup window but need to connect their ledger via webhid."
+    "description": "Shown to the user on the confirm screen when they are viewing Elysium in a popup window but need to connect their ledger via webhid."
   },
   "openInBlockExplorer": {
     "message": "Open in block explorer"

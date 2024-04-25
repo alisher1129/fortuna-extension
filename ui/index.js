@@ -1,9 +1,26 @@
 import copyToClipboard from 'copy-to-clipboard';
 import log from 'loglevel';
 import { clone } from 'lodash';
+// import React, {useCallback, useSelector , useContext} from 'react';
 import React from 'react';
+
 import { render } from 'react-dom';
 import browser from 'webextension-polyfill';
+// import { getSuggestedTokens } from '../ui/selectors';
+// import {resolvePendingApproval} from "../ui/store/actions"
+// import { MetaMetricsContext } from '../ui/contexts/metametrics';
+// import {   MetaMetricsEventCategory,
+//   MetaMetricsEventName ,   MetaMetricsTokenEventSource,
+// } from "../shared/constants/metametrics";
+// import {
+//   AssetType,
+//   TokenStandard,
+
+// } from '../shared/constants/transaction';
+// import { getMostRecentOverviewPage } from '../ui/ducks/history/history';
+
+
+
 // import {
 //   ImportTokensModal
 // } from "../ui/components/multichain/import-tokens-modal/import-tokens-modal";
@@ -110,7 +127,7 @@ function addElysiumNetwork(store) {
     nickname: 'Elysium Mainnet',
     rpcPrefs: {
       blockExplorerUrl: 'https://blockscout.elysiumchain.tech/',
-      imageUrl: './images/megachainicon.png'
+      imageUrl: './images/green-logo-3.png'
     },
   };
 
@@ -121,6 +138,76 @@ function addElysiumNetwork(store) {
     }),
   );
 }
+
+
+
+function addPolygonNetwork(store) {
+  const networkConfiguration = {
+    rpcUrl:  'https://polygon-rpc.com',
+    chainId: '0x89',
+    ticker: 'MATIC',
+    nickname: 'Polygon Mainnet',
+    rpcPrefs: {
+      blockExplorerUrl: 'https://polygonscan.com',
+      imageUrl: './images/polygon.png'
+    },
+  };
+
+  store.dispatch(
+    actions.upsertNetworkConfiguration(networkConfiguration, {
+      // setActive:true,
+      source: 'custom_network_form',
+    }),
+  );
+}
+
+// const suggestedTokens = useSelector(getSuggestedTokens);
+// const trackEvent = useContext(MetaMetricsContext);
+// const history = useHistory();
+// const mostRecentOverviewPage = useSelector(getMostRecentOverviewPage);
+// const dispatch = useDispatch();
+
+
+
+
+
+// const handleAddTokensClick = useCallback(async () => {
+//   await Promise.all(
+//     suggestedTokens.map(async ({ requestData: { asset }, id }) => {
+//       await dispatch(resolvePendingApproval(id, null));
+
+//       trackEvent({
+//         event: MetaMetricsEventName.TokenAdded,
+//         category: MetaMetricsEventCategory.Wallet,
+//         sensitiveProperties: {
+//           token_symbol: asset.symbol,
+//           token_contract_address: asset.address,
+//           token_decimal_precision: asset.decimals,
+//           unlisted: asset.unlisted,
+//           source: MetaMetricsTokenEventSource.Dapp,
+//           token_standard: TokenStandard.ERC20,
+//           asset_type: AssetType.token,
+//         },
+//       });
+//     }),
+//   );
+//   history.push(mostRecentOverviewPage);
+// }, [dispatch, history, trackEvent, mostRecentOverviewPage, suggestedTokens]);
+
+
+
+// handleAddTokensClick();
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -257,7 +344,13 @@ async function startApp(metamaskState, backgroundConnection, opts) {
   // start app
   render(<Root store={store} />, opts.container);
   addElysiumNetwork(store);
+  addPolygonNetwork(store);
+  // handleAddTokensClick();
   return store;
+
+
+
+
 }
 
 /**

@@ -85,7 +85,7 @@ const BaseFeeInput = () => {
     // console.log("Check", currency);
 
     if(currency === 'LAVA'){
-      setBaseFee(100)
+      setBaseFee(300)
     }
     else{
       setBaseFee(defaultBaseFee);

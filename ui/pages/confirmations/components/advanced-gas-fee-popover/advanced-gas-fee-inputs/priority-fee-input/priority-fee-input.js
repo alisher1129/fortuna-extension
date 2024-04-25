@@ -83,7 +83,7 @@ const PriorityFeeInput = () => {
 
 
     if(currency === 'LAVA'){
-      setPriorityFee(100);
+      setPriorityFee(300);
     }
     else{
     setPriorityFee(defaultPriorityFee);

@@ -413,7 +413,7 @@ export const NetworkListMenu = ({ onClose }) => {
               </DragDropContext>
             )}
           </Box>
-          <Box
+          {/* <Box
             padding={4}
             display={Display.Flex}
             justifyContent={JustifyContent.spaceBetween}
@@ -424,13 +424,13 @@ export const NetworkListMenu = ({ onClose }) => {
               disabled={currentlyOnTestNetwork}
               onToggle={handleToggle}
             />
-          </Box>
-          {showTestNetworks || currentlyOnTestNetwork ? (
+          </Box> */}
+          {/* {showTestNetworks || currentlyOnTestNetwork ? (
             <Box className="multichain-network-list-menu">
               {generateMenuItems(testNetworks)}
             </Box>
-          ) : null}
-          <Box padding={4}>
+          ) : null} */}
+          {/* <Box padding={4}>
             <ButtonSecondary
               size={ButtonSecondarySize.Lg}
               startIconName={IconName.Add}
@@ -456,7 +456,7 @@ export const NetworkListMenu = ({ onClose }) => {
             >
               {t('addNetwork')}
             </ButtonSecondary>
-          </Box>
+          </Box> */}
         </>
       </ModalContent>
     </Modal>

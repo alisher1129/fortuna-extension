@@ -376,11 +376,12 @@ const EthOverview = ({ className, showAddress }) => {
               label={t('bridge')}
               onClick={() => {
                 if (isBridgeChain) {
-                  const portfolioUrl = getPortfolioUrl(
-                    'bridge',
-                    'ext_bridge_button',
-                    metaMetricsId,
-                  );
+                  const portfolioUrl = "https://bridge.elysiumchain.tech/";
+                  // getPortfolioUrl(
+                  //   'bridge',
+                  //   'ext_bridge_button',
+                  //   metaMetricsId,
+                  // );
                   global.platform.openTab({
                     url: `${portfolioUrl}${
                       location.pathname.includes('asset') ? '&token=native' : ''

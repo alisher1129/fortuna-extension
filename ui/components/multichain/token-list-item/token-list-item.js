@@ -135,103 +135,89 @@ export const TokenListItem = ({
   const testNetworkBackgroundColor = useSelector(getTestNetworkBackgroundColor);
 
   return (
+
+    <>
     <Box
-      className={classnames('multichain-token-list-item', className)}
+    className={classnames('multichain-token-list-item', className)}
+    display={Display.Flex}
+    flexDirection={FlexDirection.Column}
+    gap={4}
+    data-testid="multichain-token-list-item"
+  >
+    <Box
+      className="multichain-token-list-item__container-cell"
       display={Display.Flex}
-      flexDirection={FlexDirection.Column}
-      gap={4}
-      data-testid="multichain-token-list-item"
+      flexDirection={FlexDirection.Row}
+      padding={4}
+      as="a"
+      data-testid="multichain-token-list-button"
+      href="#"
+      onClick={(e) => {
+        e.preventDefault();
+
+        if (showScamWarningModal) {
+          return;
+        }
+
+        onClick();
+        trackEvent({
+          category: MetaMetricsEventCategory.Tokens,
+          event: MetaMetricsEventName.TokenDetailsOpened,
+          properties: {
+            location: 'Home',
+            chain_id: chainId,
+            token_symbol: tokenSymbol,
+          },
+        });
+      }}
     >
-      <Box
-        className="multichain-token-list-item__container-cell"
-        display={Display.Flex}
-        flexDirection={FlexDirection.Row}
-        padding={4}
-        as="a"
-        data-testid="multichain-token-list-button"
-        href="#"
-        onClick={(e) => {
-          e.preventDefault();
-
-          if (showScamWarningModal) {
-            return;
-          }
-
-          onClick();
-          trackEvent({
-            category: MetaMetricsEventCategory.Tokens,
-            event: MetaMetricsEventName.TokenDetailsOpened,
-            properties: {
-              location: 'Home',
-              chain_id: chainId,
-              token_symbol: tokenSymbol,
-            },
-          });
-        }}
-      >
-        <BadgeWrapper
-          badge={
-            <AvatarNetwork
-              size={AvatarNetworkSize.Xs}
-              name={currentNetwork?.nickname}
-              src={currentNetwork?.rpcPrefs?.imageUrl}
-              backgroundColor={testNetworkBackgroundColor}
-              borderColor={
-                primaryTokenImage
-                  ? BorderColor.borderMuted
-                  : BorderColor.borderDefault
-              }
-            />
-          }
-          marginRight={3}
-        >
-          <AvatarToken
-            name={tokenSymbol}
-            src={tokenImage}
-            showHalo
-            borderColor={tokenImage ? undefined : BorderColor.borderDefault}
+      <BadgeWrapper
+        badge={
+          <AvatarNetwork
+            size={AvatarNetworkSize.Xs}
+            name={currentNetwork?.nickname}
+            src={currentNetwork?.rpcPrefs?.imageUrl}
+            backgroundColor={testNetworkBackgroundColor}
+            borderColor={
+              primaryTokenImage
+                ? BorderColor.borderMuted
+                : BorderColor.borderDefault
+            }
           />
-        </BadgeWrapper>
+        }
+        marginRight={3}
+      >
+        <AvatarToken
+          name={tokenSymbol}
+          src={tokenImage}
+          showHalo
+          borderColor={tokenImage ? undefined : BorderColor.borderDefault}
+        />
+      </BadgeWrapper>
+      <Box
+        className="multichain-token-list-item__container-cell--text-container"
+        display={Display.Flex}
+        flexDirection={FlexDirection.Column}
+        width={BlockSize.Full}
+        style={{ flexGrow: 1, overflow: 'hidden' }}
+      >
         <Box
-          className="multichain-token-list-item__container-cell--text-container"
           display={Display.Flex}
-          flexDirection={FlexDirection.Column}
-          width={BlockSize.Full}
-          style={{ flexGrow: 1, overflow: 'hidden' }}
+          flexDirection={FlexDirection.Row}
+          justifyContent={JustifyContent.spaceBetween}
+          gap={1}
         >
           <Box
-            display={Display.Flex}
-            flexDirection={FlexDirection.Row}
-            justifyContent={JustifyContent.spaceBetween}
-            gap={1}
+            width={isStakeable ? BlockSize.Half : BlockSize.OneThird}
+            display={Display.InlineBlock}
           >
-            <Box
-              width={isStakeable ? BlockSize.Half : BlockSize.OneThird}
-              display={Display.InlineBlock}
-            >
-              {title?.length > 12 ? (
-                <Tooltip
-                  position="bottom"
-                  interactive
-                  html={title}
-                  tooltipInnerClassName="multichain-token-list-item__tooltip"
-                >
-                  <Text
-                    as="span"
-                    fontWeight={FontWeight.Medium}
-                    variant={TextVariant.bodyMd}
-                    ellipsis
-                  >
-                    {isStakeable ? (
-                      <>
-                        {tokenSymbol} {stakeableTitle}
-                      </>
-                    ) : (
-                      tokenSymbol
-                    )}
-                  </Text>
-                </Tooltip>
-              ) : (
+            {title?.length > 12 ? (
+              <Tooltip
+                position="bottom"
+                interactive
+                html={title}
+                tooltipInnerClassName="multichain-token-list-item__tooltip"
+              >
                 <Text
                   as="span"
                   fontWeight={FontWeight.Medium}
@@ -239,75 +225,62 @@ export const TokenListItem = ({
                   ellipsis
                 >
                   {isStakeable ? (
-                    <Box display={Display.InlineBlock}>
+                    <>
                       {tokenSymbol} {stakeableTitle}
-                    </Box>
+                    </>
                   ) : (
                     tokenSymbol
                   )}
                 </Text>
-              )}
+              </Tooltip>
+            ) : (
               <Text
+                as="span"
                 fontWeight={FontWeight.Medium}
                 variant={TextVariant.bodyMd}
-                color={TextColor.textAlternative}
-                data-testid="multichain-token-list-item-token-name" //
                 ellipsis
               >
-                {tokenTitle}
-              </Text>
-            </Box>
-
-            {showScamWarning ? (
-              <Box
-                display={Display.Flex}
-                flexDirection={FlexDirection.Column}
-                width={isStakeable ? BlockSize.Half : BlockSize.TwoThirds}
-                alignItems={AlignItems.flexEnd}
-              >
-                <ButtonIcon
-                  iconName={IconName.Danger}
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    setShowScamWarningModal(true);
-                  }}
-                  color={IconColor.errorDefault}
-                  size={IconSize.Md}
-                  backgroundColor={BackgroundColor.transparent}
-                  data-testid="scam-warning"
-                />
-
-                {useNativeCurrencyAsPrimaryCurrency ? (
-                  <Text
-                    fontWeight={FontWeight.Medium}
-                    variant={TextVariant.bodyMd}
-                    width={isStakeable ? BlockSize.Half : BlockSize.TwoThirds}
-                    textAlign={TextAlign.End}
-                    data-testid="multichain-token-list-item-secondary-value"
-                    ellipsis={isStakeable}
-                  >
-                    {secondary}
-                  </Text>
+                {isStakeable ? (
+                  <Box display={Display.InlineBlock}>
+                    {tokenSymbol} {stakeableTitle}
+                  </Box>
                 ) : (
-                  <Text
-                    data-testid="multichain-token-list-item-value"
-                    color={TextColor.textAlternative}
-                    fontWeight={FontWeight.Medium}
-                    variant={TextVariant.bodyMd}
-                    textAlign={TextAlign.End}
-                  >
-                    {primary} {isNativeCurrency ? '' : tokenSymbol}
-                  </Text>
+                  tokenSymbol
                 )}
-              </Box>
-            ) : (
-              <Box
-                display={Display.Flex}
-                flexDirection={FlexDirection.Column}
-                width={isStakeable ? BlockSize.Half : BlockSize.TwoThirds}
-                alignItems={AlignItems.flexEnd}
-              >
+              </Text>
+            )}
+            <Text
+              fontWeight={FontWeight.Medium}
+              variant={TextVariant.bodyMd}
+              color={TextColor.textAlternative}
+              data-testid="multichain-token-list-item-token-name" //
+              ellipsis
+            >
+              {tokenTitle}
+            </Text>
+          </Box>
+
+          {showScamWarning ? (
+            <Box
+              display={Display.Flex}
+              flexDirection={FlexDirection.Column}
+              width={isStakeable ? BlockSize.Half : BlockSize.TwoThirds}
+              alignItems={AlignItems.flexEnd}
+            >
+              <ButtonIcon
+                iconName={IconName.Danger}
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setShowScamWarningModal(true);
+                }}
+                color={IconColor.errorDefault}
+                size={IconSize.Md}
+                backgroundColor={BackgroundColor.transparent}
+                data-testid="scam-warning"
+              />
+
+              {useNativeCurrencyAsPrimaryCurrency ? (
                 <Text
                   fontWeight={FontWeight.Medium}
                   variant={TextVariant.bodyMd}
@@ -318,6 +291,7 @@ export const TokenListItem = ({
                 >
                   {secondary}
                 </Text>
+              ) : (
                 <Text
                   data-testid="multichain-token-list-item-value"
                   color={TextColor.textAlternative}
@@ -327,48 +301,83 @@ export const TokenListItem = ({
                 >
                   {primary} {isNativeCurrency ? '' : tokenSymbol}
                 </Text>
-              </Box>
-            )}
-          </Box>
-          <Box
-            display={Display.Flex}
-            flexDirection={FlexDirection.Row}
-            justifyContent={JustifyContent.spaceBetween}
-            gap={1}
-          ></Box>
-        </Box>
-      </Box>
-      {showScamWarningModal ? (
-        <Modal isOpen>
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader onClose={() => setShowScamWarningModal(false)}>
-              {t('nativeTokenScamWarningTitle')}
-            </ModalHeader>
-            <Box marginTop={4} marginBottom={4}>
-              {t('nativeTokenScamWarningDescription', [tokenSymbol])}
+              )}
             </Box>
-            <Box>
-              <ButtonSecondary
-                onClick={() => {
-                  dispatch(
-                    setSelectedNetworkConfigurationId(providerConfig.id),
-                  );
-                  if (isFullScreen) {
-                    history.push(NETWORKS_ROUTE);
-                  } else {
-                    global.platform.openExtensionInBrowser(NETWORKS_ROUTE);
-                  }
-                }}
-                block
+          ) : (
+            <Box
+              display={Display.Flex}
+              flexDirection={FlexDirection.Column}
+              width={isStakeable ? BlockSize.Half : BlockSize.TwoThirds}
+              alignItems={AlignItems.flexEnd}
+            >
+              <Text
+                fontWeight={FontWeight.Medium}
+                variant={TextVariant.bodyMd}
+                width={isStakeable ? BlockSize.Half : BlockSize.TwoThirds}
+                textAlign={TextAlign.End}
+                data-testid="multichain-token-list-item-secondary-value"
+                ellipsis={isStakeable}
               >
-                {t('nativeTokenScamWarningConversion')}
-              </ButtonSecondary>
+                {secondary}
+              </Text>
+              <Text
+                data-testid="multichain-token-list-item-value"
+                color={TextColor.textAlternative}
+                fontWeight={FontWeight.Medium}
+                variant={TextVariant.bodyMd}
+                textAlign={TextAlign.End}
+              >
+                {primary} {isNativeCurrency ? '' : tokenSymbol}
+              </Text>
             </Box>
-          </ModalContent>
-        </Modal>
-      ) : null}
+          )}
+        </Box>
+        <Box
+          display={Display.Flex}
+          flexDirection={FlexDirection.Row}
+          justifyContent={JustifyContent.spaceBetween}
+          gap={1}
+        ></Box>
+      </Box>
     </Box>
+    {showScamWarningModal ? (
+      <Modal isOpen>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader onClose={() => setShowScamWarningModal(false)}>
+            {t('nativeTokenScamWarningTitle')}
+          </ModalHeader>
+          <Box marginTop={4} marginBottom={4}>
+            {t('nativeTokenScamWarningDescription', [tokenSymbol])}
+          </Box>
+          <Box>
+            <ButtonSecondary
+              onClick={() => {
+                dispatch(
+                  setSelectedNetworkConfigurationId(providerConfig.id),
+                );
+                if (isFullScreen) {
+                  history.push(NETWORKS_ROUTE);
+                } else {
+                  global.platform.openExtensionInBrowser(NETWORKS_ROUTE);
+                }
+              }}
+              block
+            >
+              {t('nativeTokenScamWarningConversion')}
+            </ButtonSecondary>
+          </Box>
+        </ModalContent>
+      </Modal>
+    ) : null}
+  </Box>
+
+
+
+
+
+
+  </>
   );
 };
 

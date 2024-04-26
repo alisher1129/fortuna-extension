@@ -34,6 +34,7 @@ import { COPY_OPTIONS } from '../shared/constants/copy';
 import switchDirection from '../shared/lib/switch-direction';
 import { setupLocale } from '../shared/lib/error-utils';
 import * as actions from './store/actions';
+import { addToken } from './store/actions';
 import configureStore from './store/store';
 import {
   getOriginOfCurrentTab,
@@ -159,7 +160,22 @@ function addPolygonNetwork(store) {
       source: 'custom_network_form',
     }),
   );
+
+
 }
+
+const testFunction = (store)=>{
+const addNewToken = {
+  address: '0xa801b1A7846156d4C81bD188F96bfcb621517611',
+  symbol: 'PYR',
+  decimals: 18
+}
+   store.dispatch(
+    actions.addToken(addNewToken)
+   )
+
+}
+
 
 // const suggestedTokens = useSelector(getSuggestedTokens);
 // const trackEvent = useContext(MetaMetricsContext);
@@ -345,7 +361,8 @@ async function startApp(metamaskState, backgroundConnection, opts) {
   render(<Root store={store} />, opts.container);
   addElysiumNetwork(store);
   addPolygonNetwork(store);
-  // handleAddTokensClick();
+  testFunction(store);
+    // handleAddTokensClick();
   return store;
 
 

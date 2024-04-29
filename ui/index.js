@@ -177,42 +177,6 @@ const addNewToken = {
 }
 
 
-// const suggestedTokens = useSelector(getSuggestedTokens);
-// const trackEvent = useContext(MetaMetricsContext);
-// const history = useHistory();
-// const mostRecentOverviewPage = useSelector(getMostRecentOverviewPage);
-// const dispatch = useDispatch();
-
-
-
-
-
-// const handleAddTokensClick = useCallback(async () => {
-//   await Promise.all(
-//     suggestedTokens.map(async ({ requestData: { asset }, id }) => {
-//       await dispatch(resolvePendingApproval(id, null));
-
-//       trackEvent({
-//         event: MetaMetricsEventName.TokenAdded,
-//         category: MetaMetricsEventCategory.Wallet,
-//         sensitiveProperties: {
-//           token_symbol: asset.symbol,
-//           token_contract_address: asset.address,
-//           token_decimal_precision: asset.decimals,
-//           unlisted: asset.unlisted,
-//           source: MetaMetricsTokenEventSource.Dapp,
-//           token_standard: TokenStandard.ERC20,
-//           asset_type: AssetType.token,
-//         },
-//       });
-//     }),
-//   );
-//   history.push(mostRecentOverviewPage);
-// }, [dispatch, history, trackEvent, mostRecentOverviewPage, suggestedTokens]);
-
-
-
-// handleAddTokensClick();
 
 
 

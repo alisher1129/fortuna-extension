@@ -116,7 +116,7 @@ export const NetworkListMenu = ({ onClose }) => {
     return sortedNonTestNetworks;
   };
 
-  const networksList = newOrderNetworks();
+  const networksList = newOrderNetworks().filter((network, index) =>  {return network.nickname == 'Elysium Mainnet' || network.nickname == 'Polygon Mainnet' || network.nickname == 'Ethereum Mainnet'});
   const [items, setItems] = useState([...networksList]);
 
   useEffect(() => {
@@ -241,6 +241,7 @@ export const NetworkListMenu = ({ onClose }) => {
   };
 
   return (
+
     <Modal isOpen onClose={onClose}>
       <ModalOverlay />
       <ModalContent
@@ -349,6 +350,7 @@ export const NetworkListMenu = ({ onClose }) => {
                                   key={network.id}
                                   selected={isCurrentNetwork}
                                   focus={isCurrentNetwork && !showSearch}
+
                                   onClick={() => {
                                     dispatch(toggleNetworkMenu());
                                     if (network.providerType) {

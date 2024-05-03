@@ -34,6 +34,8 @@ const AdvancedGasFeeDefaults = () => {
     maxPriorityFeePerGasNumber,
     10,
   ).toString();
+
+
   const advancedGasFeeValues = useSelector(getAdvancedGasFeeValues);
   // This will need to use a different chainId in multinetwork
   const chainId = useSelector(getCurrentChainId);

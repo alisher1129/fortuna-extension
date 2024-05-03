@@ -22,6 +22,7 @@ import { Numeric } from '../../../../../../../shared/modules/Numeric';
 
 
 const validateBaseFee = (value, gasFeeEstimates, maxPriorityFeePerGas) => {
+
   const baseFeeValue = new Numeric(value, 10);
   if (new Numeric(maxPriorityFeePerGas, 10).greaterThan(baseFeeValue)) {
     return 'editGasMaxBaseFeeGWEIImbalance';
@@ -39,7 +40,9 @@ const validateBaseFee = (value, gasFeeEstimates, maxPriorityFeePerGas) => {
       10,
     )
   ) {
-    return 'editGasMaxBaseFeeHigh';
+
+      return 'editGasMaxBaseFeeHigh';
+
   }
   return null;
 };
@@ -81,8 +84,6 @@ const BaseFeeInput = () => {
 
   const [baseFee, setBaseFee] = useState(defaultBaseFee);
   useEffect(() => {
-
-    // console.log("Check", currency);
 
     if(currency === 'LAVA'){
       setBaseFee(300)
@@ -126,11 +127,21 @@ const BaseFeeInput = () => {
     setMaxBaseFee,
   ]);
 
+  //Function to show Error Messages
+  const errorMessage = ()=>{
+    if (baseFeeError) {
+      return currency === 'LAVA' ? '' : t(baseFeeError);
+    }
+    return null; // Or a default error message if needed
+
+  }
+
   return (
     <Box className="base-fee-input" marginLeft={2} marginRight={2}>
       <FormField
         dataTestId="base-fee-input"
-        error={baseFeeError ? t(baseFeeError) : ''}
+        // error={baseFeeError ? t(baseFeeError) : ''}
+        error={errorMessage()}
         onChange={updateBaseFee}
         titleText={t('maxBaseFee')}
         titleUnit={`(${t('gwei')})`}

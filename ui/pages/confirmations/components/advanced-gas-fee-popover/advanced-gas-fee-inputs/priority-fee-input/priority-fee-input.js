@@ -119,6 +119,14 @@ const PriorityFeeInput = () => {
     setPriorityFeeError,
   ]);
 
+  //Function to show Error Messages
+  const setErrorMessage = ()=>{
+    if (priorityFeeError) {
+      return currency === 'LAVA' ? '' : t(priorityFeeError);
+    }
+    return null; // Or a default error message if needed
+
+  }
   return (
     <Box
       marginTop={4}
@@ -128,7 +136,8 @@ const PriorityFeeInput = () => {
     >
       <FormField
         dataTestId="priority-fee-input"
-        error={priorityFeeError ? t(priorityFeeError) : ''}
+        // error={priorityFeeError ? t(priorityFeeError) : ''}
+        error={setErrorMessage()}
         onChange={updatePriorityFee}
         titleText={t('priorityFeeProperCase')}
         titleUnit={`(${t('gwei')})`}

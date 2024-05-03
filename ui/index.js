@@ -1,29 +1,10 @@
 import copyToClipboard from 'copy-to-clipboard';
 import log from 'loglevel';
 import { clone } from 'lodash';
-// import React, {useCallback, useSelector , useContext} from 'react';
 import React from 'react';
 
 import { render } from 'react-dom';
-import browser from 'webextension-polyfill';
-// import { getSuggestedTokens } from '../ui/selectors';
-// import {resolvePendingApproval} from "../ui/store/actions"
-// import { MetaMetricsContext } from '../ui/contexts/metametrics';
-// import {   MetaMetricsEventCategory,
-//   MetaMetricsEventName ,   MetaMetricsTokenEventSource,
-// } from "../shared/constants/metametrics";
-// import {
-//   AssetType,
-//   TokenStandard,
-
-// } from '../shared/constants/transaction';
-// import { getMostRecentOverviewPage } from '../ui/ducks/history/history';
-
-
-
-// import {
-//   ImportTokensModal
-// } from "../ui/components/multichain/import-tokens-modal/import-tokens-modal";
+import browser, { action } from 'webextension-polyfill';
 
 import { getEnvironmentType } from '../app/scripts/lib/util';
 import { AlertTypes } from '../shared/constants/alerts';
@@ -122,35 +103,33 @@ export default function launchMetamaskUi(opts, cb) {
 
 function addElysiumNetwork(store) {
   const networkConfiguration = {
-    rpcUrl:  'https://rpc.elysiumchain.tech',
+    rpcUrl: 'https://rpc.elysiumchain.tech',
     chainId: '0x53b',
     ticker: 'LAVA',
     nickname: 'Elysium Mainnet',
     rpcPrefs: {
       blockExplorerUrl: 'https://blockscout.elysiumchain.tech/',
-      imageUrl: './images/green-logo-3.png'
+      imageUrl: './images/green-logo-3.png',
     },
   };
 
   store.dispatch(
     actions.upsertNetworkConfiguration(networkConfiguration, {
-      setActive:true,
+      setActive: true,
       source: 'custom_network_form',
     }),
   );
 }
 
-
-
 function addPolygonNetwork(store) {
   const networkConfiguration = {
-    rpcUrl:  'https://polygon-rpc.com',
+    rpcUrl: 'https://polygon-rpc.com',
     chainId: '0x89',
     ticker: 'MATIC',
     nickname: 'Polygon Mainnet',
     rpcPrefs: {
       blockExplorerUrl: 'https://polygonscan.com',
-      imageUrl: './images/polygon.png'
+      imageUrl: './images/polygon.png',
     },
   };
 
@@ -160,37 +139,28 @@ function addPolygonNetwork(store) {
       source: 'custom_network_form',
     }),
   );
-
-
 }
 
-const testFunction = (store)=>{
-const addNewToken = {
-  address: '0xa801b1A7846156d4C81bD188F96bfcb621517611',
-  symbol: 'PYR',
-  decimals: 18
-}
-   store.dispatch(
-    actions.addToken(addNewToken)
-   )
+const testFunction = (store) => {
+  const addNewToken = {
+    address: '0xa801b1A7846156d4C81bD188F96bfcb621517611',
+    symbol: 'PYR',
+    decimals: 18,
+  };
+  store.dispatch(actions.addToken(addNewToken));
+};
 
-}
+const testGassFee = (store) => {
+  const addNewGassFee = {
+    chainId: '0x53b',
+    gasFeePreferences: {
+      maxBaseFee: '42857.2',
+      priorityFee: '42857.2',
+    },
+  };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  store.dispatch(actions.setAdvancedGasFee(addNewGassFee));
+};
 
 async function startApp(metamaskState, backgroundConnection, opts) {
   // parse opts
@@ -326,12 +296,10 @@ async function startApp(metamaskState, backgroundConnection, opts) {
   addElysiumNetwork(store);
   addPolygonNetwork(store);
   testFunction(store);
-    // handleAddTokensClick();
+  testGassFee(store);
+  // testadvancegassfee(store)
+  // handleAddTokensClick();
   return store;
-
-
-
-
 }
 
 /**

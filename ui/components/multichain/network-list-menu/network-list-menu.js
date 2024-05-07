@@ -210,20 +210,20 @@ export const NetworkListMenu = ({ onClose }) => {
             });
           }}
           isDeprecatedNetwork={isDeprecatedNetwork}
-          onDeleteClick={
-            canDeleteNetwork
-              ? () => {
-                  dispatch(toggleNetworkMenu());
-                  dispatch(
-                    showModal({
-                      name: 'CONFIRM_DELETE_NETWORK',
-                      target: network.id,
-                      onConfirm: () => undefined,
-                    }),
-                  );
-                }
-              : null
-          }
+          // onDeleteClick={
+          //   canDeleteNetwork
+          //     ? () => {
+          //         dispatch(toggleNetworkMenu());
+          //         dispatch(
+          //           showModal({
+          //             name: 'CONFIRM_DELETE_NETWORK',
+          //             target: network.id,
+          //             onConfirm: () => undefined,
+          //           }),
+          //         );
+          //       }
+          //     : null
+          // }
         />
       );
     });
@@ -388,20 +388,20 @@ export const NetworkListMenu = ({ onClose }) => {
                                       },
                                     });
                                   }}
-                                  onDeleteClick={
-                                    canDeleteNetwork
-                                      ? () => {
-                                          dispatch(toggleNetworkMenu());
-                                          dispatch(
-                                            showModal({
-                                              name: 'CONFIRM_DELETE_NETWORK',
-                                              target: network.id,
-                                              onConfirm: () => undefined,
-                                            }),
-                                          );
-                                        }
-                                      : null
-                                  }
+                                  // onDeleteClick={
+                                  //   canDeleteNetwork
+                                  //     ? () => {
+                                  //         dispatch(toggleNetworkMenu());
+                                  //         dispatch(
+                                  //           showModal({
+                                  //             name: 'CONFIRM_DELETE_NETWORK',
+                                  //             target: network.id,
+                                  //             onConfirm: () => undefined,
+                                  //           }),
+                                  //         );
+                                  //       }
+                                  //     : null
+                                  // }
                                 />
                               </Box>
                             )}

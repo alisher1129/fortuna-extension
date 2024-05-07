@@ -94,7 +94,6 @@ const EthOverview = ({ className, showAddress }) => {
     ticker,
     type,
   );
-
   const account = useSelector(getSelectedInternalAccount);
   const isSwapsChain = useSelector(getIsSwapsChain);
   const isSigningEnabled =
@@ -191,6 +190,53 @@ const EthOverview = ({ className, showAddress }) => {
   ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
   const { openBuyCryptoInPdapp } = useRamps();
   ///: END:ONLY_INCLUDE_IF
+
+
+
+//function to change URLs according to Connect ChainId
+function setBridge(){
+if(chainId == '0x53b'){
+    const portfolioUrl = "https://bridge.elysiumchain.tech/";
+    global.platform.openTab({
+      url: `${portfolioUrl}${
+        location.pathname.includes('asset') ? '&token=native' : ''
+      }`,
+    });
+}else{
+  if (isBridgeChain) {
+    const portfolioUrl =
+     getPortfolioUrl(
+      'bridge',
+      'ext_bridge_button',
+      metaMetricsId,
+    );
+    global.platform.openTab({
+      url: `${portfolioUrl}${
+        location.pathname.includes('asset') ? '&token=native' : ''
+      }`,
+    });
+    trackEvent({
+      category: MetaMetricsEventCategory.Navigation,
+      event: MetaMetricsEventName.BridgeLinkClicked,
+      properties: {
+        location: 'Home',
+        text: 'Bridge',
+        chain_id: chainId,
+        token_symbol: 'ETH',
+      },
+    });
+  }else{
+    return;
+  }
+}
+
+}
+////
+
+
+
+
+
 
   return (
     <WalletOverview
@@ -368,37 +414,46 @@ const EthOverview = ({ className, showAddress }) => {
             ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
             <IconButton
               className="eth-overview__button"
-              disabled={!isBridgeChain || !isSigningEnabled}
+           // disabled={!isBridgeChain || !isSigningEnabled  }
+              disabled={!isBridgeChain && !isSigningEnabled && chainId !== '0x53b' }
+
               data-testid="eth-overview-bridge"
               Icon={
                 <Icon name={IconName.Bridge} color={IconColor.primaryInverse} />
               }
               label={t('bridge')}
-              onClick={() => {
-                if (isBridgeChain) {
-                  const portfolioUrl = "https://bridge.elysiumchain.tech/";
-                  // getPortfolioUrl(
-                  //   'bridge',
-                  //   'ext_bridge_button',
-                  //   metaMetricsId,
-                  // );
-                  global.platform.openTab({
-                    url: `${portfolioUrl}${
-                      location.pathname.includes('asset') ? '&token=native' : ''
-                    }`,
-                  });
-                  trackEvent({
-                    category: MetaMetricsEventCategory.Navigation,
-                    event: MetaMetricsEventName.BridgeLinkClicked,
-                    properties: {
-                      location: 'Home',
-                      text: 'Bridge',
-                      chain_id: chainId,
-                      token_symbol: 'ETH',
-                    },
-                  });
-                }
-              }}
+              onClick={
+                () => {
+              //Have added this function for bridge
+                setBridge()
+                ///
+                // if (isBridgeChain) {
+                //   // const portfolioUrl = "https://bridge.elysiumchain.tech/";
+                //   const portfolioUrl =
+                //    getPortfolioUrl(
+                //     'bridge',
+                //     'ext_bridge_button',
+                //     metaMetricsId,
+                //   );
+                //   global.platform.openTab({
+                //     url: `${portfolioUrl}${
+                //       location.pathname.includes('asset') ? '&token=native' : ''
+                //     }`,
+                //   });
+                //   trackEvent({
+                //     category: MetaMetricsEventCategory.Navigation,
+                //     event: MetaMetricsEventName.BridgeLinkClicked,
+                //     properties: {
+                //       location: 'Home',
+                //       text: 'Bridge',
+                //       chain_id: chainId,
+                //       token_symbol: 'ETH',
+                //     },
+                //   });
+                // }
+                /////
+              }
+            }
               tooltipRender={(contents) =>
                 generateTooltip('bridgeButton', contents)
               }

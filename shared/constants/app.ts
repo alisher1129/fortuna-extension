@@ -129,3 +129,7 @@ export const FIREFOX_BUILD_IDS = [
 ] as const;
 
 export const UNKNOWN_TICKER_SYMBOL = 'UNKNOWN';
+
+//add these two keys for Local Storage
+export const IS_LAVA_SET_AS_DEFAULT_NETWORK = 'IS_LAVA_SET_AS_DEFAULT_NETWORK';
+export const IS_MATIC_SET_AS_DEFAULT_NETWORK = 'IS_MATIC_SET_AS_DEFAULT_NETWORK';

@@ -117,7 +117,7 @@ export class NetworkOrderController extends BaseController<
     );
 
     // Since networkConfigurations doesn't have default or mainnet network configurations we need to combine mainnet chains with network configurations
-    const combinedNetworks = [ ...networkConfigurations , ...MAINNET_CHAINS,];
+    const combinedNetworks = [...networkConfigurations ,...MAINNET_CHAINS];
 
     // Extract unique chainIds from the combined networks
     const uniqueChainIds = combinedNetworks.map((item) => ({

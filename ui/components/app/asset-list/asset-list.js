@@ -116,6 +116,7 @@ const AssetList = ({ onClickAsset }) => {
   isStakeable = false;
   ///: END:ONLY_INCLUDE_IF
 
+
   return (
     <>
       {detectedTokens.length > 0 &&
@@ -164,6 +165,9 @@ const AssetList = ({ onClickAsset }) => {
         isNativeCurrency
         isStakeable={isStakeable}
       />
+
+
+
       <TokenList
         tokens={tokensWithBalances}
         loading={loading}
@@ -179,6 +183,8 @@ const AssetList = ({ onClickAsset }) => {
           });
         }}
       />
+
+
       {balanceIsZero && (
         <ReceiveTokenLink
           margin={4}

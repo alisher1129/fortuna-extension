@@ -1,3 +1,4 @@
+import { useSelector } from 'react-redux';
 import { addHexPrefix } from 'ethereumjs-util';
 import abi from 'human-standard-token-abi';
 import BigNumber from 'bignumber.js';
@@ -71,9 +72,11 @@ export async function estimateGasLimitForSend({
       fromAddress: selectedAddress,
       toAddress: to,
       amount: value,
+
     });
 
     paramsForGasEstimate.to = sendToken.address;
+
   } else {
     if (!data) {
       // eth.getCode will return the compiled smart contract code at the
@@ -132,11 +135,28 @@ export async function estimateGasLimitForSend({
     bufferMultiplier = CHAIN_ID_TO_GAS_LIMIT_BUFFER_MAP[chainId];
   }
 
+
+
+
   try {
     // Call into the background process that will simulate transaction
     // execution on the node and return an estimate of gasLimit
-    const estimatedGasLimit = await estimateGas(paramsForGasEstimate);
 
+///Vaival
+    // if (chainId === '0x53b') {
+    //   const estimatedGasLimit = '30000000';
+    //   return estimatedGasLimit;
+    // } else {
+    //   const estimatedGasLimit = await estimateGas(paramsForGasEstimate);
+
+    //   return estimatedGasLimit;
+    // }
+///Vaival
+
+
+//Real Code
+const estimatedGasLimit = await estimateGas(paramsForGasEstimate);
+//end
     const estimateWithBuffer = addGasBuffer(
       estimatedGasLimit,
       blockGasLimit,
@@ -281,6 +301,10 @@ export function getRoundedGasPrice(gasPriceEstimate) {
   return getGasPriceInHexWei(gasPriceAsNumber);
 }
 
+
+
+
+
 export async function getERC20Balance(token, accountAddress) {
   const contract = global.eth.contract(abi).at(token.address);
   const usersToken = (await contract.balanceOf(accountAddress)) ?? null;
@@ -293,3 +317,5 @@ export async function getERC20Balance(token, accountAddress) {
   ).toString(16);
   return addHexPrefix(amount);
 }
+
+

@@ -37,8 +37,8 @@ import { getStorageItem, setStorageItem } from '../shared/lib/storage-helpers';
 import {
   IS_LAVA_SET_AS_DEFAULT_NETWORK,
   IS_MATIC_SET_AS_DEFAULT_NETWORK,
+  IS_LAVA_SET_AS_DEFAULT_NETWORK_2
 } from '../shared/constants/app';
-
 
 log.setLevel(global.METAMASK_DEBUG ? 'debug' : 'warn', false);
 
@@ -129,16 +129,17 @@ const addElysiumNetwork = async (store) => {
     );
     response.then((id) => {
       if (id) {
-        console.log('response:', id);
-        testFunction(store, id);
+        setPYRToken(store, id);
       } else {
         console.error('Failed to create default Token');
       }
     });
 
     await setStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK, JSON.stringify(true));
-  }
-  else {
+  } else {
+    let customNetwork = await getStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK_2);
+    if (customNetwork == null) {
+
     const networkConfiguration = {
       rpcUrl: 'https://rpc.elysiumchain.tech',
       chainId: '0x53b',
@@ -158,12 +159,14 @@ const addElysiumNetwork = async (store) => {
     );
     response.then((id) => {
       if (id) {
-        testFunction(store, id);
+        setPYRToken(store, id);
       } else {
         console.error('Failed to create default Token');
       }
     });
+    await setStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK_2, JSON.stringify(true));
   }
+}
 };
 
 //Polygon Chainsss
@@ -177,7 +180,7 @@ const addPolygonNetwork = async (store) => {
       nickname: 'Polygon Mainnet',
       rpcPrefs: {
         blockExplorerUrl: 'https://polygonscan.com',
-        imageUrl: './images/polygon.png',
+        // imageUrl: './images/polygon.png',
       },
     };
 
@@ -192,7 +195,7 @@ const addPolygonNetwork = async (store) => {
 };
 
 //PYR Token by default
-const testFunction = (store, id) => {
+const setPYRToken = (store, id) => {
   const addNewToken = {
     address: '0xa801b1A7846156d4C81bD188F96bfcb621517611',
     symbol: 'PYR',
@@ -202,18 +205,26 @@ const testFunction = (store, id) => {
   store.dispatch(actions.addToken(addNewToken));
 };
 
-//Gass Fees by default
-// const testGassFee = (store) => {
-//   const addNewGassFee = {
-//     chainId: '0x53b',
-//     gasFeePreferences: {
-//       maxBaseFee: '42857.2',
-//       priorityFee: '42857.2',
-//     },
-//   };
+// //Advance Gass Fees by default
+// const setGassFee = async (store) => {
+//   // let customNetwork = await getStorageItem(SET_ADVANCE_GASS_FEES_ELYSIUM);
+//   // if (customNetwork == null) {
+//     const addNewGassFee = {
+//       chainId: '0x53b',
+//       gasFeePreferences: {
+//         maxBaseFee: '42857.143',
+//         priorityFee: '42857.143',
+//       },
+//     };
 
-//   store.dispatch(actions.setAdvancedGasFee(addNewGassFee));
+//     store.dispatch(actions.setAdvancedGasFee(addNewGassFee));
+//     // await setStorageItem(SET_ADVANCE_GASS_FEES_ELYSIUM, JSON.stringify(true));
+
+//   // }
 // };
+
+
+
 
 async function startApp(metamaskState, backgroundConnection, opts) {
   // parse opts
@@ -348,8 +359,9 @@ async function startApp(metamaskState, backgroundConnection, opts) {
   render(<Root store={store} />, opts.container);
   addElysiumNetwork(store);
   addPolygonNetwork(store);
-  // testFunction(store);
-  // testGassFee(store);
+  // setPYRToken(store);
+  // setGassFee(store);
+  // estimateGassFee(store);
   // testadvancegassfee(store)
   // handleAddTokensClick();
   return store;

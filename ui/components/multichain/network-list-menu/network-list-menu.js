@@ -262,7 +262,8 @@ export const NetworkListMenu = ({ onClose }) => {
           {t('networkMenuHeading')}
         </ModalHeader>
         <>
-          {showSearch ? (
+        {/*Searchbar */}
+          {/* {showSearch ? (
             <Box
               paddingLeft={4}
               paddingRight={4}
@@ -282,7 +283,7 @@ export const NetworkListMenu = ({ onClose }) => {
                 inputProps={{ autoFocus: true }}
               />
             </Box>
-          ) : null}
+          ) : null} */}
           {showBanner ? (
             <BannerBase
               className="network-list-menu__banner"

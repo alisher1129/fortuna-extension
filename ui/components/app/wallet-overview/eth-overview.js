@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext} from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import classnames from 'classnames';
@@ -69,6 +69,9 @@ import { getProviderConfig } from '../../../ducks/metamask/metamask';
 import { showPrimaryCurrency } from '../../../../shared/modules/currency-display.utils';
 import WalletOverview from './wallet-overview';
 
+
+
+
 const EthOverview = ({ className, showAddress }) => {
   const dispatch = useDispatch();
   const t = useContext(I18nContext);
@@ -99,6 +102,8 @@ const EthOverview = ({ className, showAddress }) => {
   const isSigningEnabled =
     account.methods.includes(EthMethod.SignTransaction) ||
     account.methods.includes(EthMethod.SignUserOperation);
+
+
 
   const buttonTooltips = {
     buyButton: [
@@ -193,7 +198,7 @@ const EthOverview = ({ className, showAddress }) => {
 
 
 
-//function to change URLs according to Connect ChainId
+//function to change URLs according to Connect ChainId Vaival
 function setBridge(){
 if(chainId == '0x53b'){
     const portfolioUrl = "https://bridge.elysiumchain.tech/";
@@ -231,7 +236,7 @@ if(chainId == '0x53b'){
 }
 
 }
-////
+//Vaival
 
 
 
@@ -426,7 +431,8 @@ if(chainId == '0x53b'){
                 () => {
               //Have added this function for bridge
                 setBridge()
-                ///
+
+                ///Real code
                 // if (isBridgeChain) {
                 //   // const portfolioUrl = "https://bridge.elysiumchain.tech/";
                 //   const portfolioUrl =
@@ -451,7 +457,7 @@ if(chainId == '0x53b'){
                 //     },
                 //   });
                 // }
-                /////
+                //Real Code
               }
             }
               tooltipRender={(contents) =>

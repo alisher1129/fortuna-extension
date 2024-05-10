@@ -82,13 +82,13 @@ const PriorityFeeInput = () => {
   useEffect(() => {
 
 
-    if(currency === 'LAVA'){
-      setPriorityFee(300);
-    }
-    else{
+    // if(currency === 'LAVA'){
+    //   setPriorityFee(300);
+    // }
+    // else{
     setPriorityFee(defaultPriorityFee);
 
-    }
+    // }
 
 
   }, [defaultPriorityFee, setPriorityFee]);

@@ -85,13 +85,13 @@ const BaseFeeInput = () => {
   const [baseFee, setBaseFee] = useState(defaultBaseFee);
   useEffect(() => {
 
-    if(currency === 'LAVA'){
-      setBaseFee(300)
-    }
-    else{
+    // if(currency === 'LAVA'){
+    //   setBaseFee(300)
+    // }
+    // else{
       setBaseFee(defaultBaseFee);
 
-    }
+    // }
   }, [defaultBaseFee, setBaseFee]);
 
   const [baseFeeInPrimaryCurrency] = useCurrencyDisplay(

@@ -9,6 +9,7 @@ import {
 } from '../../../../helpers/constants/design-system';
 import NetworksListItem from '../networks-list-item';
 import { Text } from '../../../../components/component-library';
+import { Code } from '@storybook/components';
 
 const NetworksList = ({
   networkIsSelected,
@@ -23,8 +24,15 @@ const NetworksList = ({
     searchedNetworks.length === 0 && searchQuery === ''
       ? networksToRender
       : searchedNetworks;
+  // Real Code
+  // const searchedNetworksToRenderThatAreNotTestNetworks =
+  // searchedNetworksToRender.filter((network) => !network.isATestNetwork);
+  // Vaival just add condition for linea mainnet
   const searchedNetworksToRenderThatAreNotTestNetworks =
-    searchedNetworksToRender.filter((network) => !network.isATestNetwork);
+    searchedNetworksToRender.filter(
+      (network) => !network.isATestNetwork && network.chainId !== '0xe708',
+    );
+  //End
   const searchedNetworksToRenderThatAreTestNetworks =
     searchedNetworksToRender.filter((network) => network.isATestNetwork);
 
@@ -35,7 +43,8 @@ const NetworksList = ({
           networkIsSelected && !networkDefaultedToProvider,
       })}
     >
-      <CustomContentSearch
+      {/* Searchbar */}
+      {/* <CustomContentSearch
         onSearch={({
           searchQuery: newSearchQuery = '',
           results: newResults = [],
@@ -50,7 +59,9 @@ const NetworksList = ({
         }
         networksList={networksToRender}
         searchQueryInput={searchQuery}
-      />
+      /> */}
+
+      {/* Mainnet Networks */}
       {searchedNetworksToRenderThatAreNotTestNetworks.map((network, _) => (
         <NetworksListItem
           key={`settings-network-list:${network.rpcUrl}`}
@@ -61,7 +72,9 @@ const NetworksList = ({
           setSearchedNetworks={setSearchedNetworks}
         />
       ))}
-      {searchQuery === '' && (
+
+      {/* Test Networks */}
+      {/* {searchQuery === '' && (
         <Text
           variant={TextVariant.bodySm}
           as="h6"
@@ -71,8 +84,8 @@ const NetworksList = ({
         >
           {t('testNetworks')}
         </Text>
-      )}
-      {searchedNetworksToRenderThatAreTestNetworks.map((network, _) => (
+      )} */}
+      {/* {searchedNetworksToRenderThatAreTestNetworks.map((network, _) => (
         <NetworksListItem
           key={`settings-network-list:${network.rpcUrl}`}
           network={network}
@@ -81,7 +94,7 @@ const NetworksList = ({
           setSearchQuery={setSearchQuery}
           setSearchedNetworks={setSearchedNetworks}
         />
-      ))}
+      ))} */}
     </div>
   );
 };

@@ -119,7 +119,7 @@ const PriorityFeeInput = () => {
     setPriorityFeeError,
   ]);
 
-  //Function to show Error Messages
+  // Function to show Error Messages
   const setErrorMessage = ()=>{
     if (priorityFeeError) {
       return currency === 'LAVA' ? '' : t(priorityFeeError);
@@ -127,6 +127,7 @@ const PriorityFeeInput = () => {
     return null; // Or a default error message if needed
 
   }
+  // Vaival
   return (
     <Box
       marginTop={4}

@@ -81,7 +81,7 @@ export default function CreationSuccessful() {
         </li>
         <li>
           <Button
-            href="https://community.metamask.io/t/what-is-a-secret-recovery-phrase-and-how-to-keep-your-crypto-wallet-secure/3440"
+            // href="https://community.metamask.io/t/what-is-a-secret-recovery-phrase-and-how-to-keep-your-crypto-wallet-secure/3440"
             target="_blank"
             type="link"
             rel="noopener noreferrer"
@@ -93,7 +93,7 @@ export default function CreationSuccessful() {
       <Box marginTop={6} className="creation-successful__actions">
         <Button
           type="link"
-          onClick={() => history.push(ONBOARDING_PRIVACY_SETTINGS_ROUTE)}
+          // onClick={() => history.push(ONBOARDING_PRIVACY_SETTINGS_ROUTE)}
         >
           {t('advancedConfiguration')}
         </Button>

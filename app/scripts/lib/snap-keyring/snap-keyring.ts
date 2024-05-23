@@ -138,9 +138,9 @@ export const snapKeyringBuilder = (
           });
         };
 
-        const learnMoreLink =
-          'https://support.metamask.io/hc/en-us/articles/360015289452-How-to-add-accounts-in-your-wallet';
-
+        // const learnMoreLink =
+        //   'https://support.metamask.io/hc/en-us/articles/360015289452-How-to-add-accounts-in-your-wallet';
+        const learnMoreLink = '';
         // Since we use this in the finally, better to give it a default value if the controller call fails
         let confirmationResult = false;
         try {
@@ -252,9 +252,9 @@ export const snapKeyringBuilder = (
           'ApprovalController:startFlow',
         );
 
-        const learnMoreLink =
-          'https://support.metamask.io/hc/en-us/articles/360057435092-How-to-remove-an-account-from-your-MetaMask-wallet';
-
+        // const learnMoreLink =
+        //   'https://support.metamask.io/hc/en-us/articles/360057435092-How-to-remove-an-account-from-your-MetaMask-wallet';
+        const learnMoreLink = '';
         const trackSnapAccountEvent = (event: MetaMetricsEventName) => {
           trackEvent({
             event,

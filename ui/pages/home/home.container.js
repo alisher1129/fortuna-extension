@@ -28,7 +28,7 @@ import {
   getUnapprovedTemplatedConfirmations,
   getWeb3ShimUsageStateForOrigin,
   getInfuraBlocked,
-  getShowWhatsNewPopup,
+  // getShowWhatsNewPopup,
   getSortedAnnouncementsToShow,
   getShowRecoveryPhraseReminder,
   getShowTermsOfUse,

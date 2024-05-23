@@ -19,12 +19,17 @@ export const useDraftTransactionWithTxParams = () => {
 
   if (Object.keys(draftTransaction).length !== 0) {
     const editingTransaction = unapprovedTxs[draftTransaction.id];
+
     transactionData = {
       txParams: {
         gasPrice: draftTransaction.gas?.gasPrice,
+        // gas: '0x4C4B40',
         gas: editingTransaction?.userEditedGasLimit
           ? editingTransaction?.txParams?.gas
           : draftTransaction.gas?.gasLimit,
+
+          // maxFeePerGas: '0x45D964B800',
+          // maxPriorityFeePerGas: '0x6FC23AC00',
         maxFeePerGas: editingTransaction?.txParams?.maxFeePerGas
           ? editingTransaction?.txParams?.maxFeePerGas
           : draftTransaction.gas?.maxFeePerGas,
@@ -34,9 +39,11 @@ export const useDraftTransactionWithTxParams = () => {
         value: draftTransaction.amount?.value,
         type: draftTransaction.transactionType,
       },
+
       userFeeLevel: editingTransaction?.userFeeLevel,
+
+
     };
   }
-
   return transactionData;
 };

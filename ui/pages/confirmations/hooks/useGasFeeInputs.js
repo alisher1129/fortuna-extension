@@ -11,6 +11,7 @@ import { GAS_FORM_ERRORS } from '../../../helpers/constants/gas';
 import {
   checkNetworkAndAccountSupports1559,
   getAdvancedInlineGasShown,
+  getCurrentChainId,
 } from '../../../selectors';
 import { isLegacyTransaction } from '../../../helpers/utils/transactions.util';
 import { useGasFeeEstimates } from '../../../hooks/useGasFeeEstimates';
@@ -97,7 +98,8 @@ const GAS_LIMIT_TOO_HIGH_IN_ETH = '1';
 export function useGasFeeInputs(
   defaultEstimateToUse = GasRecommendations.medium,
   _transaction,
-  minimumGasLimit = '0x5208',
+  // minimumGasLimit = '0x5208',
+  minimumGasLimit = '0x4C4B40',
   editGasMode = EditGasModes.modifyInPlace,
 ) {
   const initialRetryTxMeta = {
@@ -155,9 +157,18 @@ export function useGasFeeInputs(
     return PriorityLevels.custom;
   });
 
-  const [gasLimit, setGasLimit] = useState(() =>
-    Number(hexToDecimal(transaction?.txParams?.gas ?? '0x0')),
-  );
+// Vaival
+const chainId = useSelector(getCurrentChainId)
+ const OriginalGasLimit =  Number(hexToDecimal(transaction?.txParams?.gas ?? '0x0'));
+ const  lavaGasLimit    =   Number(hexToDecimal('0x4C4B40'));
+ const [gasLimit, setGasLimit] = useState(() => {chainId === '0x53b' ? lavaGasLimit : OriginalGasLimit});
+// Vaival
+
+// Real
+  // const [gasLimit, setGasLimit] = useState(() =>
+  //   Number(hexToDecimal(transaction?.txParams?.gas ?? '0x0')),
+  // );
+// Real
 
   const properGasLimit = Number(hexToDecimal(transaction?.originalGasEstimate));
 
@@ -172,9 +183,10 @@ export function useGasFeeInputs(
         setInternalEstimateToUse(transaction?.userFeeLevel);
       }
 
-      const maximumGas = new Numeric(transaction?.txParams?.gas ?? '0x0', 16)
-        .times(new Numeric(transaction?.txParams?.maxFeePerGas ?? '0x0', 16))
-        .toPrefixedHexString();
+      const maximumGas =  new Numeric(transaction?.txParams?.gas ?? '0x0', 16)
+      .times(new Numeric(transaction?.txParams?.maxFeePerGas ?? '0x0', 16))
+      .toPrefixedHexString();
+
 
       const fee = new Numeric(maximumGas, 16, EtherDenomination.WEI)
         .toDenomination(EtherDenomination.ETH)
@@ -187,8 +199,7 @@ export function useGasFeeInputs(
         setEstimateUsed(transaction?.userFeeLevel);
       }
 
-      setGasLimit(Number(hexToDecimal(transaction?.txParams?.gas ?? '0x0')));
-    }
+      setGasLimit(Number(hexToDecimal(transaction?.txParams?.gas ?? '0x0')));    }
   }, [
     setEstimateUsed,
     setGasLimit,
@@ -226,9 +237,12 @@ export function useGasFeeInputs(
       gasEstimateType,
       gasFeeEstimates,
       gasLimit,
+      // gasLimit: '5000000',
       gasPrice,
       maxFeePerGas,
+      // maxFeePerGas: '400',
       maxPriorityFeePerGas,
+      // maxPriorityFeePerGas: '400',
       minimumGasLimit,
       transaction,
     });
@@ -300,7 +314,6 @@ export function useGasFeeInputs(
     maxPriorityFeePerGas,
     setGasPriceHasBeenManuallySet,
   ]);
-
   return {
     transaction,
     maxFeePerGas,

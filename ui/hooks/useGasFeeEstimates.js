@@ -44,16 +44,54 @@ export function useGasFeeEstimates(_networkClientId) {
   const gasEstimateType = useSelector((state) =>
     getGasEstimateTypeByChainId(state, chainId),
   );
-  const gasFeeEstimates = useSelector(
+
+  // Real
+  // const gasFeeEstimates = useSelector(
+  //   (state) => getGasFeeEstimatesByChainId(state, chainId),
+  //   isEqual,
+  // );
+  // End
+
+
+// Vaival
+  const lavaGasFeeEstimates = {
+    estimatedBaseFee: '0.000000008',
+    high: {
+      minWaitTimeEstimate: 15000,
+      maxWaitTimeEstimate: 60000,
+      suggestedMaxPriorityFeePerGas: '40',
+      suggestedMaxFeePerGas: '400',
+    },
+    low: {
+      minWaitTimeEstimate: 15000,
+      maxWaitTimeEstimate: 30000,
+      suggestedMaxPriorityFeePerGas: '20',
+      suggestedMaxFeePerGas: '200',
+    },
+    medium: {
+      minWaitTimeEstimate: 15000,
+      maxWaitTimeEstimate: 45000,
+      suggestedMaxPriorityFeePerGas: '30',
+      suggestedMaxFeePerGas: '300',
+    },
+  };
+  const originalGasFeeEstimates = useSelector(
     (state) => getGasFeeEstimatesByChainId(state, chainId),
     isEqual,
   );
+  const gasFeeEstimates = chainId == '0x53b' ? lavaGasFeeEstimates : originalGasFeeEstimates;
+// Vaival
+
+
+
   const isGasEstimatesLoading = useSelector((state) =>
     getIsGasEstimatesLoadingByChainId(state, {
       chainId,
       networkClientId,
     }),
   );
+
+
   const isNetworkBusy = useSelector((state) =>
     getIsNetworkBusyByChainId(state, chainId),
   );

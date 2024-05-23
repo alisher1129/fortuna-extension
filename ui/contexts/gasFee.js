@@ -17,12 +17,16 @@ export const GasFeeContextProvider = ({
     minimumGasLimit,
     editGasMode,
   );
+
+
+
   return (
     <GasFeeContext.Provider value={gasFeeDetails}>
       {children}
     </GasFeeContext.Provider>
   );
 };
+
 
 export function useGasFeeContext() {
   return useContext(GasFeeContext);

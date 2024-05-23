@@ -5,9 +5,9 @@ import Button from '../../../components/ui/button';
 import { Tag } from '../../../components/component-library';
 
 import {
-  SUPPORT_REQUEST_LINK,
+  // SUPPORT_REQUEST_LINK,
   ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
-  MMI_WEB_SITE,
+  // MMI_WEB_SITE,
   ///: END:ONLY_INCLUDE_IF
 } from '../../../helpers/constants/common';
 import { isBeta } from '../../../helpers/utils/build-types';
@@ -15,16 +15,16 @@ import {
   getNumberOfSettingRoutesInTab,
   handleSettingsRefs,
 } from '../../../helpers/utils/settings-search';
-import {
-  MetaMetricsContextProp,
-  MetaMetricsEventCategory,
-  MetaMetricsEventName,
-} from '../../../../shared/constants/metametrics';
+// import {
+//   MetaMetricsContextProp,
+//   MetaMetricsEventCategory,
+//   MetaMetricsEventName,
+// } from '../../../../shared/constants/metametrics';
 import {
   ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
-  CONSENSYS_PRIVACY_LINK,
+  // CONSENSYS_PRIVACY_LINK,
   ///: END:ONLY_INCLUDE_IF
-  SUPPORT_LINK,
+  // SUPPORT_LINK,
 } from '../../../../shared/lib/ui-utils';
 
 export default class InfoTab extends PureComponent {
@@ -57,16 +57,16 @@ export default class InfoTab extends PureComponent {
 
   renderInfoLinks() {
     const { t } = this.context;
-    let privacyUrl, siteUrl;
+    // let privacyUrl, siteUrl;
 
     ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
-    privacyUrl = CONSENSYS_PRIVACY_LINK;
-    siteUrl = MMI_WEB_SITE;
+    // privacyUrl = CONSENSYS_PRIVACY_LINK;
+    // siteUrl = MMI_WEB_SITE;
     ///: END:ONLY_INCLUDE_IF
 
     ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
-    privacyUrl = 'https://metamask.io/privacy.html';
-    siteUrl = 'https://metamask.io/';
+    // privacyUrl = 'https://metamask.io/privacy.html';
+    // siteUrl = 'https://metamask.io/';
     ///: END:ONLY_INCLUDE_IF
 
     return (
@@ -77,7 +77,7 @@ export default class InfoTab extends PureComponent {
         <div ref={this.settingsRefs[2]} className="info-tab__link-item">
           <Button
             type="link"
-            href={privacyUrl}
+            // href={privacyUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="info-tab__link-text"
@@ -88,7 +88,7 @@ export default class InfoTab extends PureComponent {
         <div ref={this.settingsRefs[3]} className="info-tab__link-item">
           <Button
             type="link"
-            href="https://metamask.io/terms.html"
+            // href="https://metamask.io/terms.html"
             target="_blank"
             rel="noopener noreferrer"
             className="info-tab__link-text"
@@ -100,7 +100,7 @@ export default class InfoTab extends PureComponent {
           <div ref={this.settingsRefs[8]} className="info-tab__link-item">
             <Button
               type="link"
-              href="https://metamask.io/beta-terms.html"
+              // href="https://metamask.io/beta-terms.html"
               target="_blank"
               rel="noopener noreferrer"
               className="info-tab__link-text"
@@ -113,7 +113,7 @@ export default class InfoTab extends PureComponent {
         <div ref={this.settingsRefs[4]} className="info-tab__link-item">
           <Button
             type="link"
-            href="https://metamask.io/attributions.html"
+            // href="https://metamask.io/attributions.html"
             target="_blank"
             rel="noopener noreferrer"
             className="info-tab__link-text"
@@ -125,26 +125,26 @@ export default class InfoTab extends PureComponent {
         <div ref={this.settingsRefs[5]} className="info-tab__link-item">
           <Button
             type="link"
-            href={SUPPORT_LINK}
+            // href={SUPPORT_LINK}
             target="_blank"
             rel="noopener noreferrer"
             className="info-tab__link-text"
-            onClick={() => {
-              this.context.trackEvent(
-                {
-                  category: MetaMetricsEventCategory.Settings,
-                  event: MetaMetricsEventName.SupportLinkClicked,
-                  properties: {
-                    url: SUPPORT_LINK,
-                  },
-                },
-                {
-                  contextPropsIntoEventProperties: [
-                    MetaMetricsContextProp.PageTitle,
-                  ],
-                },
-              );
-            }}
+            // onClick={() => {
+            //   this.context.trackEvent(
+            //     {
+            //       category: MetaMetricsEventCategory.Settings,
+            //       event: MetaMetricsEventName.SupportLinkClicked,
+            //       properties: {
+            //         url: SUPPORT_LINK,
+            //       },
+            //     },
+            //     {
+            //       contextPropsIntoEventProperties: [
+            //         MetaMetricsContextProp.PageTitle,
+            //       ],
+            //     },
+            //   );
+            // }}
           >
             {t('supportCenter')}
           </Button>
@@ -152,7 +152,7 @@ export default class InfoTab extends PureComponent {
         <div ref={this.settingsRefs[6]} className="info-tab__link-item">
           <Button
             type="link"
-            href={siteUrl}
+            // href={siteUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="info-tab__link-text"
@@ -163,26 +163,26 @@ export default class InfoTab extends PureComponent {
         <div ref={this.settingsRefs[7]} className="info-tab__link-item">
           <Button
             type="link"
-            href={SUPPORT_REQUEST_LINK}
+            // href={SUPPORT_REQUEST_LINK}
             target="_blank"
             rel="noopener noreferrer"
             className="info-tab__link-text"
-            onClick={() => {
-              this.context.trackEvent(
-                {
-                  category: MetaMetricsEventCategory.Settings,
-                  event: MetaMetricsEventName.SupportLinkClicked,
-                  properties: {
-                    url: SUPPORT_REQUEST_LINK,
-                  },
-                },
-                {
-                  contextPropsIntoEventProperties: [
-                    MetaMetricsContextProp.PageTitle,
-                  ],
-                },
-              );
-            }}
+            // onClick={() => {
+            //   this.context.trackEvent(
+            //     {
+            //       category: MetaMetricsEventCategory.Settings,
+            //       event: MetaMetricsEventName.SupportLinkClicked,
+            //       properties: {
+            //         url: SUPPORT_REQUEST_LINK,
+            //       },
+            //     },
+            //     {
+            //       contextPropsIntoEventProperties: [
+            //         MetaMetricsContextProp.PageTitle,
+            //       ],
+            //     },
+            //   );
+            // }}
           >
             {t('contactUs')}
           </Button>

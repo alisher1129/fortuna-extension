@@ -43,6 +43,10 @@ export default function CurrencyDisplay({
     suffix,
   });
 
+
+
+
+
   return (
     <Box
       className={classnames('currency-display-component', className)}

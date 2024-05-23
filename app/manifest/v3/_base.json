@@ -63,7 +63,7 @@
     "512": "images/icon-512.png"
   },
   "manifest_version": 3,
-  "name": "Fortuna",
+  "name": "__MSG_appName__",
   "permissions": [
     "activeTab",
     "alarms",

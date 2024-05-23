@@ -257,7 +257,7 @@ export default class AdvancedTab extends PureComponent {
           alignItems: AlignItems.flexStart,
         }}
         as="a"
-        href={SMART_TRANSACTIONS_LEARN_MORE_URL}
+        // href={SMART_TRANSACTIONS_LEARN_MORE_URL}
         target="_blank"
         rel="noopener noreferrer"
       >

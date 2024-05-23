@@ -175,7 +175,6 @@ export const SimulationDetails: React.FC<SimulationDetailsProps> = ({
   const balanceChangesResult = useBalanceChanges(simulationData);
   const loading = !simulationData || balanceChangesResult.pending;
 
-  console.log('SimulationDetails', simulationData);
 
   useSimulationMetrics({
     balanceChanges: balanceChangesResult.value,

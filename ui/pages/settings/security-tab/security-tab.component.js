@@ -210,7 +210,7 @@ export default class SecurityTab extends PureComponent {
                 {t('securityAlertsDescription', [
                   <a
                     key="learn_more_link"
-                    href={SECURITY_ALERTS_LEARN_MORE_LINK}
+                    // href={SECURITY_ALERTS_LEARN_MORE_LINK}
                     rel="noreferrer"
                     target="_blank"
                   >
@@ -375,7 +375,7 @@ export default class SecurityTab extends PureComponent {
             {t('chooseYourNetworkDescription', [
               // TODO: Update to use real link
               <a
-                href={CONSENSYS_PRIVACY_LINK}
+                // href={CONSENSYS_PRIVACY_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
                 key="cyn-consensys-privacy-link"
@@ -636,7 +636,7 @@ export default class SecurityTab extends PureComponent {
             {t('autoDetectTokensDescription', [
               // TODO: Update to use real link
               <a
-                href={AUTO_DETECT_TOKEN_LEARN_MORE_LINK}
+                // href={AUTO_DETECT_TOKEN_LEARN_MORE_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
                 key="cyn-consensys-privacy-link"
@@ -731,7 +731,7 @@ export default class SecurityTab extends PureComponent {
             {t('currencyRateCheckToggleDescription', [
               <a
                 key="coingecko_link"
-                href={COINGECKO_LINK}
+                // href={COINGECKO_LINK}
                 rel="noreferrer"
                 target="_blank"
               >
@@ -739,7 +739,7 @@ export default class SecurityTab extends PureComponent {
               </a>,
               <a
                 key="cryptocompare_link"
-                href={CRYPTOCOMPARE_LINK}
+                // href={CRYPTOCOMPARE_LINK}
                 rel="noreferrer"
                 target="_blank"
               >
@@ -747,7 +747,7 @@ export default class SecurityTab extends PureComponent {
               </a>,
               <a
                 key="privacy_policy_link"
-                href={PRIVACY_POLICY_LINK}
+                // href={PRIVACY_POLICY_LINK}
                 rel="noreferrer"
                 target="_blank"
               >
@@ -933,7 +933,7 @@ export default class SecurityTab extends PureComponent {
             {t('simulationsSettingDescription', [
               <a
                 key="learn_more_link"
-                href={TRANSACTION_SIMULATIONS_LEARN_MORE_LINK}
+                // href={TRANSACTION_SIMULATIONS_LEARN_MORE_LINK}
                 rel="noreferrer"
                 target="_blank"
               >

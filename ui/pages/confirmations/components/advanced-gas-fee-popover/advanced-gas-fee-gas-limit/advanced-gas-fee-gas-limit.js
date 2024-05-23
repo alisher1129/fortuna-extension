@@ -35,16 +35,16 @@ const AdvancedGasFeeGasLimit = () => {
     setGasLimit(value);
   };
 
-useEffect(()=>
-{
-  if(currency === 'LAVA')
-  {
-    setGasLimit(3000000);
+// useEffect(()=>
+// {
+//   if(currency === 'LAVA')
+//   {
+//     setGasLimit(3000000);
 
-  }
+//   }
 
-},[]
-)
+// },[]
+// )
 
   useEffect(() => {
 

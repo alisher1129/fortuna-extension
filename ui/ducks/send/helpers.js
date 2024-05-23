@@ -1,4 +1,3 @@
-import { useSelector } from 'react-redux';
 import { addHexPrefix } from 'ethereumjs-util';
 import abi from 'human-standard-token-abi';
 import BigNumber from 'bignumber.js';
@@ -18,9 +17,10 @@ import {
   generateERC1155TransferData,
   getAssetTransferData,
 } from '../../pages/confirmations/send/send.utils';
-import { getGasPriceInHexWei } from '../../selectors';
+import {  getGasPriceInHexWei } from '../../selectors';
 import { estimateGas } from '../../store/actions';
 import { Numeric } from '../../../shared/modules/Numeric';
+
 
 export async function estimateGasLimitForSend({
   selectedAddress,
@@ -143,19 +143,17 @@ export async function estimateGasLimitForSend({
     // execution on the node and return an estimate of gasLimit
 
 ///Vaival
-    // if (chainId === '0x53b') {
-    //   const estimatedGasLimit = '30000000';
-    //   return estimatedGasLimit;
-    // } else {
-    //   const estimatedGasLimit = await estimateGas(paramsForGasEstimate);
+    if (chainId === '0x53b') {
+      const estimatedGasLimit = '4C4B40';
+      return estimatedGasLimit;
+    } else {
+      const estimatedGasLimit = await estimateGas(paramsForGasEstimate);
 
-    //   return estimatedGasLimit;
-    // }
+      return estimatedGasLimit;
+    }
 ///Vaival
-
-
 //Real Code
-const estimatedGasLimit = await estimateGas(paramsForGasEstimate);
+// const estimatedGasLimit = await estimateGas(paramsForGasEstimate);
 //end
     const estimateWithBuffer = addGasBuffer(
       estimatedGasLimit,
@@ -190,10 +188,18 @@ const estimatedGasLimit = await estimateGas(paramsForGasEstimate);
  * @returns {import('@metamask/transaction-controller').TransactionParams} A txParams object that can be used to create a transaction or
  *  update an existing transaction.
  */
-export function generateTransactionParams(sendState) {
+
+
+
+
+
+export function generateTransactionParams(sendState ) {
+
   const draftTransaction =
     sendState.draftTransactions[sendState.currentTransactionUUID];
-
+    //Vaival
+    // const LavaTxParamGas = (chainId)=>{ chainId === '0x53b' ? '0x4C4B40' : draftTransaction.gas.gasLimit  }
+    //vaival
   const txParams = {
     // If the fromAccount has been specified we use that, if not we use the
     // selected account.
@@ -202,7 +208,15 @@ export function generateTransactionParams(sendState) {
       sendState.selectedAccount.address,
     // gasLimit always needs to be set regardless of the asset being sent
     // or the type of transaction.
+    //Real
     gas: draftTransaction.gas.gasLimit,
+    //Real
+    //vaival
+    //  gas: LavaTxParamGas(),
+    //  gas: '0x4C4B40',
+    // gas: chainId == '0x53b' ? '0x4C4B40' : draftTransaction.gas.gasLimit,
+    //Vaival
+
   };
 
   switch (draftTransaction.asset.type) {
@@ -262,10 +276,19 @@ export function generateTransactionParams(sendState) {
     txParams.type = TransactionEnvelopeType.feeMarket;
 
     txParams.maxFeePerGas = draftTransaction.gas.maxFeePerGas;
+    // txParams.maxFeePerGas = '0x5D21DBA000';
+    // txParams.maxFeePerGas = '0x190';
+
     txParams.maxPriorityFeePerGas = draftTransaction.gas.maxPriorityFeePerGas;
+    // txParams.maxPriorityFeePerGas = '0x5D21DBA000';
+        // txParams.maxPriorityFeePerGas = '0x190';
+
 
     if (!txParams.maxFeePerGas || txParams.maxFeePerGas === '0x0') {
       txParams.maxFeePerGas = draftTransaction.gas.gasPrice;
+      // txParams.maxFeePerGas = '0x5D21DBA000';
+      // txParams.maxFeePerGas = '0x190';
+
     }
 
     if (
@@ -273,14 +296,21 @@ export function generateTransactionParams(sendState) {
       txParams.maxPriorityFeePerGas === '0x0'
     ) {
       txParams.maxPriorityFeePerGas = txParams.maxFeePerGas;
+          // txParams.maxPriorityFeePerGas = '0x5D21DBA000';
+          // txParams.maxPriorityFeePerGas = '0x190';
+
     }
-  } else {
+  }
+  else {
     txParams.gasPrice = draftTransaction.gas.gasPrice;
+    // txParams.gasPrice = '0x5D21DBA000';
+    // txParams.gasPrice = '0x190';
+
     txParams.type = TransactionEnvelopeType.legacy;
   }
-
   return txParams;
 }
+
 
 /**
  * This method is used to keep the original logic from the gas.duck.js file

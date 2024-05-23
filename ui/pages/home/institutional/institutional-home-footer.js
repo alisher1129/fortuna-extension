@@ -20,7 +20,7 @@ const InstitutionalHomeFooter = ({ activitySupportDisplayStyle }) => {
       size={Size.MD}
       startIconName={IconName.MessageQuestion}
       data-testid="need-help-link"
-      href={SUPPORT_LINK}
+      // href={SUPPORT_LINK}
       display={Display.Flex}
       justifyContent={activitySupportDisplayStyle.justifyContent}
       paddingLeft={activitySupportDisplayStyle.paddingLeft}
@@ -32,7 +32,7 @@ const InstitutionalHomeFooter = ({ activitySupportDisplayStyle }) => {
             category: MetaMetricsEventCategory.Home,
             event: MetaMetricsEventName.SupportLinkClicked,
             properties: {
-              url: SUPPORT_LINK,
+              // url: SUPPORT_LINK,
             },
           },
           {

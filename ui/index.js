@@ -4,16 +4,22 @@ import { clone } from 'lodash';
 import React from 'react';
 
 import { render } from 'react-dom';
-import browser, { action } from 'webextension-polyfill';
+import browser, {  } from 'webextension-polyfill';
 
 import { getEnvironmentType } from '../app/scripts/lib/util';
 import { AlertTypes } from '../shared/constants/alerts';
 import { maskObject } from '../shared/modules/object.utils';
 import { SENTRY_UI_STATE } from '../app/scripts/lib/setupSentry';
-import { ENVIRONMENT_TYPE_POPUP } from '../shared/constants/app';
+import { ENVIRONMENT_TYPE_POPUP  } from '../shared/constants/app';
 import { COPY_OPTIONS } from '../shared/constants/copy';
 import switchDirection from '../shared/lib/switch-direction';
 import { setupLocale } from '../shared/lib/error-utils';
+// import { getStorageItem, setStorageItem } from '../shared/lib/storage-helpers';
+// import { IS_LAVA_SET_AS_DEFAULT_NETWORK,
+//   // IS_MATIC_SET_AS_DEFAULT_NETWORK,
+//   // // NETWORK_CONFIGUER_ID,
+//   // // IS_LAVA_SET_AS_DEFAULT_NETWORK_2
+// } from "./Keys/keysForChains"
 import * as actions from './store/actions';
 import configureStore from './store/store';
 import {
@@ -33,12 +39,7 @@ import {
 import Root from './pages';
 import txHelper from './helpers/utils/tx-helper';
 import { setBackgroundConnection } from './store/background-connection';
-import { getStorageItem, setStorageItem } from '../shared/lib/storage-helpers';
-import {
-  IS_LAVA_SET_AS_DEFAULT_NETWORK,
-  IS_MATIC_SET_AS_DEFAULT_NETWORK,
-  IS_LAVA_SET_AS_DEFAULT_NETWORK_2
-} from '../shared/constants/app';
+
 
 log.setLevel(global.METAMASK_DEBUG ? 'debug' : 'warn', false);
 
@@ -106,95 +107,9 @@ export default function launchMetamaskUi(opts, cb) {
   });
 }
 
-//Elysium Chain
-const addElysiumNetwork = async (store) => {
-  let customNetwork = await getStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK);
-  if (customNetwork == null) {
-    const networkConfiguration = {
-      rpcUrl: 'https://rpc.elysiumchain.tech',
-      chainId: '0x53b',
-      ticker: 'LAVA',
-      nickname: 'Elysium Mainnet',
-      rpcPrefs: {
-        blockExplorerUrl: 'https://blockscout.elysiumchain.tech/',
-        imageUrl: './images/green-logo-3.png',
-      },
-    };
 
-    var response = store.dispatch(
-      actions.upsertNetworkConfiguration(networkConfiguration, {
-        setActive: true,
-        source: 'custom_network_form',
-      }),
-    );
-    response.then((id) => {
-      if (id) {
-        setPYRToken(store, id);
-      } else {
-        console.error('Failed to create default Token');
-      }
-    });
 
-    await setStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK, JSON.stringify(true));
-  } else {
-    let customNetwork = await getStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK_2);
-    if (customNetwork == null) {
-
-    const networkConfiguration = {
-      rpcUrl: 'https://rpc.elysiumchain.tech',
-      chainId: '0x53b',
-      ticker: 'LAVA',
-      nickname: 'Elysium Mainnet',
-      rpcPrefs: {
-        blockExplorerUrl: 'https://blockscout.elysiumchain.tech/',
-        imageUrl: './images/green-logo-3.png',
-      },
-    };
-
-    var response = store.dispatch(
-      actions.upsertNetworkConfiguration(networkConfiguration, {
-        // setActive: true,
-        source: 'custom_network_form',
-      }),
-    );
-    response.then((id) => {
-      if (id) {
-        setPYRToken(store, id);
-      } else {
-        console.error('Failed to create default Token');
-      }
-    });
-    await setStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK_2, JSON.stringify(true));
-  }
-}
-};
-
-//Polygon Chainsss
-const addPolygonNetwork = async (store) => {
-  let customNetwork = await getStorageItem(IS_MATIC_SET_AS_DEFAULT_NETWORK);
-  if (customNetwork == null) {
-    const networkConfiguration = {
-      rpcUrl: 'https://polygon-rpc.com',
-      chainId: '0x89',
-      ticker: 'MATIC',
-      nickname: 'Polygon Mainnet',
-      rpcPrefs: {
-        blockExplorerUrl: 'https://polygonscan.com',
-        // imageUrl: './images/polygon.png',
-      },
-    };
-
-    store.dispatch(
-      actions.upsertNetworkConfiguration(networkConfiguration, {
-        // setActive:true,
-        source: 'custom_network_form',
-      }),
-    );
-    await setStorageItem(IS_MATIC_SET_AS_DEFAULT_NETWORK, JSON.stringify(true));
-  }
-};
-
-//PYR Token by default
+// PYR Token by default
 const setPYRToken = (store, id) => {
   const addNewToken = {
     address: '0xa801b1A7846156d4C81bD188F96bfcb621517611',
@@ -204,24 +119,108 @@ const setPYRToken = (store, id) => {
   };
   store.dispatch(actions.addToken(addNewToken));
 };
+// Elysium Chain
 
-// //Advance Gass Fees by default
-// const setGassFee = async (store) => {
-//   // let customNetwork = await getStorageItem(SET_ADVANCE_GASS_FEES_ELYSIUM);
-//   // if (customNetwork == null) {
-//     const addNewGassFee = {
+const addElysiumNetwork = async (store) => {
+  // let elysiumCustomNetwork = await getStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK);
+  // if (elysiumCustomNetwork !== null) {
+    const networkConfiguration = {
+      rpcUrl: 'https://rpc.elysiumchain.tech',
+      chainId: '0x53b',
+      ticker: 'LAVA',
+      nickname: 'Elysium Mainnet',
+      rpcPrefs: {
+        blockExplorerUrl: 'https://blockscout.elysiumchain.tech/',
+        imageUrl: './images/green-logo-3.png',
+      },
+    };
+
+    // store.dispatch(actions.upsertNetworkConfiguration(networkConfiguration, {
+    //       setActive: true,
+    //       source: 'custom_network_form',
+    //     }),
+    //   );
+
+    let response = store.dispatch(
+      actions.upsertNetworkConfiguration(networkConfiguration, {
+        setActive: true,
+        source: 'custom_network_form',
+      }),
+    );
+    response.then( async (id) => {
+      if (id) {
+        setPYRToken(store, id);
+        // await setStorageItem(NETWORK_CONFIGUER_ID, JSON.stringify(true));
+      } else {
+        console.error('Failed to create default Token');
+      }
+    });
+
+    // await setStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK, JSON.stringify(true));
+  }
+//   else {
+//     // let E_customNetwork = await getStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK_2);
+//     // if (E_customNetwork == null) {
+
+//     const networkConfiguration = {
+//       rpcUrl: 'https://rpc.elysiumchain.tech',
 //       chainId: '0x53b',
-//       gasFeePreferences: {
-//         maxBaseFee: '42857.143',
-//         priorityFee: '42857.143',
+//       ticker: 'LAVA',
+//       nickname: 'Elysium Mainnet',
+//       rpcPrefs: {
+//         blockExplorerUrl: 'https://blockscout.elysiumchain.tech/',
+//         imageUrl: './images/green-logo-3.png',
 //       },
 //     };
 
-//     store.dispatch(actions.setAdvancedGasFee(addNewGassFee));
-//     // await setStorageItem(SET_ADVANCE_GASS_FEES_ELYSIUM, JSON.stringify(true));
-
+//     let response1 = store.dispatch(
+//       actions.upsertNetworkConfiguration(networkConfiguration, {
+//         // setActive: true,
+//         source: 'custom_network_form',
+//       }),
+//     );
+//     response1.then((id) => {
+//       if (id) {
+//         setPYRToken(store, id);
+//       } else {
+//         console.error('Failed to create default Token');
+//       }
+//     });
+//   //   await setStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK_2, JSON.stringify(true));
 //   // }
+//  }
 // };
+
+
+// Polygon Chainsss
+
+  const addPolygonNetwork = async (store) => {
+    // let polygonCustomNetwork = await getStorageItem(IS_MATIC_SET_AS_DEFAULT_NETWORK);
+    // if (polygonCustomNetwork !== null) {
+      const networkConfiguration = {
+        rpcUrl: 'https://polygon-rpc.com',
+        chainId: '0x89',
+        ticker: 'MATIC',
+        nickname: 'Polygon Mainnet',
+        rpcPrefs: {
+          blockExplorerUrl: 'https://polygonscan.com',
+          // imageUrl: './images/polygon.png',
+        },
+      };
+
+      store.dispatch(
+        actions.upsertNetworkConfiguration(networkConfiguration, {
+          // setActive:true,
+          source: 'custom_network_form',
+        }),
+      );
+      // await setStorageItem(IS_MATIC_SET_AS_DEFAULT_NETWORK, JSON.stringify(true));
+    }
+  //  }
+
+
+
+
 
 
 
@@ -359,11 +358,6 @@ async function startApp(metamaskState, backgroundConnection, opts) {
   render(<Root store={store} />, opts.container);
   addElysiumNetwork(store);
   addPolygonNetwork(store);
-  // setPYRToken(store);
-  // setGassFee(store);
-  // estimateGassFee(store);
-  // testadvancegassfee(store)
-  // handleAddTokensClick();
   return store;
 }
 

@@ -107,14 +107,24 @@ export default function SecureYourWallet() {
       >
         {t('seedPhraseIntroTitle')}
       </Text>
-      <Text
+      {/* <Text
         variant={TextVariant.bodyLgMedium}
         marginBottom={6}
         className="secure-your-wallet__details"
       >
         {t('seedPhraseIntroTitleCopy')}
-      </Text>
+      </Text> */}
+
       <Box
+        as="img"
+        borderRadius={BorderRadius.LG}
+        marginBottom={8}
+        className="secure-your-wallet__video"
+        src="/images/secure-wallet.png" // Replace with the path to your image
+        alt="" // Add an alt attribute for accessibility
+      />
+
+      {/* <Box
         as="video"
         borderRadius={BorderRadius.LG}
         marginBottom={8}
@@ -143,7 +153,7 @@ export default function SecureYourWallet() {
             />
           );
         })}
-      </Box>
+      </Box> */}
       <Box
         className="secure-your-wallet__actions"
         marginBottom={8}

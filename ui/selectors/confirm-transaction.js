@@ -34,6 +34,7 @@ import {
   checkNetworkAndAccountSupports1559,
   getUnapprovedTransactions,
 } from '.';
+import { useSelector } from 'react-redux';
 
 const unapprovedTxsSelector = (state) => getUnapprovedTransactions(state);
 const unapprovedMsgsSelector = (state) => state.metamask.unapprovedMsgs;
@@ -213,17 +214,65 @@ export const contractExchangeRateSelector = createSelector(
 );
 
 export const transactionFeeSelector = function (state, txData) {
+
+  const chainId = useSelector(getCurrentChainId)
+
   const currentCurrency = currentCurrencySelector(state);
   const conversionRate = conversionRateSelector(state);
   const nativeCurrency = getNativeCurrency(state);
-  const gasFeeEstimates = getGasFeeEstimates(state) || {};
+
+  // Vaival
+  const lavaGasFeeEstimates = {
+    estimatedBaseFee: '0.000000008',
+    low: {
+      minWaitTimeEstimate: 15000,
+      maxWaitTimeEstimate: 30000,
+      suggestedMaxPriorityFeePerGas: '20',
+      suggestedMaxFeePerGas: '200',
+    },
+    medium: {
+      minWaitTimeEstimate: 15000,
+      maxWaitTimeEstimate: 45000,
+      suggestedMaxPriorityFeePerGas: '30',
+      suggestedMaxFeePerGas: '300',
+    },
+    high: {
+      minWaitTimeEstimate: 15000,
+      maxWaitTimeEstimate: 60000,
+      suggestedMaxPriorityFeePerGas: '40',
+      suggestedMaxFeePerGas: '400',
+    },
+  };
+  const gasFeeEstimates = chainId == '0x53b' ? lavaGasFeeEstimates : (getGasFeeEstimates(state) || {});
+  // End
+
+  // Real
+  // const gasFeeEstimates = getGasFeeEstimates(state) || {};
+  // End
+
   const gasEstimateType = getGasEstimateType(state);
   const networkAndAccountSupportsEIP1559 =
     checkNetworkAndAccountSupports1559(state);
 
-  const gasEstimationObject = {
-    gasLimit: txData.txParams?.gas ?? '0x0',
-  };
+
+    const originalObject = {
+      gasLimit: txData.txParams?.gas ?? '0x0',
+    }
+    const lavaObject = {
+      gasLimit: "0x4C4B40",
+    }
+
+
+    const gasEstimationObject = chainId == '0x53b' ? lavaObject : originalObject ;
+// Real
+  // const gasEstimationObject = {
+  //   gasLimit: txData.txParams?.gas ?? '0x0',
+  // };
+// End
+
+
+
+
 
   if (networkAndAccountSupportsEIP1559) {
     const { gasPrice = '0' } = gasFeeEstimates;
@@ -231,9 +280,11 @@ export const transactionFeeSelector = function (state, txData) {
     if (txData.txParams?.type === TransactionEnvelopeType.legacy) {
       gasEstimationObject.gasPrice =
         txData.txParams?.gasPrice ?? decGWEIToHexWEI(gasPrice);
+        console.log("gasEstimationObject.gasPrice====:",gasEstimationObject.gasPrice)
     } else {
       const { suggestedMaxPriorityFeePerGas, suggestedMaxFeePerGas } =
         selectedGasEstimates;
+
       gasEstimationObject.maxFeePerGas =
         txData.txParams?.maxFeePerGas &&
         (txData.userFeeLevel === CUSTOM_GAS_ESTIMATE || !suggestedMaxFeePerGas)
@@ -250,8 +301,31 @@ export const transactionFeeSelector = function (state, txData) {
       gasEstimationObject.baseFeePerGas = decGWEIToHexWEI(
         gasFeeEstimates.estimatedBaseFee,
       );
+
+
+
     }
-  } else {
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  else {
     switch (gasEstimateType) {
       case GasEstimateTypes.none:
         gasEstimationObject.gasPrice = txData.txParams?.gasPrice ?? '0x0';
@@ -289,10 +363,14 @@ export const transactionFeeSelector = function (state, txData) {
     numberOfDecimals: 6,
   });
 
-  const hexMinimumTransactionFee =
-    getMinimumGasTotalInHexWei(gasEstimationObject);
-  const hexMaximumTransactionFee =
-    getMaximumGasTotalInHexWei(gasEstimationObject);
+
+
+
+  const hexMinimumTransactionFee = getMinimumGasTotalInHexWei(gasEstimationObject);
+  const hexMaximumTransactionFee = getMaximumGasTotalInHexWei(gasEstimationObject);
+
+
+
 
   const fiatMinimumTransactionFee = getTransactionFee({
     value: hexMinimumTransactionFee,

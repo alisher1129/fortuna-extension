@@ -3,24 +3,24 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
   addUrlProtocolPrefix,
-  getEnvironmentType,
+  // getEnvironmentType,
 } from '../../../../app/scripts/lib/util';
-import { ENVIRONMENT_TYPE_POPUP } from '../../../../shared/constants/app';
+// import { ENVIRONMENT_TYPE_POPUP } from '../../../../shared/constants/app';
 import {
   MetaMetricsEventCategory,
   MetaMetricsEventKeyType,
   MetaMetricsEventName,
 } from '../../../../shared/constants/metametrics';
 import { IPFS_DEFAULT_GATEWAY_URL } from '../../../../shared/constants/network';
-import {
-  AUTO_DETECT_TOKEN_LEARN_MORE_LINK,
-  COINGECKO_LINK,
-  CONSENSYS_PRIVACY_LINK,
-  CRYPTOCOMPARE_LINK,
-  PRIVACY_POLICY_LINK,
-  SECURITY_ALERTS_LEARN_MORE_LINK,
-  TRANSACTION_SIMULATIONS_LEARN_MORE_LINK,
-} from '../../../../shared/lib/ui-utils';
+// import {
+//   AUTO_DETECT_TOKEN_LEARN_MORE_LINK,
+//   COINGECKO_LINK,
+//   CONSENSYS_PRIVACY_LINK,
+//   CRYPTOCOMPARE_LINK,
+//   PRIVACY_POLICY_LINK,
+//   SECURITY_ALERTS_LEARN_MORE_LINK,
+//   TRANSACTION_SIMULATIONS_LEARN_MORE_LINK,
+// } from '../../../../shared/lib/ui-utils';
 import SRPQuiz from '../../../components/app/srp-quiz-modal/SRPQuiz';
 import {
   Button,
@@ -37,7 +37,7 @@ import {
   TextColor,
   TextVariant,
 } from '../../../helpers/constants/design-system';
-import { ADD_POPULAR_CUSTOM_NETWORK } from '../../../helpers/constants/routes';
+// import { ADD_POPULAR_CUSTOM_NETWORK } from '../../../helpers/constants/routes';
 import {
   getNumberOfSettingRoutesInTab,
   handleSettingsRefs,
@@ -322,87 +322,90 @@ export default class SecurityTab extends PureComponent {
     );
   }
 
-  renderMetaMetricsOptIn() {
-    const { t } = this.context;
-    const { participateInMetaMetrics, setParticipateInMetaMetrics } =
-      this.props;
+  // renderMetaMetricsOptIn() {
+  //   const { t } = this.context;
+  //   const { participateInMetaMetrics, setParticipateInMetaMetrics } =
+  //     this.props;
 
-    return (
-      <Box
-        ref={this.settingsRefs[4]}
-        className="settings-page__content-row"
-        display={Display.Flex}
-        flexDirection={FlexDirection.Row}
-        justifyContent={JustifyContent.spaceBetween}
-        gap={4}
-      >
-        <div className="settings-page__content-item">
-          <span>{t('participateInMetaMetrics')}</span>
-          <div className="settings-page__content-description">
-            <span>{t('participateInMetaMetricsDescription')}</span>
-          </div>
-        </div>
+  //   return (
 
-        <div
-          className="settings-page__content-item-col"
-          data-testid="participateInMetaMetrics"
-        >
-          <ToggleButton
-            value={participateInMetaMetrics}
-            onToggle={(value) => setParticipateInMetaMetrics(!value)}
-            offLabel={t('off')}
-            onLabel={t('on')}
-          />
-        </div>
-      </Box>
-    );
-  }
+  //     <Box
+  //       ref={this.settingsRefs[4]}
+  //       className="settings-page__content-row"
+  //       display={Display.Flex}
+  //       flexDirection={FlexDirection.Row}
+  //       justifyContent={JustifyContent.spaceBetween}
+  //       gap={4}
+  //     >
+  //       <div className="settings-page__content-item">
+  //         <span>{t('participateInMetaMetrics')}</span>
+  //         <div className="settings-page__content-description">
+  //           <span>{t('participateInMetaMetricsDescription')}</span>
+  //         </div>
+  //       </div>
 
-  renderChooseYourNetworkButton() {
-    const { t } = this.context;
+  //       <div
+  //         className="settings-page__content-item-col"
+  //         data-testid="participateInMetaMetrics"
+  //       >
+  //         <ToggleButton
+  //           value={participateInMetaMetrics}
+  //           // value={false}
 
-    return (
-      <Box
-        className="settings-page__content-row"
-        data-testid="advanced-setting-choose-your-network"
-        display={Display.Flex}
-        flexDirection={FlexDirection.Column}
-        gap={4}
-      >
-        <div className="settings-page__content-item">
-          <span>{t('chooseYourNetwork')}</span>
-          <div className="settings-page__content-description">
-            {t('chooseYourNetworkDescription', [
-              // TODO: Update to use real link
-              <a
-                // href={CONSENSYS_PRIVACY_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                key="cyn-consensys-privacy-link"
-              >
-                {t('privacyMsg')}
-              </a>,
-            ])}
-          </div>
-        </div>
-        <div className="settings-page__content-item-col">
-          <Button
-            type="secondary"
-            className="settings-page__button"
-            onClick={() => {
-              getEnvironmentType() === ENVIRONMENT_TYPE_POPUP
-                ? global.platform.openExtensionInBrowser(
-                    ADD_POPULAR_CUSTOM_NETWORK,
-                  )
-                : this.props.history.push(ADD_POPULAR_CUSTOM_NETWORK);
-            }}
-          >
-            {t('addCustomNetwork')}
-          </Button>
-        </div>
-      </Box>
-    );
-  }
+  //           onToggle={(value) => setParticipateInMetaMetrics(!value)}
+  //           offLabel={t('off')}
+  //           onLabel={t('on')}
+  //         />
+  //       </div>
+  //     </Box>
+  //   );
+  // }
+
+  // renderChooseYourNetworkButton() {
+  //   const { t } = this.context;
+
+  //   return (
+  //     <Box
+  //       className="settings-page__content-row"
+  //       data-testid="advanced-setting-choose-your-network"
+  //       display={Display.Flex}
+  //       flexDirection={FlexDirection.Column}
+  //       gap={4}
+  //     >
+  //       <div className="settings-page__content-item">
+  //         <span>{t('chooseYourNetwork')}</span>
+  //         <div className="settings-page__content-description">
+  //           {t('chooseYourNetworkDescription', [
+  //             // TODO: Update to use real link
+  //             <a
+  //               // href={CONSENSYS_PRIVACY_LINK}
+  //               target="_blank"
+  //               rel="noopener noreferrer"
+  //               key="cyn-consensys-privacy-link"
+  //             >
+  //               {t('privacyMsg')}
+  //             </a>,
+  //           ])}
+  //         </div>
+  //       </div>
+  //       <div className="settings-page__content-item-col">
+  //         <Button
+  //           type="secondary"
+  //           className="settings-page__button"
+  //           onClick={() => {
+  //             getEnvironmentType() === ENVIRONMENT_TYPE_POPUP
+  //               ? global.platform.openExtensionInBrowser(
+  //                   ADD_POPULAR_CUSTOM_NETWORK,
+  //                 )
+  //               : this.props.history.push(ADD_POPULAR_CUSTOM_NETWORK);
+  //           }}
+  //         >
+  //           {t('addCustomNetwork')}
+  //         </Button>
+  //       </div>
+  //     </Box>
+  //   );
+  // }
 
   renderSafeChainsListValidationToggle() {
     const { t } = this.context;
@@ -1029,7 +1032,7 @@ export default class SecurityTab extends PureComponent {
           {this.context.t('networkProvider')}
         </span>
         <div className="settings-page__content-padded">
-          {this.renderChooseYourNetworkButton()}
+          {/* {this.renderChooseYourNetworkButton()} */}
           {this.renderSafeChainsListValidationToggle()}
           {this.renderIpfsGatewayControl()}
         </div>
@@ -1054,13 +1057,13 @@ export default class SecurityTab extends PureComponent {
             </div>
           </>
         )}
-
+{/*
         <span className="settings-page__security-tab-sub-header">
           {this.context.t('metrics')}
-        </span>
-        <div className="settings-page__content-padded">
+        </span> */}
+        {/* <div className="settings-page__content-padded">
           {this.renderMetaMetricsOptIn()}
-        </div>
+        </div> */}
       </div>
     );
   }

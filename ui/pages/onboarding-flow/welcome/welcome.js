@@ -142,8 +142,8 @@ export default function OnboardingWelcome() {
             <img
                 // src="/images/onboarding-welcome-say-hello.svg"
                 src="/images/welcome.png"
-                width="250"
-                height="230"
+                width="230"
+                height="220"
                 alt=""
               />
               {/* <Mascot

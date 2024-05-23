@@ -279,7 +279,7 @@ export default function TransactionList({
               })}
             </Box>
           )}
-          <Box className="transaction-list__completed-transactions">
+          <Box padding={3} className="transaction-list__completed-transactions">
             {completedTransactions.length > 0 ? (
               completedTransactions
                 .map(removeIncomingTxsButToAnotherAddress)

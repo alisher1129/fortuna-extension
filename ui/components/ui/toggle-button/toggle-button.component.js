@@ -31,7 +31,7 @@ const thumbStyle = {
 
 const colors = {
   activeThumb: {
-    base: '#037DD6', // var(--brand-colors-blue-blue500)
+    base: '#9FC131', // var(--brand-colors-blue-blue500)  Toggle Button
   },
   inactiveThumb: {
     base: '#6A737D', // var(--brand-colors-grey-grey500)

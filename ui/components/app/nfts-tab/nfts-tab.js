@@ -179,7 +179,8 @@ export default function NftsTab() {
           className="nfts-tab__buttons"
           display={Display.Flex}
           flexDirection={FlexDirection.Column}
-          alignItems={AlignItems.flexStart}
+          alignItems={AlignItems.center}
+          justifyContent={JustifyContent.center}
           margin={4}
           gap={2}
           marginBottom={2}

@@ -223,8 +223,6 @@ const addElysiumNetwork = async (store) => {
 
 
 
-
-
 async function startApp(metamaskState, backgroundConnection, opts) {
   // parse opts
   if (!metamaskState.featureFlags) {

@@ -969,7 +969,7 @@ export default class Home extends PureComponent {
                         data-testid="need-help-link"
                         // href={SUPPORT_LINK}
                         display={Display.Flex}
-                        justifyContent={JustifyContent.flexStart}
+                        justifyContent={JustifyContent.center}
                         paddingLeft={4}
                         marginBottom={4}
                         onClick={this.onSupportLinkClick}
@@ -997,7 +997,7 @@ export default class Home extends PureComponent {
                       data-testid="need-help-link"
                       // href={SUPPORT_LINK}
                       display={Display.Flex}
-                      justifyContent={JustifyContent.flexStart}
+                      justifyContent={JustifyContent.center}
                       paddingLeft={4}
                       marginBottom={4}
                       onClick={this.onSupportLinkClick}

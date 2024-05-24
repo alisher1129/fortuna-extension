@@ -188,6 +188,7 @@ export const TokenListItem = ({
         marginRight={3}
       >
         <AvatarToken
+          className={"borderRounded"}
           name={tokenSymbol}
           src={tokenImage}
           showHalo

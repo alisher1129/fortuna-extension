@@ -1,5 +1,8 @@
 .multichain-token-list-item {
   margin-bottom: 10px;
+  .borderRounded {
+    border:solid 1px #ffffff70;
+  }
   &__container-cell {
     background-color: var(--color-background-alternative);
     margin: 0 10px;

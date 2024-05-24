@@ -215,13 +215,14 @@ export const contractExchangeRateSelector = createSelector(
 
 export const transactionFeeSelector = function (state, txData) {
 
-  const chainId = useSelector(getCurrentChainId)
 
   const currentCurrency = currentCurrencySelector(state);
   const conversionRate = conversionRateSelector(state);
   const nativeCurrency = getNativeCurrency(state);
 
   // Vaival
+  // const chainId = getCurrentChainId(state)
+  const chainId = useSelector(getCurrentChainId)
   const lavaGasFeeEstimates = {
     estimatedBaseFee: '0.000000008',
     low: {
@@ -259,7 +260,7 @@ export const transactionFeeSelector = function (state, txData) {
       gasLimit: txData.txParams?.gas ?? '0x0',
     }
     const lavaObject = {
-      gasLimit: "0x4C4B40",
+      gasLimit: "0x927C0",
     }
 
 
@@ -280,7 +281,6 @@ export const transactionFeeSelector = function (state, txData) {
     if (txData.txParams?.type === TransactionEnvelopeType.legacy) {
       gasEstimationObject.gasPrice =
         txData.txParams?.gasPrice ?? decGWEIToHexWEI(gasPrice);
-        console.log("gasEstimationObject.gasPrice====:",gasEstimationObject.gasPrice)
     } else {
       const { suggestedMaxPriorityFeePerGas, suggestedMaxFeePerGas } =
         selectedGasEstimates;

@@ -1,6 +1,9 @@
 import { useSelector } from 'react-redux';
 import { getCurrentDraftTransaction } from '../../../ducks/send';
-import { getUnapprovedTransactions } from '../../../selectors';
+import {
+  getCurrentChainId,
+  getUnapprovedTransactions,
+} from '../../../selectors';
 
 /**
  * Returns an object that resembles the txData.txParams from the Transactions state.
@@ -12,8 +15,8 @@ import { getUnapprovedTransactions } from '../../../selectors';
  */
 export const useDraftTransactionWithTxParams = () => {
   const draftTransaction = useSelector(getCurrentDraftTransaction);
-
   const unapprovedTxs = useSelector(getUnapprovedTransactions);
+  const chainId = useSelector(getCurrentChainId);
 
   let transactionData = {};
 
@@ -27,22 +30,29 @@ export const useDraftTransactionWithTxParams = () => {
         gas: editingTransaction?.userEditedGasLimit
           ? editingTransaction?.txParams?.gas
           : draftTransaction.gas?.gasLimit,
-
-          // maxFeePerGas: '0x45D964B800',
-          // maxPriorityFeePerGas: '0x6FC23AC00',
-        maxFeePerGas: editingTransaction?.txParams?.maxFeePerGas
-          ? editingTransaction?.txParams?.maxFeePerGas
-          : draftTransaction.gas?.maxFeePerGas,
-        maxPriorityFeePerGas: editingTransaction?.txParams?.maxPriorityFeePerGas
-          ? editingTransaction?.txParams?.maxPriorityFeePerGas
-          : draftTransaction.gas?.maxPriorityFeePerGas,
+        maxFeePerGas:
+          chainId == '0x53b'
+            ? '0x45D964B800'
+            : editingTransaction?.txParams?.maxFeePerGas
+            ? editingTransaction?.txParams?.maxFeePerGas
+            : draftTransaction.gas?.maxFeePerGas,
+            maxPriorityFeePerGas:  chainId == '0x53b'
+            ? '0x6FC23AC00' : editingTransaction?.txParams?.maxPriorityFeePerGas
+            ? editingTransaction?.txParams?.maxPriorityFeePerGas
+            : draftTransaction.gas?.maxPriorityFeePerGas,
+        // maxFeePerGas: '0x45D964B800',
+        // maxPriorityFeePerGas: '0x6FC23AC00',
+        // maxFeePerGas: editingTransaction?.txParams?.maxFeePerGas
+        //   ? editingTransaction?.txParams?.maxFeePerGas
+        //   : draftTransaction.gas?.maxFeePerGas,
+        // maxPriorityFeePerGas: editingTransaction?.txParams?.maxPriorityFeePerGas
+        //   ? editingTransaction?.txParams?.maxPriorityFeePerGas
+        //   : draftTransaction.gas?.maxPriorityFeePerGas,
         value: draftTransaction.amount?.value,
         type: draftTransaction.transactionType,
       },
 
       userFeeLevel: editingTransaction?.userFeeLevel,
-
-
     };
   }
   return transactionData;

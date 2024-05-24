@@ -166,8 +166,8 @@ export default class UnlockPage extends Component {
         <div className="unlock-page" data-testid="unlock-page">
           <div className="unlock-page__mascot-container">
 
-           <img src='/images/logo-icon.svg'  width="140"
-              height="140" alt='' />
+           <img src='/images/logo-icon.svg'  width="110"
+              height="110" alt='' />
             {/* <Mascot
               animationEventEmitter={this.animationEventEmitter}
               width="120"

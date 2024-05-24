@@ -121,7 +121,6 @@ import {
 } from './helpers';
 import { useSelector } from 'react-redux';
 
-
 // typedef import statements
 /**
  * @typedef {(
@@ -1003,33 +1002,8 @@ const slice = createSlice({
      * @param {GasEstimateUpdatePayload)} action - The gas fee update payload
      * @returns {void}
      */
-    updateGasFeeEstimates: (state, action ) => {
-      // console.log("chainId---",chainId)
-      const {  gasEstimateType , gasFeeEstimates } = action.payload;
-      // console.log("payLoad===", chainId)
-
-      // const lavaGasFeeEstimates = {
-      //   estimatedBaseFee: '0.000000008',
-      //   low: {
-      //     minWaitTimeEstimate: 15000,
-      //     maxWaitTimeEstimate: 30000,
-      //     suggestedMaxPriorityFeePerGas: '20',
-      //     suggestedMaxFeePerGas: '200',
-      //   },
-      //   medium: {
-      //     minWaitTimeEstimate: 15000,
-      //     maxWaitTimeEstimate: 45000,
-      //     suggestedMaxPriorityFeePerGas: '30',
-      //     suggestedMaxFeePerGas: '300',
-      //   },
-      //   high: {
-      //     minWaitTimeEstimate: 15000,
-      //     maxWaitTimeEstimate: 60000,
-      //     suggestedMaxPriorityFeePerGas: '40',
-      //     suggestedMaxFeePerGas: '400',
-      //   },
-      // };
-      // const gasFeeEstimates = lavaGasFeeEstimates;
+    updateGasFeeEstimates: (state, action) => {
+      const { gasEstimateType, gasFeeEstimates } = action.payload;
 
       let gasPriceEstimate = '0x0';
       switch (gasEstimateType) {
@@ -1038,18 +1012,15 @@ const slice = createSlice({
             payload: {
               transactionType: TransactionEnvelopeType.feeMarket,
 
-              // maxFeePerGas: getGasPriceInHexWei(
-              //   gasFeeEstimates.medium.suggestedMaxFeePerGas,
+              maxFeePerGas: getGasPriceInHexWei(
+                gasFeeEstimates.medium.suggestedMaxFeePerGas,
+              ),
+              maxPriorityFeePerGas: getGasPriceInHexWei(
+                gasFeeEstimates.medium.suggestedMaxPriorityFeePerGas,
+              ),
 
-              // ),
-              // maxPriorityFeePerGas: getGasPriceInHexWei(
-              //   gasFeeEstimates.medium.suggestedMaxPriorityFeePerGas,
-
-              // ),
-
-               maxPriorityFeePerGas: '0x6FC23AC00',
-              maxFeePerGas: '0x45D964B800',
-
+              //  maxPriorityFeePerGas: '0x6FC23AC00',
+              // maxFeePerGas: '0x45D964B800',
             },
           });
           break;
@@ -1427,7 +1398,6 @@ const slice = createSlice({
             tokenAddressList,
             isProbablyAnAssetContract,
           } = action.payload;
-console.log("chainId====",chainId)
           if (
             isBurnAddress(state.recipientInput) ||
             (!isValidHexAddress(state.recipientInput, {

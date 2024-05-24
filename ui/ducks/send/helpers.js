@@ -144,7 +144,7 @@ export async function estimateGasLimitForSend({
 
 ///Vaival
     if (chainId === '0x53b') {
-      const estimatedGasLimit = '4C4B40';
+      const estimatedGasLimit = '927C0';
       return estimatedGasLimit;
     } else {
       const estimatedGasLimit = await estimateGas(paramsForGasEstimate);

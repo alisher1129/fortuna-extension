@@ -971,6 +971,8 @@ export default class Home extends PureComponent {
                         display={Display.Flex}
                         justifyContent={JustifyContent.center}
                         paddingLeft={4}
+                        marginLeft="auto"
+                        marginRight="auto"
                         marginBottom={4}
                         onClick={this.onSupportLinkClick}
                         externalLink
@@ -999,6 +1001,8 @@ export default class Home extends PureComponent {
                       display={Display.Flex}
                       justifyContent={JustifyContent.center}
                       paddingLeft={4}
+                      marginLeft="auto"
+                      marginRight="auto"
                       marginBottom={4}
                       onClick={this.onSupportLinkClick}
                       externalLink
@@ -1026,6 +1030,8 @@ export default class Home extends PureComponent {
                       display={Display.Flex}
                       justifyContent={JustifyContent.center}
                       marginBottom={4}
+                      marginLeft="auto"
+                      marginRight="auto"
                       marginTop={4}
                       onClick={this.onSupportLinkClick}
                       externalLink

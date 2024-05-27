@@ -79,3 +79,6 @@ ui/components/component-library      @MetaMask/design-system-engineers
 **/multichain/notification*/**                      @MetaMask/notifications
 **/pages/notification*/**                           @MetaMask/notifications
 **/utils/notification.util.ts                       @MetaMask/notifications
+
+# Swaps team to own code for the swaps folder
+ui/pages/swaps                      @MetaMask/swaps-engineers

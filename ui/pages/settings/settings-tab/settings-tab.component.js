@@ -424,6 +424,7 @@ export default class SettingsTab extends PureComponent {
               id="select-theme"
               options={themesOptions}
               selectedOption={theme}
+              // selectedOption={ThemeType.dark}
               onChange={onChange}
             />
           </div>

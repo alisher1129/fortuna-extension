@@ -32,7 +32,6 @@ import {
 import {
   ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
   ONBOARDING_METAMETRICS,
-  ONBOARDING_PHRASE_ROUTER,
   ///: END:ONLY_INCLUDE_IF
   ONBOARDING_SECURE_YOUR_WALLET_ROUTE,
   ONBOARDING_COMPLETION_ROUTE,
@@ -113,7 +112,7 @@ export default function OnboardingWelcome() {
     dispatch(setTermsOfUseLastAgreed(new Date().getTime()));
 
     ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
-    history.push(ONBOARDING_PHRASE_ROUTER);
+    history.push(ONBOARDING_METAMETRICS);
     ///: END:ONLY_INCLUDE_IF
 
     ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)

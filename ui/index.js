@@ -1,3 +1,4 @@
+import localforage from 'localforage';
 import copyToClipboard from 'copy-to-clipboard';
 import log from 'loglevel';
 import { clone } from 'lodash';
@@ -17,7 +18,7 @@ import { setupLocale } from '../shared/lib/error-utils';
 import { getStorageItem, setStorageItem } from '../shared/lib/storage-helpers';
 import { IS_LAVA_SET_AS_DEFAULT_NETWORK,
   IS_MATIC_SET_AS_DEFAULT_NETWORK,
-  NETWORK_CONFIGUER_ID,
+  // NETWORK_CONFIGUER_ID,
   IS_LAVA_SET_AS_DEFAULT_NETWORK_2
 } from "./Keys/keysForChains"
 import * as actions from './store/actions';
@@ -122,7 +123,9 @@ const setPYRToken = (store, id) => {
 // Elysium Chain
 
 const addElysiumNetwork = async (store) => {
-  let elysiumCustomNetwork = await getStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK);
+  let elysiumCustomNetwork = await localforage.getItem(IS_LAVA_SET_AS_DEFAULT_NETWORK);
+  console.log("check elysium chain One",elysiumCustomNetwork)
+
   if (elysiumCustomNetwork === null) {
     const networkConfiguration = {
       rpcUrl: 'https://rpc.elysiumchain.tech',
@@ -156,10 +159,12 @@ const addElysiumNetwork = async (store) => {
       }
     });
 
-    await setStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK, JSON.stringify(true));
+    await localforage.setItem(IS_LAVA_SET_AS_DEFAULT_NETWORK, JSON.stringify(true));
   }
   else {
-    let eCustomNetwork = await getStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK_2);
+    let eCustomNetwork = await localforage.getItem(IS_LAVA_SET_AS_DEFAULT_NETWORK_2);
+    console.log("check elysium chain two", eCustomNetwork)
+
     if (eCustomNetwork === null) {
 
     const networkConfiguration = {
@@ -186,16 +191,19 @@ const addElysiumNetwork = async (store) => {
         console.error('Failed to create default Token');
       }
     });
-    await setStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK_2, JSON.stringify(true));
+    await localforage.setItem(IS_LAVA_SET_AS_DEFAULT_NETWORK_2, JSON.stringify(true));
   }
  }
 };
 
 
+
 // Polygon Chainsss
 
   const addPolygonNetwork = async (store) => {
-    let polygonCustomNetwork = await getStorageItem(IS_MATIC_SET_AS_DEFAULT_NETWORK);
+    let polygonCustomNetwork = await localforage.getItem(IS_MATIC_SET_AS_DEFAULT_NETWORK);
+    console.log("check polygon chain",polygonCustomNetwork)
+
     if (polygonCustomNetwork === null) {
       const networkConfiguration = {
         rpcUrl: 'https://polygon-rpc.com',
@@ -214,10 +222,9 @@ const addElysiumNetwork = async (store) => {
           source: 'custom_network_form',
         }),
       );
-      await setStorageItem(IS_MATIC_SET_AS_DEFAULT_NETWORK, JSON.stringify(true));
+      await localforage.setItem(IS_MATIC_SET_AS_DEFAULT_NETWORK, JSON.stringify(true));
     }
    }
-
 
 
 

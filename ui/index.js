@@ -3,10 +3,8 @@ import copyToClipboard from 'copy-to-clipboard';
 import log from 'loglevel';
 import { clone } from 'lodash';
 import React from 'react';
-
 import { render } from 'react-dom';
 import browser, {  } from 'webextension-polyfill';
-
 import { getEnvironmentType } from '../app/scripts/lib/util';
 import { AlertTypes } from '../shared/constants/alerts';
 import { maskObject } from '../shared/modules/object.utils';
@@ -15,7 +13,6 @@ import { ENVIRONMENT_TYPE_POPUP  } from '../shared/constants/app';
 import { COPY_OPTIONS } from '../shared/constants/copy';
 import switchDirection from '../shared/lib/switch-direction';
 import { setupLocale } from '../shared/lib/error-utils';
-import { getStorageItem, setStorageItem } from '../shared/lib/storage-helpers';
 import { IS_LAVA_SET_AS_DEFAULT_NETWORK,
   IS_MATIC_SET_AS_DEFAULT_NETWORK,
   // NETWORK_CONFIGUER_ID,
@@ -120,12 +117,10 @@ const setPYRToken = (store, id) => {
   };
   store.dispatch(actions.addToken(addNewToken));
 };
-// Elysium Chain
 
+// Elysium Chain
 const addElysiumNetwork = async (store) => {
   let elysiumCustomNetwork = await localforage.getItem(IS_LAVA_SET_AS_DEFAULT_NETWORK);
-  console.log("check elysium chain One",elysiumCustomNetwork)
-
   if (elysiumCustomNetwork === null) {
     const networkConfiguration = {
       rpcUrl: 'https://rpc.elysiumchain.tech',
@@ -152,7 +147,7 @@ const addElysiumNetwork = async (store) => {
     );
     response.then( async (id) => {
       if (id) {
-        setPYRToken(store, id);
+       await setPYRToken(store, id);
         // await setStorageItem(NETWORK_CONFIGUER_ID, JSON.stringify(true));
       } else {
         console.error('Failed to create default Token');
@@ -163,8 +158,6 @@ const addElysiumNetwork = async (store) => {
   }
   else {
     let eCustomNetwork = await localforage.getItem(IS_LAVA_SET_AS_DEFAULT_NETWORK_2);
-    console.log("check elysium chain two", eCustomNetwork)
-
     if (eCustomNetwork === null) {
 
     const networkConfiguration = {
@@ -184,9 +177,9 @@ const addElysiumNetwork = async (store) => {
         source: 'custom_network_form',
       }),
     );
-    response1.then((id) => {
+    response1.then(async (id) => {
       if (id) {
-        setPYRToken(store, id);
+      await  setPYRToken(store, id);
       } else {
         console.error('Failed to create default Token');
       }
@@ -196,14 +189,9 @@ const addElysiumNetwork = async (store) => {
  }
 };
 
-
-
 // Polygon Chainsss
-
   const addPolygonNetwork = async (store) => {
     let polygonCustomNetwork = await localforage.getItem(IS_MATIC_SET_AS_DEFAULT_NETWORK);
-    console.log("check polygon chain",polygonCustomNetwork)
-
     if (polygonCustomNetwork === null) {
       const networkConfiguration = {
         rpcUrl: 'https://polygon-rpc.com',

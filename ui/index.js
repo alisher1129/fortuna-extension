@@ -72,7 +72,6 @@ export default function launchMetamaskUi(opts, cb) {
     if (err) {
       return;
     }
-
     desktopEnabled = result;
   });
   ///: END:ONLY_INCLUDE_IF
@@ -160,6 +159,16 @@ const addElysiumNetwork = async (store) => {
     let eCustomNetwork = await localforage.getItem(IS_LAVA_SET_AS_DEFAULT_NETWORK_2);
     if (eCustomNetwork === null) {
 
+    const networkConfiguration = {
+      rpcUrl: 'https://rpc.elysiumchain.tech',
+      chainId: '0x53b',
+      ticker: 'LAVA',
+      nickname: 'Elysium Mainnet',
+      rpcPrefs: {
+        blockExplorerUrl: 'https://blockscout.elysiumchain.tech/',
+        imageUrl: './images/green-logo-3.png',
+      },
+    };
     const networkConfiguration = {
       rpcUrl: 'https://rpc.elysiumchain.tech',
       chainId: '0x53b',

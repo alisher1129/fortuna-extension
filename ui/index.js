@@ -169,16 +169,7 @@ const addElysiumNetwork = async (store) => {
         imageUrl: './images/green-logo-3.png',
       },
     };
-    const networkConfiguration = {
-      rpcUrl: 'https://rpc.elysiumchain.tech',
-      chainId: '0x53b',
-      ticker: 'LAVA',
-      nickname: 'Elysium Mainnet',
-      rpcPrefs: {
-        blockExplorerUrl: 'https://blockscout.elysiumchain.tech/',
-        imageUrl: './images/green-logo-3.png',
-      },
-    };
+
 
     let response1 = store.dispatch(
       actions.upsertNetworkConfiguration(networkConfiguration, {

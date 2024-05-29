@@ -21,7 +21,6 @@ import Popover from '../../components/ui/popover';
 import Button from '../../components/ui/button';
 import ConnectedSites from '../connected-sites';
 import ConnectedAccounts from '../connected-accounts';
-import { EthOverview } from '../../components/app/wallet-overview';
 
 import ActionableMessage from '../../components/ui/actionable-message/actionable-message';
 import {
@@ -29,7 +28,6 @@ import {
   Display,
   TextColor,
   TextVariant,
-  Severity,
 } from '../../helpers/constants/design-system';
 import { SECOND } from '../../../shared/constants/time';
 import {
@@ -39,7 +37,6 @@ import {
   Box,
   Text,
   Icon,
-  BannerAlert,
 } from '../../components/component-library';
 import {
   RESTORE_VAULT_ROUTE,
@@ -67,12 +64,12 @@ import {
   SUPPORT_LINK,
   ///: END:ONLY_INCLUDE_IF
 } from '../../../shared/lib/ui-utils';
-import { AccountOverviewTabs } from '../../components/multichain/account-overview-tabs';
 ///: BEGIN:ONLY_INCLUDE_IF(build-beta)
 import BetaHomeFooter from './beta/beta-home-footer.component';
 ///: END:ONLY_INCLUDE_IF
 ///: BEGIN:ONLY_INCLUDE_IF(build-flask)
 import FlaskHomeFooter from './flask/flask-home-footer.component';
+import { AccountOverview } from '../../components/multichain/account-overview';
 ///: END:ONLY_INCLUDE_IF
 
 function shouldCloseNotificationPopup({
@@ -809,9 +806,6 @@ export default class Home extends PureComponent {
       newNetworkAddedConfigurationId,
       isSmartTransactionsOptInModalAvailable,
       ///: END:ONLY_INCLUDE_IF
-      ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
-      mmiPortfolioEnabled,
-      ///: END:ONLY_INCLUDE_IF
     } = this.props;
 
     if (forgottenPassword) {
@@ -874,39 +868,13 @@ export default class Home extends PureComponent {
             ///: END:ONLY_INCLUDE_IF
           }
           <div className="home__main-view">
-            {useExternalServices ? null : (
-              <BannerAlert
-                margin={4}
-                marginBottom={0}
-                severity={Severity.Danger}
-                actionButtonLabel={t('basicConfigurationBannerCTA')}
-                actionButtonOnClick={() => {
-                  setBasicFunctionalityModalOpen();
-                }}
-                title={t('basicConfigurationBannerTitle')}
-              ></BannerAlert>
-            )}
-            <div className="home__balance-wrapper">
-              {
-                ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
-                <EthOverview showAddress />
-                ///: END:ONLY_INCLUDE_IF
-              }
-              {
-                ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
-                <EthOverview
-                  showAddress
-                  mmiPortfolioEnabled={mmiPortfolioEnabled}
-                />
-                ///: END:ONLY_INCLUDE_IF
-              }
-            </div>
-
-            <AccountOverviewTabs
+            <AccountOverview
               onTabClick={onTabClick}
               onSupportLinkClick={this.onSupportLinkClick}
               defaultHomeActiveTabName={defaultHomeActiveTabName}
-            ></AccountOverviewTabs>
+              useExternalServices={useExternalServices}
+              setBasicFunctionalityModalOpen={setBasicFunctionalityModalOpen}
+            ></AccountOverview>
             {
               ///: BEGIN:ONLY_INCLUDE_IF(build-beta)
               <div className="home__support">

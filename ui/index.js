@@ -14,12 +14,12 @@ import { ENVIRONMENT_TYPE_POPUP  } from '../shared/constants/app';
 import { COPY_OPTIONS } from '../shared/constants/copy';
 import switchDirection from '../shared/lib/switch-direction';
 import { setupLocale } from '../shared/lib/error-utils';
-// import { getStorageItem, setStorageItem } from '../shared/lib/storage-helpers';
-// import { IS_LAVA_SET_AS_DEFAULT_NETWORK,
-//   // IS_MATIC_SET_AS_DEFAULT_NETWORK,
-//   // // NETWORK_CONFIGUER_ID,
-//   // // IS_LAVA_SET_AS_DEFAULT_NETWORK_2
-// } from "./Keys/keysForChains"
+import { getStorageItem, setStorageItem } from '../shared/lib/storage-helpers';
+import { IS_LAVA_SET_AS_DEFAULT_NETWORK,
+  IS_MATIC_SET_AS_DEFAULT_NETWORK,
+  NETWORK_CONFIGUER_ID,
+  IS_LAVA_SET_AS_DEFAULT_NETWORK_2
+} from "./Keys/keysForChains"
 import * as actions from './store/actions';
 import configureStore from './store/store';
 import {
@@ -122,8 +122,8 @@ const setPYRToken = (store, id) => {
 // Elysium Chain
 
 const addElysiumNetwork = async (store) => {
-  // let elysiumCustomNetwork = await getStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK);
-  // if (elysiumCustomNetwork !== null) {
+  let elysiumCustomNetwork = await getStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK);
+  if (elysiumCustomNetwork === null) {
     const networkConfiguration = {
       rpcUrl: 'https://rpc.elysiumchain.tech',
       chainId: '0x53b',
@@ -156,47 +156,47 @@ const addElysiumNetwork = async (store) => {
       }
     });
 
-    // await setStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK, JSON.stringify(true));
+    await setStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK, JSON.stringify(true));
   }
-//   else {
-//     // let E_customNetwork = await getStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK_2);
-//     // if (E_customNetwork == null) {
+  else {
+    let eCustomNetwork = await getStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK_2);
+    if (eCustomNetwork === null) {
 
-//     const networkConfiguration = {
-//       rpcUrl: 'https://rpc.elysiumchain.tech',
-//       chainId: '0x53b',
-//       ticker: 'LAVA',
-//       nickname: 'Elysium Mainnet',
-//       rpcPrefs: {
-//         blockExplorerUrl: 'https://blockscout.elysiumchain.tech/',
-//         imageUrl: './images/green-logo-3.png',
-//       },
-//     };
+    const networkConfiguration = {
+      rpcUrl: 'https://rpc.elysiumchain.tech',
+      chainId: '0x53b',
+      ticker: 'LAVA',
+      nickname: 'Elysium Mainnet',
+      rpcPrefs: {
+        blockExplorerUrl: 'https://blockscout.elysiumchain.tech/',
+        imageUrl: './images/green-logo-3.png',
+      },
+    };
 
-//     let response1 = store.dispatch(
-//       actions.upsertNetworkConfiguration(networkConfiguration, {
-//         // setActive: true,
-//         source: 'custom_network_form',
-//       }),
-//     );
-//     response1.then((id) => {
-//       if (id) {
-//         setPYRToken(store, id);
-//       } else {
-//         console.error('Failed to create default Token');
-//       }
-//     });
-//   //   await setStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK_2, JSON.stringify(true));
-//   // }
-//  }
-// };
+    let response1 = store.dispatch(
+      actions.upsertNetworkConfiguration(networkConfiguration, {
+        // setActive: true,
+        source: 'custom_network_form',
+      }),
+    );
+    response1.then((id) => {
+      if (id) {
+        setPYRToken(store, id);
+      } else {
+        console.error('Failed to create default Token');
+      }
+    });
+    await setStorageItem(IS_LAVA_SET_AS_DEFAULT_NETWORK_2, JSON.stringify(true));
+  }
+ }
+};
 
 
 // Polygon Chainsss
 
   const addPolygonNetwork = async (store) => {
-    // let polygonCustomNetwork = await getStorageItem(IS_MATIC_SET_AS_DEFAULT_NETWORK);
-    // if (polygonCustomNetwork !== null) {
+    let polygonCustomNetwork = await getStorageItem(IS_MATIC_SET_AS_DEFAULT_NETWORK);
+    if (polygonCustomNetwork === null) {
       const networkConfiguration = {
         rpcUrl: 'https://polygon-rpc.com',
         chainId: '0x89',
@@ -214,9 +214,9 @@ const addElysiumNetwork = async (store) => {
           source: 'custom_network_form',
         }),
       );
-      // await setStorageItem(IS_MATIC_SET_AS_DEFAULT_NETWORK, JSON.stringify(true));
+      await setStorageItem(IS_MATIC_SET_AS_DEFAULT_NETWORK, JSON.stringify(true));
     }
-  //  }
+   }
 
 
 

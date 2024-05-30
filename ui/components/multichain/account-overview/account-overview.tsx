@@ -4,6 +4,7 @@ import { useI18nContext } from '../../../hooks/useI18nContext';
 import { BannerAlert, BannerAlertSeverity } from '../../component-library';
 import { isSelectedInternalAccountEth } from '../../../selectors';
 import { AccountOverviewEth } from './account-overview-eth';
+import { AccountOverviewUnknown } from './account-overview-unknown';
 
 export type AccountOverviewOptions = {
   onTabClick: (tabName: string) => void;
@@ -17,6 +18,7 @@ export const AccountOverview = (options: AccountOverviewOptions) => {
   const t = useI18nContext();
 
   const isEth = useSelector(isSelectedInternalAccountEth);
+  const isUnknown = !isEth;
 
   const { useExternalServices, setBasicFunctionalityModalOpen } = options;
 
@@ -35,6 +37,9 @@ export const AccountOverview = (options: AccountOverviewOptions) => {
         ></BannerAlert>
       )}
       {isEth && <AccountOverviewEth {...options}></AccountOverviewEth>}
+      {isUnknown && (
+        <AccountOverviewUnknown {...options}></AccountOverviewUnknown>
+      )}
     </>
   );
 };

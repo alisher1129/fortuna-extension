@@ -5,13 +5,10 @@ import { BannerAlert, BannerAlertSeverity } from '../../component-library';
 import { isSelectedInternalAccountEth } from '../../../selectors';
 import { AccountOverviewEth } from './account-overview-eth';
 import { AccountOverviewUnknown } from './account-overview-unknown';
+import { AccountOverviewCommonOptions } from './common';
 
-export type AccountOverviewOptions = {
-  onTabClick: (tabName: string) => void;
-  setBasicFunctionalityModalOpen: () => void;
-  onSupportLinkClick: () => void;
+export type AccountOverviewOptions = AccountOverviewCommonOptions & {
   useExternalServices: boolean;
-  defaultHomeActiveTabName: string;
 };
 
 export const AccountOverview = (options: AccountOverviewOptions) => {

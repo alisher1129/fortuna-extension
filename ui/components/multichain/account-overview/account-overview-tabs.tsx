@@ -33,11 +33,9 @@ import {
 ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
 import InstitutionalHomeFooter from '../../../pages/home/institutional/institutional-home-footer';
 ///: END:ONLY_INCLUDE_IF
+import { AccountOverviewCommonOptions } from './common';
 
-export type AccountOverviewTabsOptions = {
-  onTabClick: (tabName: string) => void;
-  onSupportLinkClick: () => void;
-  defaultHomeActiveTabName: string;
+export type AccountOverviewTabsOptions = AccountOverviewCommonOptions & {
   showTokens: boolean;
   showNfts: boolean;
   showActivity: boolean;

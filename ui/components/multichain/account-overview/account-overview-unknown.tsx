@@ -1,20 +1,20 @@
 import React from 'react';
 import { Box } from '../../component-library';
-import { AccountOverviewTabs } from './account-overview-tabs';
+import { AccountOverviewCommonOptions } from './common';
+import { AccountOverviewLayout } from './account-overview-layout';
 
-export type AccountOverviewUnknownOptions = {
-  onTabClick: (tabName: string) => void;
-  onSupportLinkClick: () => void;
-  defaultHomeActiveTabName: string;
-};
+export type AccountOverviewUnknownOptions = AccountOverviewCommonOptions;
 
 export const AccountOverviewUnknown = (
   options: AccountOverviewUnknownOptions,
 ) => {
-  const { onTabClick, onSupportLinkClick, defaultHomeActiveTabName } = options;
-
   return (
-    <>
+    <AccountOverviewLayout
+      showTokens={false}
+      showNfts={false}
+      showActivity={true}
+      {...options}
+    >
       <div className="home__balance-wrapper">
         <Box className="account-overview-unknown__empty">
           <Box className="account-overview-unknown__empty-text">
@@ -23,15 +23,6 @@ export const AccountOverviewUnknown = (
           </Box>
         </Box>
       </div>
-
-      <AccountOverviewTabs
-        onTabClick={onTabClick}
-        onSupportLinkClick={onSupportLinkClick}
-        defaultHomeActiveTabName={defaultHomeActiveTabName}
-        showTokens={false}
-        showNfts={false}
-        showActivity={true}
-      ></AccountOverviewTabs>
-    </>
+    </AccountOverviewLayout>
   );
 };

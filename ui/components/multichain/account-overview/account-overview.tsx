@@ -26,6 +26,10 @@ export const AccountOverview = (options: AccountOverviewOptions) => {
     setBasicFunctionalityModalOpen,
   } = options;
 
+  const showTokens = true;
+  const showNfts = true;
+  const showActivity = true;
+
   return (
     <>
       {useExternalServices ? null : (
@@ -52,6 +56,9 @@ export const AccountOverview = (options: AccountOverviewOptions) => {
         onTabClick={onTabClick}
         onSupportLinkClick={onSupportLinkClick}
         defaultHomeActiveTabName={defaultHomeActiveTabName}
+        showTokens={showTokens}
+        showNfts={showNfts}
+        showActivity={showActivity}
       ></AccountOverviewTabs>
     </>
   );

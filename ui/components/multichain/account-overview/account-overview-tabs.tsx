@@ -38,6 +38,9 @@ export type AccountOverviewTabsOptions = {
   onTabClick: (tabName: string) => void;
   onSupportLinkClick: () => void;
   defaultHomeActiveTabName: string;
+  showTokens: boolean;
+  showNfts: boolean;
+  showActivity: boolean;
 };
 
 export const AccountOverviewTabs = (options: AccountOverviewTabsOptions) => {
@@ -45,7 +48,14 @@ export const AccountOverviewTabs = (options: AccountOverviewTabsOptions) => {
   const t = useI18nContext();
   const trackEvent = useContext(MetaMetricsContext);
 
-  const { onTabClick, onSupportLinkClick, defaultHomeActiveTabName } = options;
+  const {
+    onTabClick,
+    onSupportLinkClick,
+    defaultHomeActiveTabName,
+    showTokens,
+    showNfts,
+    showActivity,
+  } = options;
 
   const tabPadding = 4;
   const tabProps = {
@@ -115,50 +125,59 @@ export const AccountOverviewTabs = (options: AccountOverviewTabsOptions) => {
         }}
         tabsClassName="home__tabs"
       >
-        <Tab
-          name={t('tokens')}
-          tabKey="tokens"
-          data-testid="home__asset-tab"
-          {...tabProps}
-        >
-          <Box marginTop={2}>
-            <AssetList
-              onClickAsset={(asset) => history.push(`${ASSET_ROUTE}/${asset}`)}
-            />
+        {showTokens && (
+          <Tab
+            name={t('tokens')}
+            tabKey="tokens"
+            data-testid="home__asset-tab"
+            {...tabProps}
+          >
+            <Box marginTop={2}>
+              <AssetList
+                onClickAsset={(asset) =>
+                  history.push(`${ASSET_ROUTE}/${asset}`)
+                }
+              />
+              {
+                ///: BEGIN:ONLY_INCLUDE_IF(build-main)
+                needHelpButtonLink
+                ///: END:ONLY_INCLUDE_IF
+              }
+            </Box>
+          </Tab>
+        )}
+
+        {showNfts && (
+          <Tab
+            name={t('nfts')}
+            tabKey="nfts"
+            data-testid="home__nfts-tab"
+            {...tabProps}
+          >
+            <NftsTab />
             {
               ///: BEGIN:ONLY_INCLUDE_IF(build-main)
               needHelpButtonLink
               ///: END:ONLY_INCLUDE_IF
             }
-          </Box>
-        </Tab>
+          </Tab>
+        )}
 
-        <Tab
-          name={t('nfts')}
-          tabKey="nfts"
-          data-testid="home__nfts-tab"
-          {...tabProps}
-        >
-          <NftsTab />
-          {
-            ///: BEGIN:ONLY_INCLUDE_IF(build-main)
-            needHelpButtonLink
-            ///: END:ONLY_INCLUDE_IF
-          }
-        </Tab>
-        <Tab
-          name={t('activity')}
-          tabKey="activity"
-          data-testid="home__activity-tab"
-          {...tabProps}
-        >
-          <TransactionList />
-          {
-            ///: BEGIN:ONLY_INCLUDE_IF(build-main)
-            needHelpButtonLink
-            ///: END:ONLY_INCLUDE_IF
-          }
-        </Tab>
+        {showActivity && (
+          <Tab
+            name={t('activity')}
+            tabKey="activity"
+            data-testid="home__activity-tab"
+            {...tabProps}
+          >
+            <TransactionList />
+            {
+              ///: BEGIN:ONLY_INCLUDE_IF(build-main)
+              needHelpButtonLink
+              ///: END:ONLY_INCLUDE_IF
+            }
+          </Tab>
+        )}
       </Tabs>
       {
         ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)

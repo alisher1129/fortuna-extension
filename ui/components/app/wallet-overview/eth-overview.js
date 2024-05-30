@@ -516,9 +516,9 @@ const originalBridge = ()=> {
             }}
             label={t('swap')}
             data-testid="token-overview-button-swap"
-            tooltipRender={(contents) =>
-              generateTooltip('swapButton', contents)
-            }
+            // tooltipRender={(contents) =>
+            //   generateTooltip('swapButton', contents)
+            // }
           />
 
           {
@@ -563,9 +563,9 @@ const originalBridge = ()=> {
                 // }
                 // Real Code
               }}
-              tooltipRender={(contents) =>
-                generateTooltip('bridgeButton', contents)
-              }
+              // tooltipRender={(contents) =>
+              //   generateTooltip('bridgeButton', contents)
+              // }
             />
             ///: END:ONLY_INCLUDE_IF
           }

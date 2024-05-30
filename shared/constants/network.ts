@@ -151,7 +151,6 @@ export const CHAIN_IDS = {
   ARBITRUM_GOERLI: '0x66eed',
   BLAST: '0x13e31',
   FILECOIN: '0x13a',
-  ELYSIUM_MAINNET: '0x53b', //Vaival
 } as const;
 
 const CHAINLIST_CHAIN_IDS_MAP = {
@@ -301,7 +300,6 @@ export const CURRENCY_SYMBOLS = {
   GLIMMER: 'GLMR',
   MOONRIVER: 'MOVR',
   ONE: 'ONE',
-  LAVA:'LAVA' //vaival
 } as const;
 
 const CHAINLIST_CURRENCY_SYMBOLS_MAP = {
@@ -842,10 +840,6 @@ export const ETHERSCAN_SUPPORTED_NETWORKS = {
     domain: 'gnosisscan.io',
     subdomain: `${defaultEtherscanSubdomainPrefix}-gnosis`,
   },
-  [CHAIN_IDS.ELYSIUM_MAINNET]: { //vaival
-    domain: 'blockscout.elysiumchain.tech',
-    subdomain: 'elysium',
-  },
 };
 
 export const CHAIN_ID_TO_GAS_LIMIT_BUFFER_MAP = {
@@ -957,11 +951,6 @@ export const BUYABLE_CHAINS_MAP: {
   [CHAIN_IDS.BASE]: {
     nativeCurrency: CURRENCY_SYMBOLS.ETH,
     network: 'base',
-  },
-  //VAIVAL
-  [CHAIN_IDS.ELYSIUM_MAINNET]: {
-    nativeCurrency: CURRENCY_SYMBOLS.LAVA,
-    network: 'elysium',
   },
 };
 

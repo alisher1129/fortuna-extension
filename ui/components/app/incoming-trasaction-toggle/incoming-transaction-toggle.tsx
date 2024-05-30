@@ -36,6 +36,7 @@ const IncomingTransactionToggle = ({
   const t = useContext(I18nContext);
 
 
+
 const [networkPreferences, setNetworkPreferences] = useState(
     generateIncomingNetworkPreferences(
       incomingTransactionsPreferences,
@@ -57,7 +58,6 @@ const [networkPreferences, setNetworkPreferences] = useState(
   const toggleSingleNetwork = (chainId: string, value: boolean): void => {
     setIncomingTransactionsPreferences(chainId, value);
   };
-  console.log("test=",networkPreferences )
 
   return (
     <Box ref={wrapperRef} className="mm-incoming-transaction-toggle">

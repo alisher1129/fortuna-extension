@@ -19,7 +19,7 @@ const AppLoadingSpinner = ({ className }) => {
       aria-busy="true"
     >
       <Spinner
-        color="var(--color-secondary-muted)"
+        color="var(--color-warning-muted)"
         className="app-loading-spinner__inner"
       />
     </div>

@@ -227,7 +227,7 @@ const EthOverview = ({ className, showAddress }) => {
                 />
               ) : (
                 <Spinner
-                  color="var(--color-secondary-default)"
+                  color="var(--color-warning-default)"
                   className="loading-overlay__spinner"
                 />
               )}

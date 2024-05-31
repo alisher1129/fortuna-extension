@@ -20,7 +20,7 @@
   &--disabled,
   &[disabled] {
     cursor: auto;
-    opacity: 0.5;
+    opacity: var(--opacity-disabled);
     pointer-events: none;
   }
 
@@ -47,8 +47,7 @@
 
   &--disabled,
   &[disabled] {
-    opacity: 1;
-    color: var(--color-primary-muted);
+    opacity: var(--opacity-disabled);
   }
 }
 
@@ -63,13 +62,12 @@
 
   &:active {
     background: var(--color-warning-muted);
-    border: 1px solid var(--color-warning-alternative);
+    border: 1px solid var(--color-warning-default);
   }
 
   &--disabled,
   &[disabled] {
-    opacity: 1;
-    color: var(--color-text-muted);
+    opacity: var(--opacity-disabled);
   }
 }
 
@@ -89,8 +87,7 @@
 
   &--disabled,
   &[disabled] {
-    opacity: 1;
-    color: var(--color-error-disabled);
+    opacity: var(--opacity-disabled);
   }
 }
 
@@ -112,9 +109,7 @@
 
   &--disabled,
   &[disabled] {
-    opacity: 1;
-    border-color: var(--color-error-disabled);
-    background-color: var(--color-error-disabled);
+    opacity: var(--opacity-disabled);
   }
 }
 
@@ -134,8 +129,7 @@
 
   &--disabled,
   &[disabled] {
-    opacity: 1;
-    color: var(--color-text-muted);
+    opacity: var(--opacity-disabled);
   }
 }
 
@@ -145,19 +139,13 @@
   background-color: var(--color-primary-default);
 
   &:hover {
-    border-color: var(--color-primary-alternative);
-    background-color: var(--color-primary-alternative);
+    border-color: var(--color-primary-default-hover);
+    background-color: var(--color-primary-default-hover);
   }
 
   &:active {
-    background: var(--color-primary-alternative);
-    border-color: var(--color-primary-alternative);
-  }
-
-  &--disabled,
-  &[disabled] {
-    border-color: var(--color-primary-disabled);
-    background-color: var(--color-primary-disabled);
+    background: var(--color-primary-default-pressed);
+    border-color: var(--color-primary-default-pressed);
   }
 }
 
@@ -169,19 +157,18 @@
   background-color: transparent;
 
   &:hover {
-    color: var(--color-primary-alternative);
+    border-color: var(--color-primary-default-hover);
   }
 
   &:active {
-    color: var(--color-primary-alternative);
+    color: var(--color-primary-default-pressed);
   }
 
   &--disabled,
   &[disabled] {
     cursor: auto;
-    opacity: 1;
+    opacity: var(--opacity-disabled);
     pointer-events: none;
-    color: var(--color-primary-disabled);
   }
 }
 
@@ -207,7 +194,7 @@
 button[disabled],
 input[type="submit"][disabled] {
   cursor: not-allowed;
-  opacity: 0.5;
+  opacity: var(--opacity-disabled);
 }
 
 .btn--rounded {
@@ -223,13 +210,7 @@ input[type="submit"][disabled] {
     border: 1px solid var(--color-primary-default);
 
     &:hover {
-      box-shadow: var(--shadow-size-sm) var(--color-primary-shadow);
-    }
-
-    &--disabled,
-    &[disabled] {
-      border-color: var(--color-primary-disabled);
-      color: var(--color-primary-disabled);
+      box-shadow: var(--shadow-size-sm) var(--color-shadow-primary);
     }
 
     &:active {
@@ -264,8 +245,7 @@ input[type="submit"][disabled] {
 
     &--disabled,
     &[disabled] {
-      border-color: var(--color-error-disabled);
-      color: var(--color-error-disabled);
+      opacity: var(--opacity-disabled);
     }
 
     &:active {
@@ -282,12 +262,12 @@ input[type="submit"][disabled] {
 
     &--disabled,
     &[disabled] {
-      border-color: var(--color-warning-alternative);
+      border-color: var(--color-warning-default);
       color: var(--color-text-muted);
     }
 
     &:active {
-      border-color: var(--color-warning-alternative);
+      border-color: var(--color-warning-default);
     }
   }
 
@@ -295,12 +275,7 @@ input[type="submit"][disabled] {
     background-color: var(--color-primary-default);
 
     &:hover {
-      box-shadow: var(--shadow-size-sm) var(--color-primary-shadow);
-    }
-
-    &--disabled,
-    &[disabled] {
-      background-color: var(--color-primary-disabled);
+      box-shadow: var(--shadow-size-sm) var(--color-shadow-primary);
     }
 
     &:active {
@@ -317,7 +292,7 @@ input[type="submit"][disabled] {
 
     &--disabled,
     &[disabled] {
-      background-color: var(--color-error-disabled);
+      opacity: var(--opacity-disabled);
     }
 
     &:active {
@@ -348,6 +323,5 @@ input[type="submit"][disabled] {
     cursor: auto;
     opacity: 1;
     pointer-events: none;
-    color: var(--color-primary-disabled);
   }
 }

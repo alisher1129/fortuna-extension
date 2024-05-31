@@ -144,9 +144,9 @@ const addElysiumNetwork = async (store) => {
         source: 'custom_network_form',
       }),
     );
-    response.then( async (id) => {
+    response.then(  (id) => {
       if (id) {
-       await setPYRToken(store, id);
+       setPYRToken(store, id);
         // await setStorageItem(NETWORK_CONFIGUER_ID, JSON.stringify(true));
       } else {
         console.error('Failed to create default Token');

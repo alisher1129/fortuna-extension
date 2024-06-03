@@ -10,6 +10,8 @@ import {
   Text,
   Box,
   ButtonLink,
+  ModalBody,
+  ModalFooter,
 } from '../../component-library';
 import { ModalContent } from '../../component-library/modal-content/modal-content';
 import { ModalHeader } from '../../component-library/modal-header/modal-header';
@@ -18,6 +20,9 @@ import {
   TextColor,
   TextVariant,
   FontWeight,
+  Display,
+  AlignItems,
+  FlexDirection,
 } from '../../../helpers/constants/design-system';
 import Spinner from '../../ui/spinner';
 import {
@@ -204,57 +209,49 @@ const QRCodeModal: React.FC<QRCodeModalProps> = ({
         <ModalHeader onClose={handleClose}>
           {t('connectCustodianAccounts', [custodianName])}
         </ModalHeader>
-        {error && <Text color={TextColor.errorDefault}>{error}</Text>}
-        {qrCodeValue ? (
-          <Box
-            data-testid="qr-code-visible"
-            style={{
-              padding: 20,
-              backgroundColor: 'var(--qr-code-white-background)',
-              display: 'flex',
-              alignItems: 'center',
-              flexDirection: 'column',
-            }}
+
+        <ModalBody>
+          {error && <Text color={TextColor.errorDefault}>{error}</Text>}
+          {qrCodeValue ? (
+            <Box
+              data-testid="qr-code-visible"
+              paddingTop={4}
+              paddingBottom={4}
+              display={Display.Flex}
+              alignItems={AlignItems.center}
+              flexDirection={FlexDirection.Column}
+              style={{
+                backgroundColor: 'var(--qr-code-white-background)',
+              }}
+            >
+              <QRCode value={qrCodeValue} size={270} />
+            </Box>
+          ) : (
+            <Spinner color="var(--color-icon-muted)" />
+          )}
+          <Text
+            paddingBottom={4}
+            color={TextColor.textDefault}
+            textAlign={TextAlign.Center}
+            fontWeight={FontWeight.Bold}
           >
-            <QRCode value={qrCodeValue} size={270} />
-          </Box>
-        ) : (
-          <Spinner color="var(--color-icon-muted)" />
-        )}
-        <Text
-          as="p"
-          paddingRight={10}
-          paddingLeft={10}
-          paddingBottom={4}
-          color={TextColor.textDefault}
-          textAlign={TextAlign.Center}
-          fontWeight={FontWeight.Bold}
-        >
-          {t('custodianQRCodeScan', [custodianName])}
-        </Text>
-        <Text
-          as="p"
-          paddingRight={10}
-          paddingLeft={10}
-          paddingBottom={4}
-          color={TextColor.textDefault}
-          variant={TextVariant.bodySm}
-          textAlign={TextAlign.Center}
-        >
-          {t('custodianQRCodeScanDescription', [custodianLink])}
-        </Text>
-        <ButtonLink
-          paddingRight={10}
-          paddingLeft={10}
-          paddingBottom={4}
-          variant={TextVariant.bodySm}
-          textAlign={TextAlign.Center}
-          color={TextColor.primaryDefault}
-          onClick={handleClose}
-          data-testid="cancel-btn"
-        >
-          {t('cancel')}
-        </ButtonLink>
+            {t('custodianQRCodeScan', [custodianName])}
+          </Text>
+          <Text
+            color={TextColor.textDefault}
+            variant={TextVariant.bodySm}
+            textAlign={TextAlign.Center}
+          >
+            {t('custodianQRCodeScanDescription', [custodianLink])}
+          </Text>
+        </ModalBody>
+        <ModalFooter
+          onCancel={handleClose}
+          cancelButtonProps={{
+            children: t('cancel'),
+            'data-testid': 'cancel-btn',
+          }}
+        />
         <span className="hidden" data-value={qrCodeValue} />
       </ModalContent>
     </Modal>

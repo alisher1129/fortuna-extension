@@ -23,6 +23,7 @@ import {
   Display,
   AlignItems,
   FlexDirection,
+  BorderColor,
 } from '../../../helpers/constants/design-system';
 import Spinner from '../../ui/spinner';
 import {
@@ -211,15 +212,23 @@ const QRCodeModal: React.FC<QRCodeModalProps> = ({
         </ModalHeader>
 
         <ModalBody>
-          {error && <Text color={TextColor.errorDefault}>{error}</Text>}
+          {error && (
+            <Text color={TextColor.errorDefault} variant={TextVariant.bodySm}>
+              {error}
+            </Text>
+          )}
           {qrCodeValue ? (
             <Box
               data-testid="qr-code-visible"
-              paddingTop={4}
-              paddingBottom={4}
+              paddingTop={6}
+              paddingBottom={6}
+              marginBottom={4}
+              marginTop={4}
               display={Display.Flex}
               alignItems={AlignItems.center}
               flexDirection={FlexDirection.Column}
+              borderColor={BorderColor.borderMuted}
+              borderWidth={1}
               style={{
                 backgroundColor: 'var(--qr-code-white-background)',
               }}

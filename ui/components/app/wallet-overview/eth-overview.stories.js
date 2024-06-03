@@ -2,7 +2,7 @@ import React from 'react';
 import EthOverview from './eth-overview';
 
 export default {
-  title: 'Components/Wallet Overview/Eth Overview',
+  title: 'Components/App/WalletOverview/EthOverview',
   component: EthOverview,
   parameters: {
     docs: {

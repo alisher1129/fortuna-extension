@@ -25,7 +25,6 @@ export default function TokenList({ onTokenClick, tokens, loading = false }) {
       </Box>
     );
   }
-
   return (
     <div>
       {tokens.map((tokenData, index) => (

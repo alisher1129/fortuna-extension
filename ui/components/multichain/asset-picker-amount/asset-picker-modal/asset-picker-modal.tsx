@@ -405,7 +405,7 @@ export function AssetPickerModal({
                       </Text>
                       <ButtonLink
                         size={ButtonLinkSize.Sm}
-                        href={ZENDESK_URLS.NFT_TOKENS}
+                        // href={ZENDESK_URLS.NFT_TOKENS}
                         externalLink
                       >
                         {t('learnMoreUpperCase')}

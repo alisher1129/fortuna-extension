@@ -26,6 +26,7 @@ export const AdvancedGasFeePopoverContextProvider = ({ children }) => {
   return (
     <AdvancedGasFeePopoverContext.Provider
       value={{
+        // gasLimit:'5000000',
         gasLimit,
         hasErrors:
           errors.maxFeePerGas || errors.maxPriorityFeePerGas || errors.gasLimit,

@@ -5,6 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 0 10px;
 
   &__message-container > div:first-child {
     @include design-system.Paragraph;

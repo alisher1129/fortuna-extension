@@ -1,4 +1,5 @@
-import React, { useContext } from 'react';
+// import React, { useContext } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Typography from '../../../components/ui/typography/typography';
@@ -17,13 +18,13 @@ import {
   getFirstTimeFlowTypeRouteAfterMetaMetricsOptIn,
 } from '../../../selectors';
 
-import {
-  MetaMetricsEventAccountType,
-  MetaMetricsEventCategory,
-  MetaMetricsEventName,
-} from '../../../../shared/constants/metametrics';
+// import {
+//   MetaMetricsEventAccountType,
+//   MetaMetricsEventCategory,
+//   MetaMetricsEventName,
+// } from '../../../../shared/constants/metametrics';
 
-import { MetaMetricsContext } from '../../../contexts/metametrics';
+// import { MetaMetricsContext } from '../../../contexts/metametrics';
 import {
   Icon,
   IconName,
@@ -32,7 +33,7 @@ import {
 import { PRIVACY_POLICY_DATE } from '../../../helpers/constants/privacy-policy';
 
 import Box from '../../../components/ui/box/box';
-import { FirstTimeFlowType } from '../../../../shared/constants/onboarding';
+// import { FirstTimeFlowType } from '../../../../shared/constants/onboarding';
 
 export default function OnboardingMetametrics() {
   const t = useI18nContext();
@@ -45,32 +46,32 @@ export default function OnboardingMetametrics() {
   const nextRoute = useSelector(getFirstTimeFlowTypeRouteAfterMetaMetricsOptIn);
   const firstTimeFlowType = useSelector(getFirstTimeFlowType);
 
-  const trackEvent = useContext(MetaMetricsContext);
+  // const trackEvent = useContext(MetaMetricsContext);
 
-  const onConfirm = async () => {
-    const [, metaMetricsId] = await dispatch(setParticipateInMetaMetrics(true));
-    try {
-      trackEvent(
-        {
-          category: MetaMetricsEventCategory.Onboarding,
-          event: MetaMetricsEventName.WalletSetupStarted,
-          properties: {
-            account_type:
-              firstTimeFlowType === FirstTimeFlowType.create
-                ? MetaMetricsEventAccountType.Default
-                : MetaMetricsEventAccountType.Imported,
-          },
-        },
-        {
-          isOptIn: true,
-          metaMetricsId,
-          flushImmediately: true,
-        },
-      );
-    } finally {
-      history.push(nextRoute);
-    }
-  };
+  // const onConfirm = async () => {
+  //   const [, metaMetricsId] = await dispatch(setParticipateInMetaMetrics(true));
+  //   try {
+  //     trackEvent(
+  //       {
+  //         category: MetaMetricsEventCategory.Onboarding,
+  //         event: MetaMetricsEventName.WalletSetupStarted,
+  //         properties: {
+  //           account_type:
+  //             firstTimeFlowType === FirstTimeFlowType.create
+  //               ? MetaMetricsEventAccountType.Default
+  //               : MetaMetricsEventAccountType.Imported,
+  //         },
+  //       },
+  //       {
+  //         isOptIn: true,
+  //         metaMetricsId,
+  //         flushImmediately: true,
+  //       },
+  //     );
+  //   } finally {
+  //     history.push(nextRoute);
+  //   }
+  // };
 
   const onCancel = async () => {
     await dispatch(setParticipateInMetaMetrics(false));

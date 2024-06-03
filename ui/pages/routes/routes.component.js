@@ -226,18 +226,27 @@ export default class Routes extends Component {
 
   getTheme() {
     const { theme } = this.props;
+    const defaultTheme =  ThemeType.dark;
+
     if (theme === ThemeType.os) {
       if (window?.matchMedia('(prefers-color-scheme: dark)')?.matches) {
         return ThemeType.dark;
       }
-      return ThemeType.light;
+      // return ThemeType.light;
+      return ThemeType.dark;
+
     }
-    return theme;
+    // return theme;
+    // return ThemeType.dark;
+    return defaultTheme;
+
   }
 
   setTheme() {
     const theme = this.getTheme();
     document.documentElement.setAttribute('data-theme', theme);
+    // document.documentElement.setAttribute('data-theme', defaultTheme);
+
   }
 
   componentDidMount() {

@@ -177,7 +177,7 @@ export default function PrivacySettings() {
                 {t('jsDeliver')}
               </a>,
               <a
-                href="https://www.jsdelivr.com/terms/privacy-policy-jsdelivr-com"
+                // href="https://www.jsdelivr.com/terms/privacy-policy-jsdelivr-com"
                 target="_blank"
                 rel="noreferrer"
                 key="privacyMsg"
@@ -211,7 +211,7 @@ export default function PrivacySettings() {
               <>
                 {t('onboardingAdvancedPrivacyNetworkDescription', [
                   <a
-                    href="https://consensys.io/privacy-policy/"
+                    // href="https://consensys.io/privacy-policy/"
                     key="link"
                     target="_blank"
                     rel="noopener noreferrer"

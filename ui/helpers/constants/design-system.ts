@@ -60,6 +60,8 @@ export enum Color {
 }
 
 export enum BackgroundColor {
+  customBackgroundColor1 = '#fff',
+
   backgroundDefault = 'background-default',
   backgroundAlternative = 'background-alternative',
   overlayDefault = 'overlay-default',

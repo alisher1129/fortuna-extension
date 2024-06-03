@@ -61,7 +61,7 @@ import { AssetType } from '../../../../shared/constants/transaction';
 import { Icon, IconName } from '../../component-library';
 import { IconColor } from '../../../helpers/constants/design-system';
 ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
-import useRamps from '../../../hooks/experiences/useRamps';
+// import useRamps from '../../../hooks/experiences/useRamps';
 import { getPortfolioUrl } from '../../../helpers/utils/portfolio';
 ///: END:ONLY_INCLUDE_IF
 import { useIsOriginalNativeTokenSymbol } from '../../../hooks/useIsOriginalNativeTokenSymbol';
@@ -94,7 +94,6 @@ const EthOverview = ({ className, showAddress }) => {
     ticker,
     type,
   );
-
   const account = useSelector(getSelectedInternalAccount);
   const isSwapsChain = useSelector(getIsSwapsChain);
   const isSigningEnabled =
@@ -189,8 +188,160 @@ const EthOverview = ({ className, showAddress }) => {
   ///: END:ONLY_INCLUDE_IF
 
   ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
-  const { openBuyCryptoInPdapp } = useRamps();
+  // const { openBuyCryptoInPdapp } = useRamps();
   ///: END:ONLY_INCLUDE_IF
+
+  // function to change URLs according to Connect ChainId Vaival
+
+
+
+
+
+
+
+  // function setBridge() {
+  //   if (chainId === '0x53b') {
+  //     const portfolioUrl = 'https://bridge.elysiumchain.tech/';
+  //     global.platform.openTab({
+  //       url: `${portfolioUrl}${
+  //         location.pathname.includes('asset') ? '&token=native' : ''
+  //       }`,
+  //     });
+  //   } else {
+  //     if (isBridgeChain) {
+  //       const portfolioUrl = getPortfolioUrl(
+  //         'bridge',
+  //         'ext_bridge_button',
+  //         metaMetricsId,
+  //       );
+  //       global.platform.openTab({
+  //         url: `${portfolioUrl}${
+  //           location.pathname.includes('asset') ? '&token=native' : ''
+  //         }`,
+  //       });
+  //       trackEvent({
+  //         category: MetaMetricsEventCategory.Navigation,
+  //         event: MetaMetricsEventName.BridgeLinkClicked,
+  //         properties: {
+  //           location: 'Home',
+  //           text: 'Bridge',
+  //           chain_id: chainId,
+  //           token_symbol: 'ETH',
+  //         },
+  //       });
+  //     }
+
+  //   }
+  // }
+  // function setSwap() {
+  //   if (chainId === '0x53b') {
+  //     global.platform.openTab({
+  //       url: `https://swap.elysiumchain.tech/`,
+  //     });
+  //   } else {
+  //     ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
+  //     global.platform.openTab({
+  //       url: `${mmiPortfolioUrl}/swap`,
+  //     });
+  //     ///: END:ONLY_INCLUDE_IF
+
+  //     ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
+  //     if (isSwapsChain) {
+  //       trackEvent({
+  //         event: MetaMetricsEventName.NavSwapButtonClicked,
+  //         category: MetaMetricsEventCategory.Swaps,
+  //         properties: {
+  //           token_symbol: 'ETH',
+  //           location: MetaMetricsSwapsEventSource.MainView,
+  //           text: 'Swap',
+  //           chain_id: chainId,
+  //         },
+  //       });
+  //       dispatch(setSwapsFromToken(defaultSwapsToken));
+  //       if (usingHardwareWallet) {
+  //         global.platform.openExtensionInBrowser(BUILD_QUOTE_ROUTE);
+  //       } else {
+  //         history.push(BUILD_QUOTE_ROUTE);
+  //       }
+  //     }
+  //     ///: END:ONLY_INCLUDE_IF
+
+  //   }
+  // }
+
+ const LavaSwap = ()=> {
+  global.platform.openTab({
+          url: `https://swap.elysiumchain.tech/`,
+        });
+
+ }
+
+const originalSwap = ()=>{
+   ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
+      global.platform.openTab({
+        url: `${mmiPortfolioUrl}/swap`,
+      });
+      ///: END:ONLY_INCLUDE_IF
+
+      ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
+      if (isSwapsChain) {
+        trackEvent({
+          event: MetaMetricsEventName.NavSwapButtonClicked,
+          category: MetaMetricsEventCategory.Swaps,
+          properties: {
+            token_symbol: 'ETH',
+            location: MetaMetricsSwapsEventSource.MainView,
+            text: 'Swap',
+            chain_id: chainId,
+          },
+        });
+        dispatch(setSwapsFromToken(defaultSwapsToken));
+        if (usingHardwareWallet) {
+          global.platform.openExtensionInBrowser(BUILD_QUOTE_ROUTE);
+        } else {
+          history.push(BUILD_QUOTE_ROUTE);
+        }
+      }
+      ///: END:ONLY_INCLUDE_IF
+
+}
+
+ const setSwap = chainId === '0x53b' ? LavaSwap : originalSwap;
+
+const LavaBridge = ()=>{
+  const portfolioUrl = 'https://bridge.elysiumchain.tech/';
+  global.platform.openTab({
+    url: `${portfolioUrl}${
+      location.pathname.includes('asset') ? '&token=native' : ''
+    }`,
+  });
+}
+
+const originalBridge = ()=> {
+  if (isBridgeChain) {
+    const portfolioUrl = getPortfolioUrl(
+      'bridge',
+      'ext_bridge_button',
+      metaMetricsId,
+    );
+    global.platform.openTab({
+      url: `${portfolioUrl}${
+        location.pathname.includes('asset') ? '&token=native' : ''
+      }`,
+    });
+    trackEvent({
+      category: MetaMetricsEventCategory.Navigation,
+      event: MetaMetricsEventName.BridgeLinkClicked,
+      properties: {
+        location: 'Home',
+        text: 'Bridge',
+        chain_id: chainId,
+        token_symbol: 'ETH',
+      },
+    });
+  }
+}
+ const setBridge = chainId === '0x53b' ? LavaBridge : originalBridge;
 
   return (
     <WalletOverview
@@ -252,34 +403,34 @@ const EthOverview = ({ className, showAddress }) => {
         <>
           {
             ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
-            <IconButton
-              className="eth-overview__button"
-              Icon={
-                <Icon
-                  name={IconName.PlusMinus}
-                  color={IconColor.primaryInverse}
-                />
-              }
-              disabled={!isBuyableChain || !isSigningEnabled}
-              data-testid="eth-overview-buy"
-              label={t('buyAndSell')}
-              onClick={() => {
-                openBuyCryptoInPdapp();
-                trackEvent({
-                  event: MetaMetricsEventName.NavBuyButtonClicked,
-                  category: MetaMetricsEventCategory.Navigation,
-                  properties: {
-                    location: 'Home',
-                    text: 'Buy',
-                    chain_id: chainId,
-                    token_symbol: defaultSwapsToken,
-                  },
-                });
-              }}
-              tooltipRender={(contents) =>
-                generateTooltip('buyButton', contents)
-              }
-            />
+            // <IconButton
+            //   className="eth-overview__button"
+            //   Icon={
+            //     <Icon
+            //       name={IconName.PlusMinus}
+            //       color={IconColor.primaryInverse}
+            //     />
+            //   }
+            //   disabled={!isBuyableChain || !isSigningEnabled}
+            //   data-testid="eth-overview-buy"
+            //   label={t('buyAndSell')}
+            //   onClick={() => {
+            //     openBuyCryptoInPdapp();
+            //     trackEvent({
+            //       event: MetaMetricsEventName.NavBuyButtonClicked,
+            //       category: MetaMetricsEventCategory.Navigation,
+            //       properties: {
+            //         location: 'Home',
+            //         text: 'Buy',
+            //         chain_id: chainId,
+            //         token_symbol: defaultSwapsToken,
+            //       },
+            //     });
+            //   }}
+            //   tooltipRender={(contents) =>
+            //     generateTooltip('buyButton', contents)
+            //   }
+            // />
             ///: END:ONLY_INCLUDE_IF
           }
 
@@ -321,9 +472,12 @@ const EthOverview = ({ className, showAddress }) => {
               generateTooltip('sendButton', contents)
             }
           />
+
           <IconButton
             className="eth-overview__button"
-            disabled={!isSwapsChain || !isSigningEnabled}
+            disabled={
+              (!isSwapsChain || !isSigningEnabled) && chainId !== '0x53b'
+            }
             Icon={
               <Icon
                 name={IconName.SwapHorizontal}
@@ -331,110 +485,122 @@ const EthOverview = ({ className, showAddress }) => {
               />
             }
             onClick={() => {
-              ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
-              global.platform.openTab({
-                url: `${mmiPortfolioUrl}/swap`,
-              });
-              ///: END:ONLY_INCLUDE_IF
+              // setSwap();
+              setSwap()
+              // ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
+              // global.platform.openTab({
+              //   url: `${mmiPortfolioUrl}/swap`,
+              // });
+              // ///: END:ONLY_INCLUDE_IF
 
-              ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
-              if (isSwapsChain) {
-                trackEvent({
-                  event: MetaMetricsEventName.NavSwapButtonClicked,
-                  category: MetaMetricsEventCategory.Swaps,
-                  properties: {
-                    token_symbol: 'ETH',
-                    location: MetaMetricsSwapsEventSource.MainView,
-                    text: 'Swap',
-                    chain_id: chainId,
-                  },
-                });
-                dispatch(setSwapsFromToken(defaultSwapsToken));
-                if (usingHardwareWallet) {
-                  global.platform.openExtensionInBrowser(BUILD_QUOTE_ROUTE);
-                } else {
-                  history.push(BUILD_QUOTE_ROUTE);
-                }
-              }
-              ///: END:ONLY_INCLUDE_IF
+              // ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
+              // if (isSwapsChain) {
+              //   trackEvent({
+              //     event: MetaMetricsEventName.NavSwapButtonClicked,
+              //     category: MetaMetricsEventCategory.Swaps,
+              //     properties: {
+              //       token_symbol: 'ETH',
+              //       location: MetaMetricsSwapsEventSource.MainView,
+              //       text: 'Swap',
+              //       chain_id: chainId,
+              //     },
+              //   });
+              //   dispatch(setSwapsFromToken(defaultSwapsToken));
+              //   if (usingHardwareWallet) {
+              //     global.platform.openExtensionInBrowser(BUILD_QUOTE_ROUTE);
+              //   } else {
+              //     history.push(BUILD_QUOTE_ROUTE);
+              //   }
+              // }
+              // ///: END:ONLY_INCLUDE_IF
             }}
             label={t('swap')}
             data-testid="token-overview-button-swap"
-            tooltipRender={(contents) =>
-              generateTooltip('swapButton', contents)
-            }
+            // tooltipRender={(contents) =>
+            //   generateTooltip('swapButton', contents)
+            // }
           />
+
           {
             ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
             <IconButton
               className="eth-overview__button"
-              disabled={!isBridgeChain || !isSigningEnabled}
+              // disabled={!isBridgeChain || !isSigningEnabled  }
+              disabled={
+                (!isBridgeChain || !isSigningEnabled) && chainId !== '0x53b'
+              }
               data-testid="eth-overview-bridge"
               Icon={
                 <Icon name={IconName.Bridge} color={IconColor.primaryInverse} />
               }
               label={t('bridge')}
               onClick={() => {
-                if (isBridgeChain) {
-                  const portfolioUrl = getPortfolioUrl(
-                    'bridge',
-                    'ext_bridge_button',
-                    metaMetricsId,
-                  );
-                  global.platform.openTab({
-                    url: `${portfolioUrl}${
-                      location.pathname.includes('asset') ? '&token=native' : ''
-                    }`,
-                  });
-                  trackEvent({
-                    category: MetaMetricsEventCategory.Navigation,
-                    event: MetaMetricsEventName.BridgeLinkClicked,
-                    properties: {
-                      location: 'Home',
-                      text: 'Bridge',
-                      chain_id: chainId,
-                      token_symbol: 'ETH',
-                    },
-                  });
-                }
+                // Have added this function for bridge
+                setBridge()
+                // Real code
+                // if (isBridgeChain) {
+                //   const portfolioUrl =
+                //    getPortfolioUrl(
+                //     'bridge',
+                //     'ext_bridge_button',
+                //     metaMetricsId,
+                //   );
+                //   global.platform.openTab({
+                //     url: `${portfolioUrl}${
+                //       location.pathname.includes('asset') ? '&token=native' : ''
+                //     }`,
+                //   });
+                //   trackEvent({
+                //     category: MetaMetricsEventCategory.Navigation,
+                //     event: MetaMetricsEventName.BridgeLinkClicked,
+                //     properties: {
+                //       location: 'Home',
+                //       text: 'Bridge',
+                //       chain_id: chainId,
+                //       token_symbol: 'ETH',
+                //     },
+                //   });
+                // }
+                // Real Code
               }}
-              tooltipRender={(contents) =>
-                generateTooltip('bridgeButton', contents)
-              }
+              // tooltipRender={(contents) =>
+              //   generateTooltip('bridgeButton', contents)
+              // }
             />
             ///: END:ONLY_INCLUDE_IF
           }
           {
             ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
-            <IconButton
-              className="eth-overview__button"
-              data-testid="eth-overview-portfolio"
-              Icon={
-                <Icon
-                  name={IconName.Diagram}
-                  color={IconColor.primaryInverse}
-                />
-              }
-              label={t('portfolio')}
-              onClick={() => {
-                const url = getPortfolioUrl(
-                  '',
-                  'ext_portfolio_button',
-                  metaMetricsId,
-                );
-                global.platform.openTab({ url });
-                trackEvent({
-                  category: MetaMetricsEventCategory.Navigation,
-                  event: MetaMetricsEventName.PortfolioLinkClicked,
-                  properties: {
-                    location: 'Home',
-                    text: 'Portfolio',
-                    chain_id: chainId,
-                    token_symbol: 'ETH',
-                  },
-                });
-              }}
-            />
+            // <IconButton
+            //   className="eth-overview__button"
+            //   disabled={chainId === '0x53b'}
+            //   data-testid="eth-overview-portfolio"
+            //   Icon={
+            //     <Icon
+            //       name={IconName.Diagram}
+            //       color={IconColor.primaryInverse}
+            //     />
+            //   }
+            //   label={t('portfolio')}
+            //   onClick={() => {
+            //     const url = getPortfolioUrl(
+            //       '',
+            //       'ext_portfolio_button',
+            //       metaMetricsId,
+            //     );
+            //     global.platform.openTab({ url });
+            //     trackEvent({
+            //       category: MetaMetricsEventCategory.Navigation,
+            //       event: MetaMetricsEventName.PortfolioLinkClicked,
+            //       properties: {
+            //         location: 'Home',
+            //         text: 'Portfolio',
+            //         chain_id: chainId,
+            //         token_symbol: 'ETH',
+            //       },
+            //     });
+            //   }}
+            // />
             ///: END:ONLY_INCLUDE_IF
           }
         </>

@@ -27,7 +27,7 @@ import {
   TransactionMetaMetricsEvent,
 } from '../../../shared/constants/transaction';
 
-const EXTENSION_UNINSTALL_URL = 'https://metamask.io/uninstalled';
+// const EXTENSION_UNINSTALL_URL = 'https://metamask.io/uninstalled';
 
 export const overrideAnonymousEventNames = {
   [TransactionMetaMetricsEvent.added]:
@@ -430,14 +430,14 @@ export default class MetaMetricsController {
       query.env = this.environment;
       query.av = this.version;
     }
-    const queryString = new URLSearchParams(query);
+    // const queryString = new URLSearchParams(query);
 
     // this.extension not currently defined in tests
-    if (this.extension && this.extension.runtime) {
-      this.extension.runtime.setUninstallURL(
-        `${EXTENSION_UNINSTALL_URL}?${queryString}`,
-      );
-    }
+    // if (this.extension && this.extension.runtime) {
+    //   this.extension.runtime.setUninstallURL(
+    //     `${EXTENSION_UNINSTALL_URL}?${queryString}`,
+    //   );
+    // }
   }
 
   /**

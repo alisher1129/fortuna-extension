@@ -16,7 +16,7 @@ import {
 } from '../../../helpers/constants/design-system';
 import { ONBOARDING_CREATE_PASSWORD_ROUTE } from '../../../helpers/constants/routes';
 import { useI18nContext } from '../../../hooks/useI18nContext';
-import ZENDESK_URLS from '../../../helpers/constants/zendesk-url';
+// import ZENDESK_URLS from '../../../helpers/constants/zendesk-url';
 import SrpInput from '../../../components/app/srp-input';
 import { getCurrentKeyring } from '../../../selectors';
 import { MetaMetricsContext } from '../../../contexts/metametrics';
@@ -58,7 +58,7 @@ export default function ImportSRP({ submitSecretRecoveryPhrase }) {
             <a
               key="learnMore"
               type="link"
-              href={ZENDESK_URLS.SECRET_RECOVERY_PHRASE}
+              // href={ZENDESK_URLS.SECRET_RECOVERY_PHRASE}
               target="_blank"
               rel="noopener noreferrer"
             >

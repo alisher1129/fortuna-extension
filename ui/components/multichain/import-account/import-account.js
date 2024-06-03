@@ -17,7 +17,7 @@ import {
   Size,
   TextVariant,
 } from '../../../helpers/constants/design-system';
-import ZENDESK_URLS from '../../../helpers/constants/zendesk-url';
+// import ZENDESK_URLS from '../../../helpers/constants/zendesk-url';
 import { useI18nContext } from '../../../hooks/useI18nContext';
 import * as actions from '../../../store/actions';
 
@@ -121,7 +121,7 @@ export const ImportAccount = ({ onActionComplete }) => {
         {t('importAccountMsg')}{' '}
         <ButtonLink
           size={Size.inherit}
-          href={ZENDESK_URLS.IMPORTED_ACCOUNTS}
+          // href={ZENDESK_URLS.IMPORTED_ACCOUNTS}
           target="_blank"
           rel="noopener noreferrer"
         >

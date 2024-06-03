@@ -24,7 +24,7 @@ import {
   getNumberOfSettingRoutesInTab,
   handleSettingsRefs,
 } from '../../../helpers/utils/settings-search';
-import { ThemeType } from '../../../../shared/constants/preferences';
+// import { ThemeType } from '../../../../shared/constants/preferences';
 import { Text, Box } from '../../../components/component-library';
 
 const sortedCurrencies = availableCurrencies.sort((a, b) => {
@@ -375,62 +375,63 @@ export default class SettingsTab extends PureComponent {
     );
   }
 
-  renderTheme() {
-    const { t } = this.context;
-    const { theme, setTheme } = this.props;
+  // renderTheme() {
+  //   const { t } = this.context;
+  //   const { theme, setTheme } = this.props;
 
-    const themesOptions = [
-      {
-        name: t('lightTheme'),
-        value: ThemeType.light,
-      },
-      {
-        name: t('darkTheme'),
-        value: ThemeType.dark,
-      },
-      {
-        name: t('osTheme'),
-        value: ThemeType.os,
-      },
-    ];
+  //   const themesOptions = [
+  //     {
+  //       name: t('lightTheme'),
+  //       value: ThemeType.light,
+  //     },
+  //     {
+  //       name: t('darkTheme'),
+  //       value: ThemeType.dark,
+  //     },
+  //     {
+  //       name: t('osTheme'),
+  //       value: ThemeType.os,
+  //     },
+  //   ];
 
-    const onChange = (newTheme) => {
-      this.context.trackEvent({
-        category: MetaMetricsEventCategory.Settings,
-        event: 'Theme Changed',
-        properties: {
-          theme_selected: newTheme,
-        },
-      });
-      setTheme(newTheme);
-    };
+  //   const onChange = (newTheme) => {
+  //     this.context.trackEvent({
+  //       category: MetaMetricsEventCategory.Settings,
+  //       event: 'Theme Changed',
+  //       properties: {
+  //         theme_selected: newTheme,
+  //       },
+  //     });
+  //     setTheme(newTheme);
+  //   };
 
-    return (
-      <Box
-        ref={this.settingsRefs[3]}
-        className="settings-page__content-row"
-        display={Display.Flex}
-        flexDirection={FlexDirection.Column}
-      >
-        <div className="settings-page__content-item">
-          <span>{this.context.t('theme')}</span>
-          <div className="settings-page__content-description">
-            {this.context.t('themeDescription')}
-          </div>
-        </div>
-        <div className="settings-page__content-item">
-          <div className="settings-page__content-item-col">
-            <Dropdown
-              id="select-theme"
-              options={themesOptions}
-              selectedOption={theme}
-              onChange={onChange}
-            />
-          </div>
-        </div>
-      </Box>
-    );
-  }
+  //   return (
+  //     <Box
+  //       ref={this.settingsRefs[3]}
+  //       className="settings-page__content-row"
+  //       display={Display.Flex}
+  //       flexDirection={FlexDirection.Column}
+  //     >
+  //       <div className="settings-page__content-item">
+  //         <span>{this.context.t('theme')}</span>
+  //         <div className="settings-page__content-description">
+  //           {this.context.t('themeDescription')}
+  //         </div>
+  //       </div>
+  //       <div className="settings-page__content-item">
+  //         <div className="settings-page__content-item-col">
+  //           <Dropdown
+  //             id="select-theme"
+  //             options={themesOptions}
+  //             selectedOption={theme}
+  //             // selectedOption={ThemeType.dark}
+  //             onChange={onChange}
+  //           />
+  //         </div>
+  //       </div>
+  //     </Box>
+  //   );
+  // }
 
   render() {
     const { warning } = this.props;
@@ -441,7 +442,7 @@ export default class SettingsTab extends PureComponent {
         {this.renderCurrentConversion()}
         {this.renderUsePrimaryCurrencyOptions()}
         {this.renderCurrentLocale()}
-        {this.renderTheme()}
+        {/* {this.renderTheme()} */}
         {this.renderBlockieOptIn()}
         {this.renderHideZeroBalanceTokensOptIn()}
       </div>

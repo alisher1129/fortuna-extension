@@ -64,6 +64,8 @@ export function useCurrencyDisplay(
   const conversionRate = useSelector(getConversionRate);
   const isUserPreferredCurrency = currency === currentCurrency;
 
+
+
   const value = useMemo(() => {
     if (displayValue) {
       return displayValue;
@@ -78,9 +80,17 @@ export function useCurrencyDisplay(
         .toBase(10)
         .toString();
 
+
+
+
+
+
+
       return ethDisplayValue === '0' && inputValue && Number(inputValue) !== 0
         ? MIN_AMOUNT_DISPLAY
         : ethDisplayValue;
+
+
     } else if (isUserPreferredCurrency && conversionRate) {
       return formatCurrency(
         getValueFromWeiHex({
@@ -106,6 +116,9 @@ export function useCurrencyDisplay(
     isUserPreferredCurrency,
   ]);
 
+
+
+
   let suffix;
 
   if (!opts.hideLabel) {
@@ -119,7 +132,7 @@ export function useCurrencyDisplay(
 
     suffix = opts.suffix || currencyTickerSymbol;
   }
-
+// return []
   return [
     `${prefix || ''}${value}${suffix ? ` ${suffix}` : ''}`,
     { prefix, value, suffix },

@@ -10,7 +10,7 @@ import CreateNewVault from '../../components/app/create-new-vault';
 import Button from '../../components/ui/button';
 import Box from '../../components/ui/box';
 import Typography from '../../components/ui/typography';
-import ZENDESK_URLS from '../../helpers/constants/zendesk-url';
+// import ZENDESK_URLS from '../../helpers/constants/zendesk-url';
 import {
   TextColor,
   TypographyVariant,
@@ -89,7 +89,7 @@ class RestoreVaultPage extends Component {
                   type="link"
                   target="_blank"
                   rel="noopener noreferrer"
-                  href={ZENDESK_URLS.ADD_MISSING_ACCOUNTS}
+                  // href={ZENDESK_URLS.ADD_MISSING_ACCOUNTS}
                   key="import-account-secretphase"
                   className="import-account__link"
                 >
@@ -99,7 +99,7 @@ class RestoreVaultPage extends Component {
                   type="link"
                   target="_blank"
                   rel="noopener noreferrer"
-                  href={ZENDESK_URLS.IMPORT_ACCOUNTS}
+                  // href={ZENDESK_URLS.IMPORT_ACCOUNTS}
                   key="import-account-reimport-accounts"
                   className="import-account__link"
                 >
@@ -109,7 +109,7 @@ class RestoreVaultPage extends Component {
                   type="link"
                   target="_blank"
                   rel="noopener noreferrer"
-                  href={ZENDESK_URLS.ADD_CUSTOM_TOKENS}
+                  // href={ZENDESK_URLS.ADD_CUSTOM_TOKENS}
                   key="import-account-readd-tokens"
                   className="import-account__link"
                 >

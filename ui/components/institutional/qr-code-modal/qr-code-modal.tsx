@@ -219,7 +219,7 @@ const QRCodeModal: React.FC<QRCodeModalProps> = ({
             <QRCode value={qrCodeValue} size={270} />
           </Box>
         ) : (
-          <Spinner color="var(--color-warning-default)" />
+          <Spinner color="var(--color-icon-muted)" />
         )}
         <Text
           as="p"

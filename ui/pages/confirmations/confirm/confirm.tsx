@@ -36,7 +36,7 @@ const Confirm = () => {
           <MMISignatureMismatchBanner />
           ///: END:ONLY_INCLUDE_IF
         }
-        <ScrollToBottom>
+        <ScrollToBottom showAdvancedDetails={showAdvancedDetails}>
           <LedgerInfo />
           <Title />
           <Info showAdvancedDetails={showAdvancedDetails} />

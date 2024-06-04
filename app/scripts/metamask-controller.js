@@ -223,6 +223,7 @@ import {
   getSmartTransactionsOptInStatus,
   getCurrentChainSupportsSmartTransactions,
 } from '../../shared/modules/selectors';
+import { BalancesController } from './lib/accounts/BalancesController';
 import {
   ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
   handleMMITransactionUpdate,
@@ -627,15 +628,14 @@ export default class MetamaskController extends EventEmitter {
       },
       state: initState.TokensController,
     });
-    // TODO: Remove once `TokensController` is upgraded to extend from `BaseControllerV2`
-    this.controllerMessenger.registerActionHandler(
-      'TokensController:getState',
-      () => this.tokensController.state,
-    );
 
     const nftControllerMessenger = this.controllerMessenger.getRestricted({
       name: 'NftController',
       allowedActions: [`${this.approvalController.name}:addRequest`],
+      allowedEvents: [
+        'PreferencesController:stateChange',
+        'NetworkController:networkDidChange',
+      ],
     });
     this.nftController = new NftController(
       {
@@ -896,6 +896,26 @@ export default class MetamaskController extends EventEmitter {
       messenger: accountsControllerMessenger,
       state: initState.AccountsController,
     });
+
+    const balancesControllerMessenger = this.controllerMessenger.getRestricted({
+      name: 'BalancesController',
+      allowedEvents: [],
+      allowedActions: [
+        'SnapController:handleRequest',
+        'AccountsController:getAccount',
+        'BalancesController:getBalances',
+      ],
+    });
+
+    this.balancesController = new BalancesController({
+      messenger: balancesControllerMessenger,
+      state: {},
+    });
+
+    this.balancesController.#getBalances(
+      'e60c50dc-0d57-41e6-adc5-78ccd1ca3542',
+      ['asset1'],
+    );
 
     // token exchange rate tracker
     this.tokenRatesController = new TokenRatesController(
@@ -2141,6 +2161,7 @@ export default class MetamaskController extends EventEmitter {
     };
 
     this.store.updateStructure({
+      BalancesController: this.balancesController,
       AccountsController: this.accountsController,
       AppStateController: this.appStateController.store,
       AppMetadataController: this.appMetadataController.store,

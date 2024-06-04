@@ -21,6 +21,8 @@ import {
   SEND_ROUTE,
   ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
   BUILD_QUOTE_ROUTE,
+  CROSS_CHAIN_SWAP_ROUTE,
+  PREPARE_SWAP_ROUTE,
   ///: END:ONLY_INCLUDE_IF
 } from '../../../helpers/constants/routes';
 import Tooltip from '../../ui/tooltip';
@@ -380,17 +382,31 @@ const EthOverview = ({ className, showAddress }) => {
               }
               label={t('bridge')}
               onClick={() => {
+                // TODO read feature flags and update metrics
+                // if (isBridgeChain) {
+                //   const portfolioUrl = getPortfolioUrl(
+                //     'bridge',
+                //     'ext_bridge_button',
+                //     metaMetricsId,
+                //   );
+                //   global.platform.openTab({
+                //     url: `${portfolioUrl}${
+                //       location.pathname.includes('asset') ? '&token=native' : ''
+                //     }`,
+                //   });
+                //   trackEvent({
+                //     category: MetaMetricsEventCategory.Navigation,
+                //     event: MetaMetricsEventName.BridgeLinkClicked,
+                //     properties: {
+                //       location: 'Home',
+                //       text: 'Bridge',
+                //       chain_id: chainId,
+                //       token_symbol: 'ETH',
+                //     },
+                //   });
+                // }
+
                 if (isBridgeChain) {
-                  const portfolioUrl = getPortfolioUrl(
-                    'bridge',
-                    'ext_bridge_button',
-                    metaMetricsId,
-                  );
-                  global.platform.openTab({
-                    url: `${portfolioUrl}${
-                      location.pathname.includes('asset') ? '&token=native' : ''
-                    }`,
-                  });
                   trackEvent({
                     category: MetaMetricsEventCategory.Navigation,
                     event: MetaMetricsEventName.BridgeLinkClicked,
@@ -401,6 +417,12 @@ const EthOverview = ({ className, showAddress }) => {
                       token_symbol: 'ETH',
                     },
                   });
+                  dispatch(setSwapsFromToken(defaultSwapsToken));
+                  if (usingHardwareWallet) {
+                    global.platform.openExtensionInBrowser(PREPARE_SWAP_ROUTE);
+                  } else {
+                    history.push(CROSS_CHAIN_SWAP_ROUTE + PREPARE_SWAP_ROUTE);
+                  }
                 }
               }}
               tooltipRender={(contents) =>

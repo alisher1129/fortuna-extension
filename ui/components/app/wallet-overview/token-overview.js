@@ -9,6 +9,8 @@ import {
   SEND_ROUTE,
   ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
   BUILD_QUOTE_ROUTE,
+  CROSS_CHAIN_SWAP_ROUTE,
+  PREPARE_SWAP_ROUTE,
   ///: END:ONLY_INCLUDE_IF
 } from '../../../helpers/constants/routes';
 import { useTokenTracker } from '../../../hooks/useTokenTracker';
@@ -312,25 +314,51 @@ const TokenOverview = ({ className, token }) => {
                 }
                 label={t('bridge')}
                 onClick={() => {
-                  const portfolioUrl = getPortfolioUrl(
-                    'bridge',
-                    'ext_bridge_button',
-                    metaMetricsId,
-                  );
-                  global.platform.openTab({
-                    url: `${portfolioUrl}&token=${token.address}`,
-                  });
+                  // TODO read feature flags and update metrics
+                  // const portfolioUrl = getPortfolioUrl(
+                  //   'bridge',
+                  //   'ext_bridge_button',
+                  //   metaMetricsId,
+                  // );
+                  // global.platform.openTab({
+                  //   url: `${portfolioUrl}&token=${token.address}`,
+                  // });
+                  // trackEvent({
+                  //   category: MetaMetricsEventCategory.Navigation,
+                  //   event: MetaMetricsEventName.BridgeLinkClicked,
+                  //   properties: {
+                  //     location: 'Token Overview',
+                  //     text: 'Bridge',
+                  //     url: portfolioUrl,
+                  //     chain_id: chainId,
+                  //     token_symbol: token.symbol,
+                  //   },
+                  // });
+
                   trackEvent({
-                    category: MetaMetricsEventCategory.Navigation,
                     event: MetaMetricsEventName.BridgeLinkClicked,
+                    category: MetaMetricsEventCategory.Navigation,
                     properties: {
-                      location: 'Token Overview',
-                      text: 'Bridge',
-                      url: portfolioUrl,
-                      chain_id: chainId,
                       token_symbol: token.symbol,
+                      location: MetaMetricsSwapsEventSource.TokenView,
+                      text: 'Bridge',
+                      chain_id: chainId,
                     },
                   });
+                  dispatch(
+                    setSwapsFromToken({
+                      ...token,
+                      address: token.address.toLowerCase(),
+                      iconUrl: token.image,
+                      balance,
+                      string: balanceToRender,
+                    }),
+                  );
+                  if (usingHardwareWallet) {
+                    global.platform.openExtensionInBrowser(PREPARE_SWAP_ROUTE);
+                  } else {
+                    history.push(CROSS_CHAIN_SWAP_ROUTE + PREPARE_SWAP_ROUTE);
+                  }
                 }}
                 tooltipRender={null}
               />

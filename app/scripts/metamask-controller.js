@@ -6104,6 +6104,8 @@ export default class MetamaskController extends EventEmitter {
   };
 
   resolvePendingApproval = async (id, value, options) => {
+    console.log('inside resolvePendingApproval', { id, value, options });
+
     try {
       await this.approvalController.accept(id, value, options);
     } catch (exp) {

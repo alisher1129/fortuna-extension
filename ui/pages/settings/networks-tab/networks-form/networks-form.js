@@ -825,12 +825,12 @@ const NetworksForm = ({
       >
         {!viewOnly && (
           <>
-            {deletable && (
+            {/* {deletable && (
               <Button type="danger" onClick={onDelete}>
                 {t('delete')}
               </Button>
-            )}
-            <Button
+            )} */}
+            {/* <Button
               type="secondary"
               onClick={onCancel}
               disabled={stateUnchanged}
@@ -843,7 +843,7 @@ const NetworksForm = ({
               onClick={onSubmit}
             >
               {t('save')}
-            </Button>
+            </Button> */}
           </>
         )}
       </div>

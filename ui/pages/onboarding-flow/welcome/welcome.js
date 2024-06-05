@@ -1,11 +1,11 @@
-import EventEmitter from 'events';
+// import EventEmitter from 'events';
 import React, { useState, useEffect, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
 import { Carousel } from 'react-responsive-carousel';
 ///: END:ONLY_INCLUDE_IF
-import Mascot from '../../../components/ui/mascot';
+// import Mascot from '../../../components/ui/mascot';
 import Button from '../../../components/ui/button';
 import { Text } from '../../../components/component-library';
 import CheckBox from '../../../components/ui/check-box';
@@ -32,6 +32,7 @@ import {
 import {
   ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
   ONBOARDING_METAMETRICS,
+  ONBOARDING_PHRASE_ROUTE,
   ///: END:ONLY_INCLUDE_IF
   ONBOARDING_SECURE_YOUR_WALLET_ROUTE,
   ONBOARDING_COMPLETION_ROUTE,
@@ -47,7 +48,7 @@ export default function OnboardingWelcome() {
   const t = useI18nContext();
   const dispatch = useDispatch();
   const history = useHistory();
-  const [eventEmitter] = useState(new EventEmitter());
+  // const [eventEmitter] = useState(new EventEmitter());
   const currentKeyring = useSelector(getCurrentKeyring);
   const firstTimeFlowType = useSelector(getFirstTimeFlowType);
   const [termsChecked, setTermsChecked] = useState(false);
@@ -95,7 +96,7 @@ export default function OnboardingWelcome() {
     <a
       className="create-new-vault__terms-link"
       key="create-new-vault__link-text"
-      href="https://metamask.io/terms.html"
+      // href="https://metamask.io/terms.html"
       target="_blank"
       rel="noopener noreferrer"
     >
@@ -115,7 +116,7 @@ export default function OnboardingWelcome() {
     dispatch(setTermsOfUseLastAgreed(new Date().getTime()));
 
     ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
-    history.push(ONBOARDING_METAMETRICS);
+    history.push(ONBOARDING_PHRASE_ROUTE);
     ///: END:ONLY_INCLUDE_IF
 
     ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
@@ -142,11 +143,18 @@ export default function OnboardingWelcome() {
               {t('welcomeToMetaMaskIntro')}
             </Text>
             <div className="onboarding-welcome__mascot">
-              <Mascot
+            <img
+                // src="/images/onboarding-welcome-say-hello.svg"
+                src="/images/welcome.png"
+                width="230"
+                height="220"
+                alt=""
+              />
+              {/* <Mascot
                 animationEventEmitter={eventEmitter}
                 width="250"
                 height="250"
-              />
+              /> */}
             </div>
           </div>
           <div>
@@ -161,11 +169,12 @@ export default function OnboardingWelcome() {
             <Text textAlign={TextAlign.Center}>
               {t('welcomeExploreDescription')}
             </Text>
-            <div className="onboarding-welcome__image">
+            <div className="onboarding-welcome__image" style={{ width: '250px' , height: '250px' , margin: '20px auto'}} >
               <img
-                src="/images/onboarding-welcome-say-hello.svg"
-                width="169"
-                height="237"
+                // src="/images/onboarding-welcome-say-hello.svg"
+                src="/images/onboarding-welcome-say-hello.png"
+                // width="169"
+                // height="237"
                 alt=""
               />
             </div>
@@ -182,11 +191,12 @@ export default function OnboardingWelcome() {
             <Text textAlign={TextAlign.Center}>
               {t('welcomeLoginDescription')}
             </Text>
-            <div className="onboarding-welcome__image">
+            <div className="onboarding-welcome__image" style={{ width: '250px' , height: '250px' , margin: '20px auto'}}>
               <img
-                src="/images/onboarding-welcome-decentralised-apps.svg"
-                width="327"
-                height="256"
+                // src="/images/onboarding-welcome-decentralised-apps.svg"
+                src="/images/onboarding-welcome-decentralised-apps.png"
+                // width="327"
+                // height="256"
                 alt=""
               />
             </div>
@@ -214,11 +224,11 @@ export default function OnboardingWelcome() {
             {t('installExtensionDescription')}
           </Text>
           <div className="onboarding-welcome__mascot">
-            <Mascot
+            {/* <Mascot
               animationEventEmitter={eventEmitter}
               width="250"
               height="250"
-            />
+            /> */}
           </div>
         </div>
         ///: END:ONLY_INCLUDE_IF

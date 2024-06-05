@@ -33,7 +33,7 @@ import {
 } from '../../../components/app/step-progress-bar';
 ///: END:ONLY_INCLUDE_IF
 import { PASSWORD_MIN_LENGTH } from '../../../helpers/constants/common';
-import ZENDESK_URLS from '../../../helpers/constants/zendesk-url';
+// import ZENDESK_URLS from '../../../helpers/constants/zendesk-url';
 import {
   getFirstTimeFlowType,
   getCurrentKeyring,
@@ -236,9 +236,9 @@ export default function CreatePassword({
 
   const createPasswordLink = (
     <a
-      onClick={(e) => e.stopPropagation()}
+      // onClick={(e) => e.stopPropagation()}
       key="create-password__link-text"
-      href={ZENDESK_URLS.PASSWORD_AND_SRP_ARTICLE}
+      // href={ZENDESK_URLS.PASSWORD_AND_SRP_ARTICLE}
       target="_blank"
       rel="noopener noreferrer"
     >

@@ -426,7 +426,7 @@ export default class Home extends PureComponent {
         category: MetaMetricsEventCategory.Home,
         event: MetaMetricsEventName.SupportLinkClicked,
         properties: {
-          url: SUPPORT_LINK,
+          // url: SUPPORT_LINK,
         },
       },
       {
@@ -961,10 +961,12 @@ export default class Home extends PureComponent {
                         size={Size.MD}
                         startIconName={IconName.MessageQuestion}
                         data-testid="need-help-link"
-                        href={SUPPORT_LINK}
+                        // href={SUPPORT_LINK}
                         display={Display.Flex}
-                        justifyContent={JustifyContent.flexStart}
+                        justifyContent={JustifyContent.center}
                         paddingLeft={4}
+                        marginLeft="auto"
+                        marginRight="auto"
                         marginBottom={4}
                         onClick={this.onSupportLinkClick}
                         externalLink
@@ -989,10 +991,12 @@ export default class Home extends PureComponent {
                       size={Size.MD}
                       startIconName={IconName.MessageQuestion}
                       data-testid="need-help-link"
-                      href={SUPPORT_LINK}
+                      // href={SUPPORT_LINK}
                       display={Display.Flex}
-                      justifyContent={JustifyContent.flexStart}
+                      justifyContent={JustifyContent.center}
                       paddingLeft={4}
+                      marginLeft="auto"
+                      marginRight="auto"
                       marginBottom={4}
                       onClick={this.onSupportLinkClick}
                       externalLink
@@ -1016,10 +1020,12 @@ export default class Home extends PureComponent {
                       size={Size.MD}
                       startIconName={IconName.MessageQuestion}
                       data-testid="need-help-link"
-                      href={SUPPORT_LINK}
+                      // href={SUPPORT_LINK}
                       display={Display.Flex}
                       justifyContent={JustifyContent.center}
                       marginBottom={4}
+                      marginLeft="auto"
+                      marginRight="auto"
                       marginTop={4}
                       onClick={this.onSupportLinkClick}
                       externalLink

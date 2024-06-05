@@ -19,15 +19,15 @@
     "description": "The description of the application"
   },
   "appName": {
-    "message": "मेटामास्क/MetaMask",
+    "message": "फॉर्च्यूना/Fortuna",
     "description": "The name of the application"
   },
   "appNameBeta": {
-    "message": "MetaMask Beta",
+    "message": "Fortuna Beta",
     "description": "The name of the application (Beta)"
   },
   "appNameFlask": {
-    "message": "MetaMask Flask",
+    "message": "Fortuna Flask",
     "description": "The name of the application (Flask)"
   },
   "approve": {
@@ -128,7 +128,7 @@
     "message": "खाता आयात"
   },
   "importAccountMsg": {
-    "message": "आयात किए गए खाते आपके मूल रूप से बनाए गए मेटामास्क अकाउंट सीडफ्रेज से संबद्ध नहीं होंगे। आयात किए गए खातों के बारे में और जानें"
+    "message": "आयात किए गए खाते आपके मूल रूप से बनाए गए फॉर्च्यूना अकाउंट सीडफ्रेज से संबद्ध नहीं होंगे। आयात किए गए खातों के बारे में और जानें"
   },
   "imported": {
     "message": "आयातित",

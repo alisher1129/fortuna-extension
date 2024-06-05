@@ -1,5 +1,12 @@
 .multichain-token-list-item {
+  margin-bottom: 10px;
+  .borderRounded {
+    border:solid 1px #ffffff70;
+  }
   &__container-cell {
+    background-color: var(--color-background-alternative);
+    margin: 0 10px;
+    border-radius: 8px;
     &:hover,
     &:focus-within {
       background-color: var(--color-background-default-hover);

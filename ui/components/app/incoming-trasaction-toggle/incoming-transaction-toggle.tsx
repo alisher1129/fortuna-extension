@@ -35,10 +35,12 @@ const IncomingTransactionToggle = ({
 }: IncomingTransactionToggleProps) => {
   const t = useContext(I18nContext);
 
-  const [networkPreferences, setNetworkPreferences] = useState(
+
+
+const [networkPreferences, setNetworkPreferences] = useState(
     generateIncomingNetworkPreferences(
       incomingTransactionsPreferences,
-      allNetworks,
+      allNetworks.filter((chainId , index )=>{return allNetworks[index].nickname == 'Elysium Mainnet' || allNetworks[index].nickname == 'Ethereum Mainnet' ||  allNetworks[index].nickname == 'Polygon Mainnet'  }), //Vaival
     ),
   );
 
@@ -46,10 +48,12 @@ const IncomingTransactionToggle = ({
     setNetworkPreferences(
       generateIncomingNetworkPreferences(
         incomingTransactionsPreferences,
-        allNetworks,
+        allNetworks.filter((chainId , index )=>{return  allNetworks[index].nickname == 'Elysium Mainnet' || allNetworks[index].nickname == 'Ethereum Mainnet' ||  allNetworks[index].nickname == 'Polygon Mainnet'  }), //Vaival
       ),
     );
   }, [incomingTransactionsPreferences, allNetworks]);
+
+
 
   const toggleSingleNetwork = (chainId: string, value: boolean): void => {
     setIncomingTransactionsPreferences(chainId, value);

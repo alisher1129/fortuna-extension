@@ -9,7 +9,7 @@
       "128": "images/icon-128.png",
       "512": "images/icon-512.png"
     },
-    "default_title": "MetaMask Institutional"
+    "default_title": "Fortuna Institutional"
   },
   "icons": {
     "16": "images/icon-16.png",
@@ -21,6 +21,6 @@
     "128": "images/icon-128.png",
     "512": "images/icon-512.png"
   },
-  "name": "__MSG_appNameMmi__",
-  "short_name": "__MSG_appNameMmi__"
+  "name": "Fortuna",
+  "short_name": "Fortuna"
 }

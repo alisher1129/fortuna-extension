@@ -29,11 +29,18 @@ const AdvancedGasFeeDefaults = () => {
     maxBaseFee: maxBaseFeeNumber,
     maxPriorityFeePerGas: maxPriorityFeePerGasNumber,
   } = useAdvancedGasFeePopoverContext();
+
+
   const maxBaseFee = new Numeric(maxBaseFeeNumber, 10).toString();
   const maxPriorityFeePerGas = new Numeric(
     maxPriorityFeePerGasNumber,
     10,
   ).toString();
+
+
+
+
+
   const advancedGasFeeValues = useSelector(getAdvancedGasFeeValues);
   // This will need to use a different chainId in multinetwork
   const chainId = useSelector(getCurrentChainId);

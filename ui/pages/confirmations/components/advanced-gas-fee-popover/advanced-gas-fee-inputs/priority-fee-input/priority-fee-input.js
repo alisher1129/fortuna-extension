@@ -77,11 +77,22 @@ const PriorityFeeInput = () => {
       : maxPriorityFeePerGas;
 
   const [priorityFee, setPriorityFee] = useState(defaultPriorityFee);
+  const { currency, numberOfDecimals } = useUserPreferencedCurrency(PRIMARY);
+
   useEffect(() => {
+
+
+    // if(currency === 'LAVA'){
+    //   setPriorityFee(300);
+    // }
+    // else{
     setPriorityFee(defaultPriorityFee);
+
+    // }
+
+
   }, [defaultPriorityFee, setPriorityFee]);
 
-  const { currency, numberOfDecimals } = useUserPreferencedCurrency(PRIMARY);
 
   const [priorityFeeInPrimaryCurrency] = useCurrencyDisplay(
     decGWEIToHexWEI(priorityFee * gasLimit),
@@ -108,6 +119,15 @@ const PriorityFeeInput = () => {
     setPriorityFeeError,
   ]);
 
+  // Function to show Error Messages
+  const setErrorMessage = ()=>{
+    if (priorityFeeError) {
+      return currency === 'LAVA' ? '' : t(priorityFeeError);
+    }
+    return null; // Or a default error message if needed
+
+  }
+  // Vaival
   return (
     <Box
       marginTop={4}
@@ -117,7 +137,8 @@ const PriorityFeeInput = () => {
     >
       <FormField
         dataTestId="priority-fee-input"
-        error={priorityFeeError ? t(priorityFeeError) : ''}
+        // error={priorityFeeError ? t(priorityFeeError) : ''}
+        error={setErrorMessage()}
         onChange={updatePriorityFee}
         titleText={t('priorityFeeProperCase')}
         titleUnit={`(${t('gwei')})`}

@@ -6,7 +6,8 @@
   }
 
   &__overview {
-    box-shadow: var(--shadow-size-xs) var(--color-shadow-default);
+    /*box-shadow: var(--shadow-size-xs) var(--color-shadow-default);*/
+    border-bottom: 1px solid var(--color-border-muted);
   }
 }
 

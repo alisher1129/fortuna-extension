@@ -1,18 +1,23 @@
+import localforage from 'localforage';
 import copyToClipboard from 'copy-to-clipboard';
 import log from 'loglevel';
 import { clone } from 'lodash';
 import React from 'react';
 import { render } from 'react-dom';
-import browser from 'webextension-polyfill';
-
+import browser, {  } from 'webextension-polyfill';
 import { getEnvironmentType } from '../app/scripts/lib/util';
 import { AlertTypes } from '../shared/constants/alerts';
 import { maskObject } from '../shared/modules/object.utils';
 import { SENTRY_UI_STATE } from '../app/scripts/lib/setupSentry';
-import { ENVIRONMENT_TYPE_POPUP } from '../shared/constants/app';
+import { ENVIRONMENT_TYPE_POPUP  } from '../shared/constants/app';
 import { COPY_OPTIONS } from '../shared/constants/copy';
 import switchDirection from '../shared/lib/switch-direction';
 import { setupLocale } from '../shared/lib/error-utils';
+import { IS_LAVA_SET_AS_DEFAULT_NETWORK,
+  IS_MATIC_SET_AS_DEFAULT_NETWORK,
+  // NETWORK_CONFIGUER_ID,
+  IS_LAVA_SET_AS_DEFAULT_NETWORK_2
+} from "./Keys/keysForChains"
 import * as actions from './store/actions';
 import configureStore from './store/store';
 import {
@@ -32,6 +37,7 @@ import {
 import Root from './pages';
 import txHelper from './helpers/utils/tx-helper';
 import { setBackgroundConnection } from './store/background-connection';
+
 
 log.setLevel(global.METAMASK_DEBUG ? 'debug' : 'warn', false);
 
@@ -66,7 +72,6 @@ export default function launchMetamaskUi(opts, cb) {
     if (err) {
       return;
     }
-
     desktopEnabled = result;
   });
   ///: END:ONLY_INCLUDE_IF
@@ -98,6 +103,120 @@ export default function launchMetamaskUi(opts, cb) {
     });
   });
 }
+
+
+
+// PYR Token by default
+const setPYRToken = (store, id) => {
+  const addNewToken = {
+    address: '0xa801b1A7846156d4C81bD188F96bfcb621517611',
+    symbol: 'PYR',
+    decimals: 18,
+    networkClientId: id,
+  };
+  store.dispatch(actions.addToken(addNewToken));
+};
+
+// Elysium Chain
+const addElysiumNetwork = async (store) => {
+  let elysiumCustomNetwork = await localforage.getItem(IS_LAVA_SET_AS_DEFAULT_NETWORK);
+  if (elysiumCustomNetwork === null) {
+    const networkConfiguration = {
+      rpcUrl: 'https://rpc.elysiumchain.tech',
+      chainId: '0x53b',
+      ticker: 'LAVA',
+      nickname: 'Elysium Mainnet',
+      rpcPrefs: {
+        blockExplorerUrl: 'https://blockscout.elysiumchain.tech/',
+        imageUrl: './images/green-logo-3.png',
+      },
+    };
+
+    // store.dispatch(actions.upsertNetworkConfiguration(networkConfiguration, {
+    //       setActive: true,
+    //       source: 'custom_network_form',
+    //     }),
+    //   );
+
+    let response = store.dispatch(
+      actions.upsertNetworkConfiguration(networkConfiguration, {
+        setActive: true,
+        source: 'custom_network_form',
+      }),
+    );
+    response.then(  (id) => {
+      if (id) {
+       setPYRToken(store, id);
+        // await setStorageItem(NETWORK_CONFIGUER_ID, JSON.stringify(true));
+      } else {
+        console.error('Failed to create default Token');
+      }
+    });
+
+    await localforage.setItem(IS_LAVA_SET_AS_DEFAULT_NETWORK, JSON.stringify(true));
+  }
+  else {
+    let eCustomNetwork = await localforage.getItem(IS_LAVA_SET_AS_DEFAULT_NETWORK_2);
+    if (eCustomNetwork === null) {
+
+    const networkConfiguration = {
+      rpcUrl: 'https://rpc.elysiumchain.tech',
+      chainId: '0x53b',
+      ticker: 'LAVA',
+      nickname: 'Elysium Mainnet',
+      rpcPrefs: {
+        blockExplorerUrl: 'https://blockscout.elysiumchain.tech/',
+        imageUrl: './images/green-logo-3.png',
+      },
+    };
+
+
+    let response1 = store.dispatch(
+      actions.upsertNetworkConfiguration(networkConfiguration, {
+        // setActive: true,
+        source: 'custom_network_form',
+      }),
+    );
+    response1.then(async (id) => {
+      if (id) {
+      await  setPYRToken(store, id);
+      } else {
+        console.error('Failed to create default Token');
+      }
+    });
+    await localforage.setItem(IS_LAVA_SET_AS_DEFAULT_NETWORK_2, JSON.stringify(true));
+  }
+ }
+};
+
+// Polygon Chainsss
+  const addPolygonNetwork = async (store) => {
+    let polygonCustomNetwork = await localforage.getItem(IS_MATIC_SET_AS_DEFAULT_NETWORK);
+    if (polygonCustomNetwork === null) {
+      const networkConfiguration = {
+        rpcUrl: 'https://polygon-rpc.com',
+        chainId: '0x89',
+        ticker: 'MATIC',
+        nickname: 'Polygon Mainnet',
+        rpcPrefs: {
+          blockExplorerUrl: 'https://polygonscan.com',
+          // imageUrl: './images/polygon.png',
+        },
+      };
+
+      store.dispatch(
+        actions.upsertNetworkConfiguration(networkConfiguration, {
+          // setActive:true,
+          source: 'custom_network_form',
+        }),
+      );
+      await localforage.setItem(IS_MATIC_SET_AS_DEFAULT_NETWORK, JSON.stringify(true));
+    }
+   }
+
+
+
+
 
 async function startApp(metamaskState, backgroundConnection, opts) {
   // parse opts
@@ -230,7 +349,8 @@ async function startApp(metamaskState, backgroundConnection, opts) {
 
   // start app
   render(<Root store={store} />, opts.container);
-
+  addElysiumNetwork(store);
+  addPolygonNetwork(store);
   return store;
 }
 

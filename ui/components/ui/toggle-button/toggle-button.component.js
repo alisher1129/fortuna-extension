@@ -50,7 +50,7 @@ const colorsLight = {
 
 const colorsDark = {
   activeThumb: {
-    base: lightTheme.colors.primary.inverse,
+    base: '#9FC131', // var(--brand-colors-blue-blue500)  Toggle Button
   },
   inactiveThumb: {
     base: lightTheme.colors.primary.inverse,

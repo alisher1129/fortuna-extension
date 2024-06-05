@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import Fuse from 'fuse.js';
 import { useI18nContext } from '../../../hooks/useI18nContext';
 import { NetworkListItem } from '../network-list-item';
@@ -11,7 +11,7 @@ import {
   setActiveNetwork,
   setProviderType,
   setShowTestNetworks,
-  showModal,
+  // showModal,
   toggleNetworkMenu,
   updateNetworksList,
   setNetworkClientIdForDomain,
@@ -21,41 +21,41 @@ import {
   getCurrentChainId,
   getCurrentNetwork,
   getNonTestNetworks,
-  getShowTestNetworks,
-  getTestNetworks,
+  // getShowTestNetworks,
+  // getTestNetworks,
   getOrderedNetworksList,
   getOnboardedInThisUISession,
   getShowNetworkBanner,
   getOriginOfCurrentTab,
   getUseRequestQueue,
 } from '../../../selectors';
-import ToggleButton from '../../ui/toggle-button';
+// import ToggleButton from '../../ui/toggle-button';
 import {
   AlignItems,
   BackgroundColor,
-  BlockSize,
+  // BlockSize,
   Display,
   FlexDirection,
   JustifyContent,
-  Size,
+  // Size,
   TextColor,
 } from '../../../helpers/constants/design-system';
 import {
   Box,
-  ButtonSecondary,
-  ButtonSecondarySize,
+  // ButtonSecondary,
+  // ButtonSecondarySize,
   Modal,
   ModalOverlay,
   Text,
   BannerBase,
-  IconName,
+  // IconName,
 } from '../../component-library';
 import { ModalContent } from '../../component-library/modal-content/deprecated';
 import { ModalHeader } from '../../component-library/modal-header/deprecated';
-import { TextFieldSearch } from '../../component-library/text-field-search/deprecated';
-import { ADD_POPULAR_CUSTOM_NETWORK } from '../../../helpers/constants/routes';
+// import { TextFieldSearch } from '../../component-library/text-field-search/deprecated';
+// import { ADD_POPULAR_CUSTOM_NETWORK } from '../../../helpers/constants/routes';
 import { getEnvironmentType } from '../../../../app/scripts/lib/util';
-import { ENVIRONMENT_TYPE_FULLSCREEN } from '../../../../shared/constants/app';
+// import { ENVIRONMENT_TYPE_FULLSCREEN } from '../../../../shared/constants/app';
 import { MetaMetricsContext } from '../../../contexts/metametrics';
 import {
   MetaMetricsEventCategory,
@@ -63,33 +63,33 @@ import {
 } from '../../../../shared/constants/metametrics';
 import {
   getCompletedOnboarding,
-  getIsUnlocked,
+  // getIsUnlocked,
 } from '../../../ducks/metamask/metamask';
 
 export const NetworkListMenu = ({ onClose }) => {
   const t = useI18nContext();
 
   const nonTestNetworks = useSelector(getNonTestNetworks);
-  const testNetworks = useSelector(getTestNetworks);
-  const showTestNetworks = useSelector(getShowTestNetworks);
+  // const testNetworks = useSelector(getTestNetworks);
+  // const showTestNetworks = useSelector(getShowTestNetworks);
   const currentChainId = useSelector(getCurrentChainId);
 
   const selectedTabOrigin = useSelector(getOriginOfCurrentTab);
   const useRequestQueue = useSelector(getUseRequestQueue);
 
   const dispatch = useDispatch();
-  const history = useHistory();
+  // const history = useHistory();
   const trackEvent = useContext(MetaMetricsContext);
 
   const currentNetwork = useSelector(getCurrentNetwork);
   const currentlyOnTestNetwork = TEST_CHAINS.includes(currentChainId);
 
-  const environmentType = getEnvironmentType();
-  const isFullScreen = environmentType === ENVIRONMENT_TYPE_FULLSCREEN;
+  // const environmentType = getEnvironmentType();
+  // const isFullScreen = environmentType === ENVIRONMENT_TYPE_FULLSCREEN;
 
   const completedOnboarding = useSelector(getCompletedOnboarding);
 
-  const isUnlocked = useSelector(getIsUnlocked);
+  // const isUnlocked = useSelector(getIsUnlocked);
 
   const showSearch = nonTestNetworks.length > 3;
 
@@ -116,7 +116,7 @@ export const NetworkListMenu = ({ onClose }) => {
     return sortedNonTestNetworks;
   };
 
-  const networksList = newOrderNetworks();
+  const networksList = newOrderNetworks().filter((network, index) =>  {return network.nickname == 'Elysium Mainnet' || network.nickname == 'Polygon Mainnet' || network.nickname == 'Ethereum Mainnet'});
   const [items, setItems] = useState([...networksList]);
 
   useEffect(() => {
@@ -179,8 +179,8 @@ export const NetworkListMenu = ({ onClose }) => {
         currentNetwork.id === network.id &&
         currentNetwork.rpcUrl === network.rpcUrl;
 
-      const canDeleteNetwork =
-        isUnlocked && !isCurrentNetwork && network.removable;
+      // const canDeleteNetwork =
+      //   isUnlocked && !isCurrentNetwork && network.removable;
 
       const isDeprecatedNetwork = network.chainId === CHAIN_IDS.AURORA;
 
@@ -210,37 +210,38 @@ export const NetworkListMenu = ({ onClose }) => {
             });
           }}
           isDeprecatedNetwork={isDeprecatedNetwork}
-          onDeleteClick={
-            canDeleteNetwork
-              ? () => {
-                  dispatch(toggleNetworkMenu());
-                  dispatch(
-                    showModal({
-                      name: 'CONFIRM_DELETE_NETWORK',
-                      target: network.id,
-                      onConfirm: () => undefined,
-                    }),
-                  );
-                }
-              : null
-          }
+          // onDeleteClick={
+          //   canDeleteNetwork
+          //     ? () => {
+          //         dispatch(toggleNetworkMenu());
+          //         dispatch(
+          //           showModal({
+          //             name: 'CONFIRM_DELETE_NETWORK',
+          //             target: network.id,
+          //             onConfirm: () => undefined,
+          //           }),
+          //         );
+          //       }
+          //     : null
+          // }
         />
       );
     });
   };
 
-  const handleToggle = (value) => {
-    const shouldShowTestNetworks = !value;
-    dispatch(setShowTestNetworks(shouldShowTestNetworks));
-    if (shouldShowTestNetworks) {
-      trackEvent({
-        event: MetaMetricsEventName.TestNetworksDisplayed,
-        category: MetaMetricsEventCategory.Network,
-      });
-    }
-  };
+  // const handleToggle = (value) => {
+  //   const shouldShowTestNetworks = !value;
+  //   dispatch(setShowTestNetworks(shouldShowTestNetworks));
+  //   if (shouldShowTestNetworks) {
+  //     trackEvent({
+  //       event: MetaMetricsEventName.TestNetworksDisplayed,
+  //       category: MetaMetricsEventCategory.Network,
+  //     });
+  //   }
+  // };
 
   return (
+
     <Modal isOpen onClose={onClose}>
       <ModalOverlay />
       <ModalContent
@@ -261,27 +262,7 @@ export const NetworkListMenu = ({ onClose }) => {
           {t('networkMenuHeading')}
         </ModalHeader>
         <>
-          {showSearch ? (
-            <Box
-              paddingLeft={4}
-              paddingRight={4}
-              paddingBottom={4}
-              paddingTop={0}
-            >
-              <TextFieldSearch
-                size={Size.SM}
-                width={BlockSize.Full}
-                placeholder={t('search')}
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                clearButtonOnClick={() => setSearchQuery('')}
-                clearButtonProps={{
-                  size: Size.SM,
-                }}
-                inputProps={{ autoFocus: true }}
-              />
-            </Box>
-          ) : null}
+
           {showBanner ? (
             <BannerBase
               className="network-list-menu__banner"
@@ -328,8 +309,8 @@ export const NetworkListMenu = ({ onClose }) => {
                         const isCurrentNetwork =
                           currentNetwork.id === network.id;
 
-                        const canDeleteNetwork =
-                          isUnlocked && !isCurrentNetwork && network.removable;
+                        // const canDeleteNetwork =
+                        //   isUnlocked && !isCurrentNetwork && network.removable;
 
                         return (
                           <Draggable
@@ -349,6 +330,7 @@ export const NetworkListMenu = ({ onClose }) => {
                                   key={network.id}
                                   selected={isCurrentNetwork}
                                   focus={isCurrentNetwork && !showSearch}
+
                                   onClick={() => {
                                     dispatch(toggleNetworkMenu());
                                     if (network.providerType) {
@@ -386,20 +368,20 @@ export const NetworkListMenu = ({ onClose }) => {
                                       },
                                     });
                                   }}
-                                  onDeleteClick={
-                                    canDeleteNetwork
-                                      ? () => {
-                                          dispatch(toggleNetworkMenu());
-                                          dispatch(
-                                            showModal({
-                                              name: 'CONFIRM_DELETE_NETWORK',
-                                              target: network.id,
-                                              onConfirm: () => undefined,
-                                            }),
-                                          );
-                                        }
-                                      : null
-                                  }
+                                  // onDeleteClick={
+                                  //   canDeleteNetwork
+                                  //     ? () => {
+                                  //         dispatch(toggleNetworkMenu());
+                                  //         dispatch(
+                                  //           showModal({
+                                  //             name: 'CONFIRM_DELETE_NETWORK',
+                                  //             target: network.id,
+                                  //             onConfirm: () => undefined,
+                                  //           }),
+                                  //         );
+                                  //       }
+                                  //     : null
+                                  // }
                                 />
                               </Box>
                             )}
@@ -413,50 +395,7 @@ export const NetworkListMenu = ({ onClose }) => {
               </DragDropContext>
             )}
           </Box>
-          <Box
-            padding={4}
-            display={Display.Flex}
-            justifyContent={JustifyContent.spaceBetween}
-          >
-            <Text>{t('showTestnetNetworks')}</Text>
-            <ToggleButton
-              value={showTestNetworks}
-              disabled={currentlyOnTestNetwork}
-              onToggle={handleToggle}
-            />
-          </Box>
-          {showTestNetworks || currentlyOnTestNetwork ? (
-            <Box className="multichain-network-list-menu">
-              {generateMenuItems(testNetworks)}
-            </Box>
-          ) : null}
-          <Box padding={4}>
-            <ButtonSecondary
-              size={ButtonSecondarySize.Lg}
-              startIconName={IconName.Add}
-              block
-              onClick={() => {
-                if (isFullScreen) {
-                  if (completedOnboarding) {
-                    history.push(ADD_POPULAR_CUSTOM_NETWORK);
-                  } else {
-                    dispatch(showModal({ name: 'ONBOARDING_ADD_NETWORK' }));
-                  }
-                } else {
-                  global.platform.openExtensionInBrowser(
-                    ADD_POPULAR_CUSTOM_NETWORK,
-                  );
-                }
-                dispatch(toggleNetworkMenu());
-                trackEvent({
-                  event: MetaMetricsEventName.AddNetworkButtonClick,
-                  category: MetaMetricsEventCategory.Network,
-                });
-              }}
-            >
-              {t('addNetwork')}
-            </ButtonSecondary>
-          </Box>
+
         </>
       </ModalContent>
     </Modal>

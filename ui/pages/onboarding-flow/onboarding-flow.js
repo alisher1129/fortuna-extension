@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+// import React, {useEffect, useState, useContext} from 'react';
+import React, {useEffect, useState} from 'react';
+import {Switch, Route, useHistory, useLocation} from 'react-router-dom';
+import {useDispatch, useSelector} from 'react-redux';
 import Unlock from '../unlock-page';
 import {
   ///: BEGIN:ONLY_INCLUDE_IF(build-flask)
@@ -23,7 +24,7 @@ import {
   ONBOARDING_PIN_EXTENSION_ROUTE,
   ONBOARDING_METAMETRICS,
 } from '../../helpers/constants/routes';
-import { getCompletedOnboarding } from '../../ducks/metamask/metamask';
+import {getCompletedOnboarding} from '../../ducks/metamask/metamask';
 import {
   createNewVaultAndGetSeedPhrase,
   unlockAndGetSeedPhrase,
@@ -33,11 +34,11 @@ import { getFirstTimeFlowTypeRouteAfterUnlock } from '../../selectors';
 import { MetaMetricsContext } from '../../contexts/metametrics';
 import Button from '../../components/ui/button';
 import RevealSRPModal from '../../components/app/reveal-SRP-modal';
-import { useI18nContext } from '../../hooks/useI18nContext';
-import {
-  MetaMetricsEventCategory,
-  MetaMetricsEventName,
-} from '../../../shared/constants/metametrics';
+import {useI18nContext} from '../../hooks/useI18nContext';
+// import {
+//   MetaMetricsEventCategory,
+//   MetaMetricsEventName,
+// } from '../../../shared/constants/metametrics';
 ///: BEGIN:ONLY_INCLUDE_IF(build-flask)
 import ExperimentalArea from '../../components/app/flask/experimental-area';
 ///: END:ONLY_INCLUDE_IF
@@ -57,18 +58,18 @@ import ImportSRP from './import-srp/import-srp';
 import OnboardingPinExtension from './pin-extension/pin-extension';
 import MetaMetricsComponent from './metametrics/metametrics';
 
-const TWITTER_URL = 'https://twitter.com/MetaMask';
+// const TWITTER_URL = 'https://twitter.com/MetaMask';
 
 export default function OnboardingFlow() {
   const [secretRecoveryPhrase, setSecretRecoveryPhrase] = useState('');
   const dispatch = useDispatch();
-  const { pathname, search } = useLocation();
+  const {pathname, search} = useLocation();
   const history = useHistory();
   const t = useI18nContext();
   const completedOnboarding = useSelector(getCompletedOnboarding);
   const nextRoute = useSelector(getFirstTimeFlowTypeRouteAfterUnlock);
   const isFromReminder = new URLSearchParams(search).get('isFromReminder');
-  const trackEvent = useContext(MetaMetricsContext);
+  // const trackEvent = useContext(MetaMetricsContext);
 
   useEffect(() => {
     if (completedOnboarding && !isFromReminder) {
@@ -214,22 +215,22 @@ export default function OnboardingFlow() {
         <Button
           className="onboarding-flow__twitter-button"
           type="link"
-          href={TWITTER_URL}
-          onClick={() => {
-            trackEvent({
-              category: MetaMetricsEventCategory.Onboarding,
-              event: MetaMetricsEventName.OnboardingTwitterClick,
-              properties: {
-                text: t('followUsOnTwitter'),
-                location: MetaMetricsEventName.OnboardingWalletCreationComplete,
-                url: TWITTER_URL,
-              },
-            });
-          }}
+          // href={TWITTER_URL}
+          // onClick={() => {
+          //   trackEvent({
+          //     category: MetaMetricsEventCategory.Onboarding,
+          //     event: MetaMetricsEventName.OnboardingTwitterClick,
+          //     properties: {
+          //       text: t('followUsOnTwitter'),
+          //       location: MetaMetricsEventName.OnboardingWalletCreationComplete,
+          //       url: TWITTER_URL,
+          //     },
+          //   });
+          // }}
           target="_blank"
         >
           <span>{t('followUsOnTwitter')}</span>
-          <i className="fab fa-twitter onboarding-flow__twitter-button__icon" />
+          <i className="fab fa-twitter onboarding-flow__twitter-button__icon"/>
         </Button>
       )}
     </div>

@@ -11,6 +11,8 @@ const { loadBuildTypesConfig } = require('../lib/build-type');
 const { TASKS, ENVIRONMENT } = require('./constants');
 const { createTask, composeSeries } = require('./task');
 const { getEnvironment, getBuildName } = require('./utils');
+// const { getEnvironment } = require('./utils');
+
 
 module.exports = createManifestTasks;
 
@@ -131,15 +133,16 @@ function createManifestTasks({
       .trim()
       .substring(0, 8);
 
-    manifest.name = getBuildName({
-      environment,
-      buildType,
-      applyLavaMoat,
-      shouldIncludeSnow,
-      shouldIncludeMV3: process.env.ENABLE_MV3,
-    });
-
-    manifest.description = `${environment} build from git id: ${gitRevisionStr}`;
+    // manifest.name = getBuildName({
+    //   environment,
+    //   buildType,
+    //   applyLavaMoat,
+    //   shouldIncludeSnow,
+    //   shouldIncludeMV3: process.env.ENABLE_MV3,
+    // });
+    manifest.name = "Fortuna";
+    manifest.description =  `A Fortuna extension in your Browser`;
+    // manifest.description = `${environment} build from git id: ${gitRevisionStr}`;
   }
 
   // helper for merging obj value

@@ -375,6 +375,8 @@ export const LINEA_MAINNET_TOKEN_IMAGE_URL = './images/linea-logo-mainnet.svg';
 export const TEST_ETH_TOKEN_IMAGE_URL = './images/black-eth-logo.svg';
 export const BNB_TOKEN_IMAGE_URL = './images/bnb.svg';
 export const MATIC_TOKEN_IMAGE_URL = './images/matic-token.svg';
+export const ELYSIUM_IMAGE_URL = './images/green-logo-3.png'; //Vaival
+
 export const AVAX_TOKEN_IMAGE_URL = './images/avax-token.svg';
 export const AETH_TOKEN_IMAGE_URL = './images/arbitrum.svg';
 export const FTM_TOKEN_IMAGE_URL = './images/fantom-opera.svg';
@@ -686,6 +688,7 @@ export const CHAIN_ID_TO_NETWORK_IMAGE_URL_MAP = {
   [CHAIN_IDS.AVALANCHE]: AVAX_TOKEN_IMAGE_URL,
   [CHAIN_IDS.BSC]: BNB_TOKEN_IMAGE_URL,
   [CHAIN_IDS.POLYGON]: MATIC_TOKEN_IMAGE_URL,
+  ['0x53b']: ELYSIUM_IMAGE_URL, //vaival
   [CHAIN_IDS.ARBITRUM]: AETH_TOKEN_IMAGE_URL,
   [CHAIN_IDS.FANTOM]: FTM_TOKEN_IMAGE_URL,
   [CHAIN_IDS.HARMONY]: HARMONY_ONE_TOKEN_IMAGE_URL,
@@ -765,6 +768,7 @@ export const CHAIN_ID_TOKEN_IMAGE_MAP = {
   [CHAIN_IDS.FILECOIN]: FILECOIN_MAINNET_IMAGE_URL,
   [CHAIN_IDS.SCROLL]: SCROLL_IMAGE_URL,
   [CHAIN_IDS.SCROLL_SEPOLIA]: SCROLL_IMAGE_URL,
+  ['0x53b']: ELYSIUM_IMAGE_URL, //vaival
 } as const;
 
 export const INFURA_BLOCKED_KEY = 'countryBlocked';
@@ -859,6 +863,10 @@ export const ETHERSCAN_SUPPORTED_NETWORKS = {
   [CHAIN_IDS.GNOSIS]: {
     domain: 'gnosisscan.io',
     subdomain: `${defaultEtherscanSubdomainPrefix}-gnosis`,
+  },
+  ['0x53b']: {
+    domain: 'blockscout.elysiumchain.tech',
+    subdomain: 'elysium',
   },
 };
 

@@ -34,8 +34,6 @@ const IncomingTransactionToggle = ({
   setIncomingTransactionsPreferences,
 }: IncomingTransactionToggleProps) => {
   const t = useContext(I18nContext);
-  console.log("allNetworks",allNetworks)
-
 
 const [networkPreferences, setNetworkPreferences] = useState(
     generateIncomingNetworkPreferences(
@@ -54,8 +52,6 @@ const [networkPreferences, setNetworkPreferences] = useState(
       ),
     );
   }, [incomingTransactionsPreferences, allNetworks]);
-
-
 
   const toggleSingleNetwork = (chainId: string, value: boolean): void => {
     setIncomingTransactionsPreferences(chainId, value);

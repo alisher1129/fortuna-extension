@@ -148,7 +148,6 @@ export async function estimateGasLimitForSend({
       return estimatedGasLimit;
     } else {
       const estimatedGasLimit = await estimateGas(paramsForGasEstimate);
-
       return estimatedGasLimit;
     }
 ///Vaival

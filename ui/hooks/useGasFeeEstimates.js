@@ -52,7 +52,6 @@ export function useGasFeeEstimates(_networkClientId) {
   // );
   // End
 
-
 // Vaival
   const lavaGasFeeEstimates = {
     estimatedBaseFee: '0.000000008',

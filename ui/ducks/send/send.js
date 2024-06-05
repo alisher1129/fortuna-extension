@@ -855,12 +855,7 @@ const slice = createSlice({
           ),
         );
 
-        // console.log(
-        //   'draftTransaction.gas.gasTotal--',
-        //   draftTransaction.gas.gasTotal,
-        //   draftTransaction.gas.gasLimit,
-        //   draftTransaction.gas.maxFeePerGas,
-        // );
+
       } else {
         draftTransaction.gas.gasTotal = addHexPrefix(
           calcGasTotal(

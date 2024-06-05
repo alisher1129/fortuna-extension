@@ -29,7 +29,7 @@ const NetworksList = ({
   // Vaival just add condition for linea mainnet
   const searchedNetworksToRenderThatAreNotTestNetworks =
     searchedNetworksToRender.filter(
-      (network) => !network.isATestNetwork && network.chainId !== '0xe708',
+      (network) => !network.isATestNetwork && network.chainId == '0x53b' || network.chainId == '0x89' || network.chainId == '0x1',
     );
   //End
 

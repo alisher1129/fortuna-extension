@@ -18,6 +18,7 @@ export const useDraftTransactionWithTxParams = () => {
   const unapprovedTxs = useSelector(getUnapprovedTransactions);
   const chainId = useSelector(getCurrentChainId);
 
+
   let transactionData = {};
 
   if (Object.keys(draftTransaction).length !== 0) {
@@ -26,12 +27,12 @@ export const useDraftTransactionWithTxParams = () => {
     transactionData = {
       txParams: {
         gasPrice: draftTransaction.gas?.gasPrice,
-        // gas: '0x4C4B40',
+        // gasPrice: '0x45D964B800',
+        // gas: '0x927C0',
         gas: editingTransaction?.userEditedGasLimit
           ? editingTransaction?.txParams?.gas
           : draftTransaction.gas?.gasLimit,
-        maxFeePerGas:
-          chainId == '0x53b'
+        maxFeePerGas: chainId == '0x53b'
             ? '0x45D964B800'
             : editingTransaction?.txParams?.maxFeePerGas
             ? editingTransaction?.txParams?.maxFeePerGas
@@ -40,20 +41,19 @@ export const useDraftTransactionWithTxParams = () => {
             ? '0x6FC23AC00' : editingTransaction?.txParams?.maxPriorityFeePerGas
             ? editingTransaction?.txParams?.maxPriorityFeePerGas
             : draftTransaction.gas?.maxPriorityFeePerGas,
-        // maxFeePerGas: '0x45D964B800',
-        // maxPriorityFeePerGas: '0x6FC23AC00',
         // maxFeePerGas: editingTransaction?.txParams?.maxFeePerGas
         //   ? editingTransaction?.txParams?.maxFeePerGas
         //   : draftTransaction.gas?.maxFeePerGas,
         // maxPriorityFeePerGas: editingTransaction?.txParams?.maxPriorityFeePerGas
         //   ? editingTransaction?.txParams?.maxPriorityFeePerGas
         //   : draftTransaction.gas?.maxPriorityFeePerGas,
-        value: draftTransaction.amount?.value,
-        type: draftTransaction.transactionType,
+        // value: draftTransaction.amount?.value,
+        // type: draftTransaction.transactionType,
       },
 
       userFeeLevel: editingTransaction?.userFeeLevel,
     };
+
   }
   return transactionData;
 };

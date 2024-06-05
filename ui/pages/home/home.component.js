@@ -73,12 +73,12 @@ import {
   INTERACTIVE_REPLACEMENT_TOKEN_PAGE,
   ///: END:ONLY_INCLUDE_IF
 } from '../../helpers/constants/routes';
-import ZENDESK_URLS from '../../helpers/constants/zendesk-url';
-import {
-  ///: BEGIN:ONLY_INCLUDE_IF(build-main)
-  SUPPORT_LINK,
-  ///: END:ONLY_INCLUDE_IF
-} from '../../../shared/lib/ui-utils';
+// import ZENDESK_URLS from '../../helpers/constants/zendesk-url';
+// import {
+//   ///: BEGIN:ONLY_INCLUDE_IF(build-main)
+//   SUPPORT_LINK,
+//   ///: END:ONLY_INCLUDE_IF
+// } from '../../../shared/lib/ui-utils';
 ///: BEGIN:ONLY_INCLUDE_IF(build-beta)
 import BetaHomeFooter from './beta/beta-home-footer.component';
 ///: END:ONLY_INCLUDE_IF
@@ -633,9 +633,9 @@ export default class Home extends PureComponent {
               <span
                 key="web3ShimUsageNotificationLink"
                 className="home-notification__text-link"
-                onClick={() =>
-                  global.platform.openTab({ url: ZENDESK_URLS.LEGACY_WEB3 })
-                }
+                // onClick={() =>
+                //   global.platform.openTab({ url: ZENDESK_URLS.LEGACY_WEB3 })
+                // }
               >
                 {t('here')}
               </span>,
@@ -678,9 +678,9 @@ export default class Home extends PureComponent {
               <span
                 key="infuraBlockedNotificationLink"
                 className="home-notification__text-link"
-                onClick={() =>
-                  global.platform.openTab({ url: ZENDESK_URLS.INFURA_BLOCKAGE })
-                }
+                // onClick={() =>
+                //   global.platform.openTab({ url: ZENDESK_URLS.INFURA_BLOCKAGE })
+                // }
               >
                 {t('here')}
               </span>,
@@ -774,7 +774,7 @@ export default class Home extends PureComponent {
         footer={
           <>
             <a
-              href={ZENDESK_URLS.USER_GUIDE_DAPPS}
+              // href={ZENDESK_URLS.USER_GUIDE_DAPPS}
               target="_blank"
               rel="noopener noreferrer"
             >

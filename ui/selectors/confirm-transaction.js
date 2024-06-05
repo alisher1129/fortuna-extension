@@ -34,7 +34,6 @@ import {
   checkNetworkAndAccountSupports1559,
   getUnapprovedTransactions,
 } from '.';
-import { useSelector } from 'react-redux';
 
 const unapprovedTxsSelector = (state) => getUnapprovedTransactions(state);
 const unapprovedMsgsSelector = (state) => state.metamask.unapprovedMsgs;
@@ -221,8 +220,7 @@ export const transactionFeeSelector = function (state, txData) {
   const nativeCurrency = getNativeCurrency(state);
 
   // Vaival
-  // const chainId = getCurrentChainId(state)
-  const chainId = useSelector(getCurrentChainId)
+  const chainId = getCurrentChainId(state)
   const lavaGasFeeEstimates = {
     estimatedBaseFee: '0.000000008',
     low: {
@@ -255,7 +253,7 @@ export const transactionFeeSelector = function (state, txData) {
   const networkAndAccountSupportsEIP1559 =
     checkNetworkAndAccountSupports1559(state);
 
-
+//Vaival
     const originalObject = {
       gasLimit: txData.txParams?.gas ?? '0x0',
     }
@@ -265,6 +263,7 @@ export const transactionFeeSelector = function (state, txData) {
 
 
     const gasEstimationObject = chainId == '0x53b' ? lavaObject : originalObject ;
+    //End
 // Real
   // const gasEstimationObject = {
   //   gasLimit: txData.txParams?.gas ?? '0x0',

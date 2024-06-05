@@ -99,7 +99,7 @@ export function useGasFeeInputs(
   defaultEstimateToUse = GasRecommendations.medium,
   _transaction,
   // minimumGasLimit = '0x5208',
-  minimumGasLimit = '0x4C4B40',
+  minimumGasLimit = '0x927C0',
   editGasMode = EditGasModes.modifyInPlace,
 ) {
   const initialRetryTxMeta = {
@@ -160,7 +160,7 @@ export function useGasFeeInputs(
 // Vaival
 const chainId = useSelector(getCurrentChainId)
  const OriginalGasLimit =  Number(hexToDecimal(transaction?.txParams?.gas ?? '0x0'));
- const  lavaGasLimit    =   Number(hexToDecimal('0x4C4B40'));
+ const  lavaGasLimit    =   Number(hexToDecimal('0x927C0'));
  const [gasLimit, setGasLimit] = useState(() => {chainId === '0x53b' ? lavaGasLimit : OriginalGasLimit});
 // Vaival
 

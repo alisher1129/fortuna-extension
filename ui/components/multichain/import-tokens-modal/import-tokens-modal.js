@@ -653,7 +653,7 @@ export const ImportTokensModal = ({ onClose }) => {
                                   key="import-token-fake-token-warning"
                                   rel="noopener noreferrer"
                                   target="_blank"
-                                  href={ZENDESK_URLS.TOKEN_SAFETY_PRACTICES}
+                                  // href={ZENDESK_URLS.TOKEN_SAFETY_PRACTICES}
                                 >
                                   {t('learnScamRisk')}
                                 </ButtonLink>,

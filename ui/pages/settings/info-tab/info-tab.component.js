@@ -78,6 +78,7 @@ export default class InfoTab extends PureComponent {
           <Button
             type="link"
             // href={privacyUrl}
+            href='https://fortuna.elysiumchain.tech/PrivacyPolicy'
             target="_blank"
             rel="noopener noreferrer"
             className="info-tab__link-text"
@@ -89,6 +90,7 @@ export default class InfoTab extends PureComponent {
           <Button
             type="link"
             // href="https://metamask.io/terms.html"
+            href='https://fortuna.elysiumchain.tech/TermsOf_Use'
             target="_blank"
             rel="noopener noreferrer"
             className="info-tab__link-text"
@@ -101,6 +103,8 @@ export default class InfoTab extends PureComponent {
             <Button
               type="link"
               // href="https://metamask.io/beta-terms.html"
+              href='https://fortuna.elysiumchain.tech/TermsOf_Use'
+
               target="_blank"
               rel="noopener noreferrer"
               className="info-tab__link-text"

@@ -542,7 +542,7 @@ const NetworksForm = ({
       setWarnings({
         ...warnings,
         chainId: chainIdWarning,
-        ticker: tickerWarning,
+        // ticker: tickerWarning,
       });
     }
 

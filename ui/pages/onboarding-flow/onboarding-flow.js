@@ -1,7 +1,7 @@
 // import React, {useEffect, useState, useContext} from 'react';
-import React, {useEffect, useState} from 'react';
-import {Switch, Route, useHistory, useLocation} from 'react-router-dom';
-import {useDispatch, useSelector} from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Unlock from '../unlock-page';
 import {
   ///: BEGIN:ONLY_INCLUDE_IF(build-flask)
@@ -24,7 +24,7 @@ import {
   ONBOARDING_PIN_EXTENSION_ROUTE,
   ONBOARDING_METAMETRICS,
 } from '../../helpers/constants/routes';
-import {getCompletedOnboarding} from '../../ducks/metamask/metamask';
+import { getCompletedOnboarding } from '../../ducks/metamask/metamask';
 import {
   createNewVaultAndGetSeedPhrase,
   unlockAndGetSeedPhrase,
@@ -34,7 +34,7 @@ import { getFirstTimeFlowTypeRouteAfterUnlock } from '../../selectors';
 // import { MetaMetricsContext } from '../../contexts/metametrics';
 import Button from '../../components/ui/button';
 import RevealSRPModal from '../../components/app/reveal-SRP-modal';
-import {useI18nContext} from '../../hooks/useI18nContext';
+import { useI18nContext } from '../../hooks/useI18nContext';
 // import {
 //   MetaMetricsEventCategory,
 //   MetaMetricsEventName,
@@ -63,7 +63,7 @@ import MetaMetricsComponent from './metametrics/metametrics';
 export default function OnboardingFlow() {
   const [secretRecoveryPhrase, setSecretRecoveryPhrase] = useState('');
   const dispatch = useDispatch();
-  const {pathname, search} = useLocation();
+  const { pathname, search } = useLocation();
   const history = useHistory();
   const t = useI18nContext();
   const completedOnboarding = useSelector(getCompletedOnboarding);
@@ -110,129 +110,135 @@ export default function OnboardingFlow() {
         isOpen={showPasswordModalToAllowSRPReveal}
       />
       <div className="onboarding-flow__wrapper">
-        <Switch>
-          <Route
-            path={ONBOARDING_CREATE_PASSWORD_ROUTE}
-            render={(routeProps) => (
-              <CreatePassword
-                {...routeProps}
-                createNewAccount={handleCreateNewAccount}
-                importWithRecoveryPhrase={handleImportWithRecoveryPhrase}
-                secretRecoveryPhrase={secretRecoveryPhrase}
-              />
-            )}
-          />
-          <Route
-            path={ONBOARDING_SECURE_YOUR_WALLET_ROUTE}
-            component={SecureYourWallet}
-          />
-          <Route
-            path={ONBOARDING_REVIEW_SRP_ROUTE}
-            render={() => (
-              <ReviewRecoveryPhrase
-                secretRecoveryPhrase={secretRecoveryPhrase}
-              />
-            )}
-          />
-          <Route
-            path={ONBOARDING_CONFIRM_SRP_ROUTE}
-            render={() => (
-              <ConfirmRecoveryPhrase
-                secretRecoveryPhrase={secretRecoveryPhrase}
-              />
-            )}
-          />
-          <Route
-            path={ONBOARDING_IMPORT_WITH_SRP_ROUTE}
-            render={(routeProps) => (
-              <ImportSRP
-                {...routeProps}
-                submitSecretRecoveryPhrase={setSecretRecoveryPhrase}
-              />
-            )}
-          />
-          <Route
-            path={ONBOARDING_UNLOCK_ROUTE}
-            render={(routeProps) => (
-              <Unlock {...routeProps} onSubmit={handleUnlock} />
-            )}
-          />
-          <Route
-            path={ONBOARDING_PRIVACY_SETTINGS_ROUTE}
-            component={PrivacySettings}
-          />
-          <Route
-            path={ONBOARDING_COMPLETION_ROUTE}
-            component={CreationSuccessful}
-          />
-          {
-            ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
-          }
-          <Route
-            path={MMI_ONBOARDING_COMPLETION_ROUTE}
-            component={OnboardingSuccessful}
-          />
-          <Route
-            path={SRP_REMINDER}
-            render={() => (
-              <RemindSRP secretRecoveryPhrase={secretRecoveryPhrase} />
-            )}
-          />
-          {
-            ///: END:ONLY_INCLUDE_IF
-          }
-          <Route
-            path={ONBOARDING_WELCOME_ROUTE}
-            component={OnboardingWelcome}
-          />
-          <Route
-            path={ONBOARDING_PIN_EXTENSION_ROUTE}
-            component={OnboardingPinExtension}
-          />
-          <Route
-            path={ONBOARDING_METAMETRICS}
-            component={MetaMetricsComponent}
-          />
-          {
-            ///: BEGIN:ONLY_INCLUDE_IF(build-flask)
-          }
-          <Route
-            path={ONBOARDING_EXPERIMENTAL_AREA}
-            render={(routeProps) => (
-              <ExperimentalArea
-                {...routeProps}
-                redirectTo={ONBOARDING_WELCOME_ROUTE}
-              />
-            )}
-          />
-          {
-            ///: END:ONLY_INCLUDE_IF
-          }
-          <Route exact path="*" component={OnboardingFlowSwitch} />
-        </Switch>
+        <div className='GradientBox'>
+          <div className='InnerGradientBox'>
+            <div className='relative z-10'>
+              <Switch>
+                <Route
+                  path={ONBOARDING_CREATE_PASSWORD_ROUTE}
+                  render={(routeProps) => (
+                    <CreatePassword
+                      {...routeProps}
+                      createNewAccount={handleCreateNewAccount}
+                      importWithRecoveryPhrase={handleImportWithRecoveryPhrase}
+                      secretRecoveryPhrase={secretRecoveryPhrase}
+                    />
+                  )}
+                />
+                <Route
+                  path={ONBOARDING_SECURE_YOUR_WALLET_ROUTE}
+                  component={SecureYourWallet}
+                />
+                <Route
+                  path={ONBOARDING_REVIEW_SRP_ROUTE}
+                  render={() => (
+                    <ReviewRecoveryPhrase
+                      secretRecoveryPhrase={secretRecoveryPhrase}
+                    />
+                  )}
+                />
+                <Route
+                  path={ONBOARDING_CONFIRM_SRP_ROUTE}
+                  render={() => (
+                    <ConfirmRecoveryPhrase
+                      secretRecoveryPhrase={secretRecoveryPhrase}
+                    />
+                  )}
+                />
+                <Route
+                  path={ONBOARDING_IMPORT_WITH_SRP_ROUTE}
+                  render={(routeProps) => (
+                    <ImportSRP
+                      {...routeProps}
+                      submitSecretRecoveryPhrase={setSecretRecoveryPhrase}
+                    />
+                  )}
+                />
+                <Route
+                  path={ONBOARDING_UNLOCK_ROUTE}
+                  render={(routeProps) => (
+                    <Unlock {...routeProps} onSubmit={handleUnlock} />
+                  )}
+                />
+                <Route
+                  path={ONBOARDING_PRIVACY_SETTINGS_ROUTE}
+                  component={PrivacySettings}
+                />
+                <Route
+                  path={ONBOARDING_COMPLETION_ROUTE}
+                  component={CreationSuccessful}
+                />
+                {
+                  ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
+                }
+                <Route
+                  path={MMI_ONBOARDING_COMPLETION_ROUTE}
+                  component={OnboardingSuccessful}
+                />
+                <Route
+                  path={SRP_REMINDER}
+                  render={() => (
+                    <RemindSRP secretRecoveryPhrase={secretRecoveryPhrase} />
+                  )}
+                />
+                {
+                  ///: END:ONLY_INCLUDE_IF
+                }
+                <Route
+                  path={ONBOARDING_WELCOME_ROUTE}
+                  component={OnboardingWelcome}
+                />
+                <Route
+                  path={ONBOARDING_PIN_EXTENSION_ROUTE}
+                  component={OnboardingPinExtension}
+                />
+                <Route
+                  path={ONBOARDING_METAMETRICS}
+                  component={MetaMetricsComponent}
+                />
+                {
+                  ///: BEGIN:ONLY_INCLUDE_IF(build-flask)
+                }
+                <Route
+                  path={ONBOARDING_EXPERIMENTAL_AREA}
+                  render={(routeProps) => (
+                    <ExperimentalArea
+                      {...routeProps}
+                      redirectTo={ONBOARDING_WELCOME_ROUTE}
+                    />
+                  )}
+                />
+                {
+                  ///: END:ONLY_INCLUDE_IF
+                }
+                <Route exact path="*" component={OnboardingFlowSwitch} />
+              </Switch>
+            </div>
+          </div>
+        </div>
       </div>
-      {pathname === ONBOARDING_COMPLETION_ROUTE && (
+      {/* {pathname === ONBOARDING_COMPLETION_ROUTE && (
         <Button
           className="onboarding-flow__twitter-button"
           type="link"
-          // href={TWITTER_URL}
-          // onClick={() => {
-          //   trackEvent({
-          //     category: MetaMetricsEventCategory.Onboarding,
-          //     event: MetaMetricsEventName.OnboardingTwitterClick,
-          //     properties: {
-          //       text: t('followUsOnTwitter'),
-          //       location: MetaMetricsEventName.OnboardingWalletCreationComplete,
-          //       url: TWITTER_URL,
-          //     },
-          //   });
-          // }}
+          href={TWITTER_URL}
+          onClick={() => {
+            trackEvent({
+              category: MetaMetricsEventCategory.Onboarding,
+              event: MetaMetricsEventName.OnboardingTwitterClick,
+              properties: {
+                text: t('followUsOnTwitter'),
+                location: MetaMetricsEventName.OnboardingWalletCreationComplete,
+                url: TWITTER_URL,
+              },
+            });
+          }}
           target="_blank"
         >
           <span>{t('followUsOnTwitter')}</span>
-          <i className="fab fa-twitter onboarding-flow__twitter-button__icon"/>
+          <i className="fab fa-twitter onboarding-flow__twitter-button__icon" />
         </Button>
-      )}
+      )} */}
     </div>
   );
 }

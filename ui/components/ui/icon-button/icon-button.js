@@ -27,7 +27,7 @@ export default function IconButton({
     >
       {renderWrapper(
         <>
-          <div className={"primary-green-color"}>{Icon}</div>
+          <div className="primary-green-color">{Icon}</div>
           {label.length > 10 ? (
             <Tooltip title={label} position="bottom">
               <Text

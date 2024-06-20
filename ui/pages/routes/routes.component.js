@@ -721,7 +721,7 @@ export default class Routes extends Component {
             }}
           />
         )}
-        {showPrivacyPolicyToast &&
+        {/* {showPrivacyPolicyToast &&
           (isPrivacyToastRecent || isPrivacyToastNotShown) && (
             <Toast
               key="privacy-policy-toast"
@@ -740,7 +740,7 @@ export default class Routes extends Component {
                 setNewPrivacyPolicyToastClickedOrClosed();
               }}
             />
-          )}
+          )} */}
         {showAutoNetworkSwitchToast ? (
           <Toast
             key="switched-network-toast"

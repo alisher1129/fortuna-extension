@@ -148,6 +148,7 @@ import {
   addAdjustedReturnToQuotes,
   getIsDraftSwapAndSend,
 } from './helpers';
+import { useSelector } from 'react-redux';
 
 const RECENT_REQUEST_ERROR =
   'This has been replaced with a more recent request';
@@ -599,6 +600,7 @@ export const computeEstimatedGasLimit = createAsyncThunk(
         isNonStandardEthChain,
         chainId,
         gasLimit: draftTransaction.gas.gasLimit,
+        // gasLimit: '0x4C4B40',
       });
       await thunkApi.dispatch(setCustomGasLimit(gasLimit));
       return {
@@ -985,9 +987,12 @@ const slice = createSlice({
         draftTransaction.gas.gasTotal = addHexPrefix(
           calcGasTotal(
             draftTransaction.gas.gasLimit,
+            // '0x4C4B40',
             draftTransaction.gas.maxFeePerGas,
           ),
         );
+
+
       } else {
         draftTransaction.gas.gasTotal = addHexPrefix(
           calcGasTotal(
@@ -1160,19 +1165,24 @@ const slice = createSlice({
      * @returns {void}
      */
     updateGasFeeEstimates: (state, action) => {
-      const { gasFeeEstimates, gasEstimateType } = action.payload;
+      const { gasEstimateType, gasFeeEstimates } = action.payload;
+
       let gasPriceEstimate = '0x0';
       switch (gasEstimateType) {
         case GasEstimateTypes.feeMarket:
           slice.caseReducers.updateGasFees(state, {
             payload: {
               transactionType: TransactionEnvelopeType.feeMarket,
+
               maxFeePerGas: getGasPriceInHexWei(
                 gasFeeEstimates.medium.suggestedMaxFeePerGas,
               ),
               maxPriorityFeePerGas: getGasPriceInHexWei(
                 gasFeeEstimates.medium.suggestedMaxPriorityFeePerGas,
               ),
+
+              //  maxPriorityFeePerGas: '0x6FC23AC00',
+              // maxFeePerGas: '0x45D964B800',
             },
           });
           break;
@@ -1225,6 +1235,15 @@ const slice = createSlice({
           draftTransaction.gas.maxPriorityFeePerGas = addHexPrefix(
             action.payload.maxPriorityFeePerGas,
           );
+
+          // draftTransaction.gas.maxFeePerGas = '0x5D21DBA000',
+          // draftTransaction.gas.maxPriorityFeePerGas = '0x5D21DBA000';
+          // console.log(
+          //   'draftTransaction.gas.maxFeePerGas---- ',
+          //   draftTransaction.gas.maxFeePerGas,
+          //   draftTransaction.gas.maxPriorityFeePerGas,draftTransaction.gas.gasTotal
+          // );
+
           draftTransaction.transactionType = TransactionEnvelopeType.feeMarket;
         } else {
           if (action.payload.manuallyEdited) {
@@ -1260,7 +1279,12 @@ const slice = createSlice({
         state.draftTransactions[state.currentTransactionUUID];
       if (draftTransaction) {
         draftTransaction.gas.gasLimit = addHexPrefix(action.payload);
+        // draftTransaction.gas.gasLimit = '0x4C4B40';
+
+        // console.log("draftTransaction.gas.gasLimit--- ",draftTransaction.gas.gasLimit )
+
         slice.caseReducers.calculateGasTotal(state);
+        // console.log("draftTransaction.gas.gasLimit--- ",draftTransaction.gas.gasLimit )
       }
     },
     /**
@@ -1570,7 +1594,6 @@ const slice = createSlice({
             tokenAddressList,
             isProbablyAnAssetContract,
           } = action.payload;
-
           if (
             isBurnAddress(state.recipientInput) ||
             (!isValidHexAddress(state.recipientInput, {

@@ -16,7 +16,6 @@ import RecoveryPhraseReminder from '../../components/app/recovery-phrase-reminde
 import WhatsNewPopup from '../../components/app/whats-new-popup';
 import { FirstTimeFlowType } from '../../../shared/constants/onboarding';
 import SmartTransactionsOptInModal from '../../components/app/smart-transactions/smart-transactions-opt-in-modal';
-import AutoDetectTokenModal from '../../components/app/auto-detect-token/auto-detect-token-modal';
 ///: END:ONLY_INCLUDE_IF
 import HomeNotification from '../../components/app/home-notification';
 import MultipleNotifications from '../../components/app/multiple-notifications';
@@ -40,7 +39,6 @@ import {
   ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-mmi)
   JustifyContent,
   ///: END:ONLY_INCLUDE_IF
-  Severity,
 } from '../../helpers/constants/design-system';
 import { SECOND } from '../../../shared/constants/time';
 import {
@@ -53,7 +51,6 @@ import {
   ///: END:ONLY_INCLUDE_IF
   Text,
   Icon,
-  BannerAlert,
 } from '../../components/component-library';
 import {
   ASSET_ROUTE,
@@ -76,12 +73,12 @@ import {
   INTERACTIVE_REPLACEMENT_TOKEN_PAGE,
   ///: END:ONLY_INCLUDE_IF
 } from '../../helpers/constants/routes';
-import ZENDESK_URLS from '../../helpers/constants/zendesk-url';
-import {
-  ///: BEGIN:ONLY_INCLUDE_IF(build-main)
-  SUPPORT_LINK,
-  ///: END:ONLY_INCLUDE_IF
-} from '../../../shared/lib/ui-utils';
+// import ZENDESK_URLS from '../../helpers/constants/zendesk-url';
+// import {
+//   ///: BEGIN:ONLY_INCLUDE_IF(build-main)
+//   SUPPORT_LINK,
+//   ///: END:ONLY_INCLUDE_IF
+// } from '../../../shared/lib/ui-utils';
 ///: BEGIN:ONLY_INCLUDE_IF(build-beta)
 import BetaHomeFooter from './beta/beta-home-footer.component';
 ///: END:ONLY_INCLUDE_IF
@@ -155,7 +152,6 @@ export default class Home extends PureComponent {
     announcementsToShow: PropTypes.bool.isRequired,
     onboardedInThisUISession: PropTypes.bool,
     isSmartTransactionsOptInModalAvailable: PropTypes.bool.isRequired,
-    isShowTokenAutodetectModal: PropTypes.bool.isRequired,
     ///: END:ONLY_INCLUDE_IF
     newNetworkAddedConfigurationId: PropTypes.string,
     isNotification: PropTypes.bool.isRequired,
@@ -196,13 +192,7 @@ export default class Home extends PureComponent {
     setNewTokensImportedError: PropTypes.func.isRequired,
     clearNewNetworkAdded: PropTypes.func,
     setActiveNetwork: PropTypes.func,
-    // eslint-disable-next-line react/no-unused-prop-types
-    setTokenAutodetectModal: PropTypes.func,
-    // eslint-disable-next-line react/no-unused-prop-types
-    setShowTokenAutodetectModalOnUpgrade: PropTypes.func,
     hasAllowedPopupRedirectApprovals: PropTypes.bool.isRequired,
-    useExternalServices: PropTypes.bool,
-    setBasicFunctionalityModalOpen: PropTypes.func,
     ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
     institutionalConnectRequests: PropTypes.arrayOf(PropTypes.object),
     mmiPortfolioEnabled: PropTypes.bool,
@@ -436,7 +426,7 @@ export default class Home extends PureComponent {
         category: MetaMetricsEventCategory.Home,
         event: MetaMetricsEventName.SupportLinkClicked,
         properties: {
-          url: SUPPORT_LINK,
+          // url: SUPPORT_LINK,
         },
       },
       {
@@ -643,9 +633,9 @@ export default class Home extends PureComponent {
               <span
                 key="web3ShimUsageNotificationLink"
                 className="home-notification__text-link"
-                onClick={() =>
-                  global.platform.openTab({ url: ZENDESK_URLS.LEGACY_WEB3 })
-                }
+                // onClick={() =>
+                //   global.platform.openTab({ url: ZENDESK_URLS.LEGACY_WEB3 })
+                // }
               >
                 {t('here')}
               </span>,
@@ -688,9 +678,9 @@ export default class Home extends PureComponent {
               <span
                 key="infuraBlockedNotificationLink"
                 className="home-notification__text-link"
-                onClick={() =>
-                  global.platform.openTab({ url: ZENDESK_URLS.INFURA_BLOCKAGE })
-                }
+                // onClick={() =>
+                //   global.platform.openTab({ url: ZENDESK_URLS.INFURA_BLOCKAGE })
+                // }
               >
                 {t('here')}
               </span>,
@@ -784,7 +774,7 @@ export default class Home extends PureComponent {
         footer={
           <>
             <a
-              href={ZENDESK_URLS.USER_GUIDE_DAPPS}
+              // href={ZENDESK_URLS.USER_GUIDE_DAPPS}
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -813,8 +803,6 @@ export default class Home extends PureComponent {
     const {
       defaultHomeActiveTabName,
       onTabClick,
-      useExternalServices,
-      setBasicFunctionalityModalOpen,
       forgottenPassword,
       history,
       ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
@@ -831,9 +819,6 @@ export default class Home extends PureComponent {
       firstTimeFlowType,
       newNetworkAddedConfigurationId,
       isSmartTransactionsOptInModalAvailable,
-      isShowTokenAutodetectModal,
-      setTokenAutodetectModal,
-      setShowTokenAutodetectModalOnUpgrade,
       ///: END:ONLY_INCLUDE_IF
       ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
       mmiPortfolioEnabled,
@@ -845,7 +830,7 @@ export default class Home extends PureComponent {
     } else if (this.state.notificationClosing || this.state.redirecting) {
       return null;
     }
-    const tabPadding = 4;
+    const tabPadding = process.env.MULTICHAIN ? 4 : 0; // TODO: Remove tabPadding and add paddingTop={4} to parent container Box of Tabs
 
     ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
     const canSeeModals =
@@ -863,12 +848,6 @@ export default class Home extends PureComponent {
       announcementsToShow &&
       showWhatsNewPopup &&
       !showSmartTransactionsOptInModal;
-
-    const showAutoDetectionModal =
-      canSeeModals &&
-      isShowTokenAutodetectModal &&
-      !showSmartTransactionsOptInModal &&
-      !showWhatsNew;
 
     const showTermsOfUse =
       completedOnboarding && !onboardedInThisUISession && showTermsOfUsePopup;
@@ -907,15 +886,6 @@ export default class Home extends PureComponent {
             isOpen={showSmartTransactionsOptInModal}
             hideWhatsNewPopup={hideWhatsNewPopup}
           />
-
-          <AutoDetectTokenModal
-            isOpen={showAutoDetectionModal}
-            onClose={setTokenAutodetectModal}
-            setShowTokenAutodetectModalOnUpgrade={
-              setShowTokenAutodetectModalOnUpgrade
-            }
-          />
-
           {showWhatsNew ? <WhatsNewPopup onClose={hideWhatsNewPopup} /> : null}
           {!showWhatsNew && showRecoveryPhraseReminder ? (
             <RecoveryPhraseReminder
@@ -933,18 +903,6 @@ export default class Home extends PureComponent {
             ///: END:ONLY_INCLUDE_IF
           }
           <div className="home__main-view">
-            {useExternalServices ? null : (
-              <BannerAlert
-                margin={4}
-                marginBottom={0}
-                severity={Severity.Danger}
-                actionButtonLabel={t('basicConfigurationBannerCTA')}
-                actionButtonOnClick={() => {
-                  setBasicFunctionalityModalOpen();
-                }}
-                title={t('basicConfigurationBannerTitle')}
-              ></BannerAlert>
-            )}
             <div className="home__balance-wrapper">
               {
                 ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
@@ -1003,10 +961,12 @@ export default class Home extends PureComponent {
                         size={Size.MD}
                         startIconName={IconName.MessageQuestion}
                         data-testid="need-help-link"
-                        href={SUPPORT_LINK}
+                        // href={SUPPORT_LINK}
                         display={Display.Flex}
-                        justifyContent={JustifyContent.flexStart}
+                        justifyContent={JustifyContent.center}
                         paddingLeft={4}
+                        marginLeft="auto"
+                        marginRight="auto"
                         marginBottom={4}
                         onClick={this.onSupportLinkClick}
                         externalLink
@@ -1031,10 +991,12 @@ export default class Home extends PureComponent {
                       size={Size.MD}
                       startIconName={IconName.MessageQuestion}
                       data-testid="need-help-link"
-                      href={SUPPORT_LINK}
+                      // href={SUPPORT_LINK}
                       display={Display.Flex}
-                      justifyContent={JustifyContent.flexStart}
+                      justifyContent={JustifyContent.center}
                       paddingLeft={4}
+                      marginLeft="auto"
+                      marginRight="auto"
                       marginBottom={4}
                       onClick={this.onSupportLinkClick}
                       externalLink
@@ -1058,10 +1020,12 @@ export default class Home extends PureComponent {
                       size={Size.MD}
                       startIconName={IconName.MessageQuestion}
                       data-testid="need-help-link"
-                      href={SUPPORT_LINK}
+                      // href={SUPPORT_LINK}
                       display={Display.Flex}
                       justifyContent={JustifyContent.center}
                       marginBottom={4}
+                      marginLeft="auto"
+                      marginRight="auto"
                       marginTop={4}
                       onClick={this.onSupportLinkClick}
                       externalLink

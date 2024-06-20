@@ -51,6 +51,7 @@ export const NetworkListItem = ({
   };
 
   return (
+
     <Box
       padding={4}
       gap={2}

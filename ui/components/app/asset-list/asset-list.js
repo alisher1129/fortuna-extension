@@ -58,12 +58,11 @@ const AssetList = ({ onClickAsset }) => {
   const { chainId } = useSelector(getCurrentNetwork);
   const isMainnet = useSelector(getIsMainnet);
   const { useNativeCurrencyAsPrimaryCurrency } = useSelector(getPreferences);
-  const { ticker, type, rpcUrl } = useSelector(getProviderConfig);
+  const { ticker, type } = useSelector(getProviderConfig);
   const isOriginalNativeSymbol = useIsOriginalNativeTokenSymbol(
     chainId,
     ticker,
     type,
-    rpcUrl,
   );
   const trackEvent = useContext(MetaMetricsContext);
   const balance = useSelector(getSelectedAccountCachedBalance);
@@ -117,6 +116,7 @@ const AssetList = ({ onClickAsset }) => {
   isStakeable = false;
   ///: END:ONLY_INCLUDE_IF
 
+
   return (
     <>
       {detectedTokens.length > 0 &&
@@ -165,6 +165,9 @@ const AssetList = ({ onClickAsset }) => {
         isNativeCurrency
         isStakeable={isStakeable}
       />
+
+
+
       <TokenList
         tokens={tokensWithBalances}
         loading={loading}
@@ -180,6 +183,8 @@ const AssetList = ({ onClickAsset }) => {
           });
         }}
       />
+
+
       {balanceIsZero && (
         <ReceiveTokenLink
           margin={4}

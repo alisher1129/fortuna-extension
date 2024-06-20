@@ -142,7 +142,9 @@ export function getConnectedSubjectsForAllAddresses(state) {
         accountsToConnections[address] = [];
       }
       const metadata = subjectMetadata[subjectKey];
-      accountsToConnections[address].push({ origin: subjectKey, ...metadata });
+      if (metadata) {
+        accountsToConnections[address].push(metadata);
+      }
     });
   });
 

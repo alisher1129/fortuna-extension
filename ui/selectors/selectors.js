@@ -6,7 +6,6 @@ import { ApprovalType } from '@metamask/controller-utils';
 import {
   stripSnapPrefix,
   getLocalizedSnapManifest,
-  SnapStatus,
 } from '@metamask/snaps-utils';
 import { memoize } from 'lodash';
 import semver from 'semver';
@@ -105,6 +104,8 @@ import {
   NOTIFICATION_DROP_LEDGER_FIREFOX,
   NOTIFICATION_PETNAMES,
   NOTIFICATION_U2F_LEDGER_LIVE,
+  NOTIFICATION_STAKING_PORTFOLIO,
+  NOTIFICATION_PORTFOLIO_V2,
   NOTIFICATION_SIMULATIONS,
 } from '../../shared/notifications';
 import {
@@ -197,7 +198,7 @@ export function getCurrentKeyring(state) {
  * both of them support EIP-1559.
  *
  * @param state
- * @param [networkClientId] - The optional network client ID to check network and account for EIP-1559 support
+ * @param networkClientId - The optional network client ID to check network and account for EIP-1559 support
  */
 export function checkNetworkAndAccountSupports1559(state, networkClientId) {
   const networkSupports1559 = isEIP1559Network(state, networkClientId);
@@ -476,20 +477,19 @@ export const getConfirmationExchangeRates = (state) => {
   return state.metamask.confirmationExchangeRates;
 };
 
-export const getSelectedAccount = createDeepEqualSelector(
-  getMetaMaskAccounts,
-  getSelectedInternalAccount,
-  (accounts, selectedAccount) => {
-    // At the time of onboarding there is no selected account
-    if (selectedAccount) {
-      return {
-        ...selectedAccount,
-        ...accounts[selectedAccount.address],
-      };
-    }
-    return undefined;
-  },
-);
+export function getSelectedAccount(state) {
+  const accounts = getMetaMaskAccounts(state);
+  const selectedAccount = getSelectedInternalAccount(state);
+
+  // At the time of onboarding there is no selected account
+  if (selectedAccount) {
+    return {
+      ...selectedAccount,
+      ...accounts[selectedAccount.address],
+    };
+  }
+  return undefined;
+}
 
 export function getTargetAccount(state, targetAddress) {
   const accounts = getMetaMaskAccounts(state);
@@ -800,10 +800,10 @@ export function getUnapprovedTxCount(state) {
   return Object.keys(unapprovedTxs).length;
 }
 
-export const getUnapprovedConfirmations = createDeepEqualSelector(
-  (state) => state.metamask.pendingApprovals || {},
-  (pendingApprovals) => Object.values(pendingApprovals),
-);
+export function getUnapprovedConfirmations(state) {
+  const { pendingApprovals = {} } = state.metamask;
+  return Object.values(pendingApprovals);
+}
 
 export function getUnapprovedTemplatedConfirmations(state) {
   const unapprovedConfirmations = getUnapprovedConfirmations(state);
@@ -871,8 +871,8 @@ export function getPetnamesEnabled(state) {
 }
 
 export function getRedesignedConfirmationsEnabled(state) {
-  const { redesignedConfirmationsEnabled } = getPreferences(state);
-  return redesignedConfirmationsEnabled;
+  const { redesignedConfirmations } = getPreferences(state);
+  return redesignedConfirmations;
 }
 
 export function getFeatureNotificationsEnabled(state) {
@@ -1157,34 +1157,6 @@ export const getMemoizedInterfaceContent = createDeepEqualSelector(
 
 ///: END:ONLY_INCLUDE_IF
 
-///: BEGIN:ONLY_INCLUDE_IF(snaps)
-/**
- * Input selector providing a way to pass the origins as an argument.
- *
- * @param _state - Redux state object.
- * @param origins - Object containing origins.
- * @returns object - Object with keys that can be used as input selector.
- */
-const selectOrigins = (_state, origins) => origins;
-
-/**
- * Retrieve metadata for multiple subjects (origins).
- *
- * @param state - Redux state object.
- * @param origins - Object containing keys that represent subject's identification.
- * @returns Key:value object containing metadata attached to each subject key.
- */
-export const getMultipleTargetsSubjectMetadata = createDeepEqualSelector(
-  [rawStateSelector, selectOrigins],
-  (state, origins) => {
-    return Object.keys(origins ?? {}).reduce((originsMetadata, origin) => {
-      originsMetadata[origin] = getTargetSubjectMetadata(state, origin);
-      return originsMetadata;
-    }, {});
-  },
-);
-///: END:ONLY_INCLUDE_IF
-
 export function getRpcPrefsForCurrentProvider(state) {
   const { rpcPrefs } = getProviderConfig(state);
   return rpcPrefs || {};
@@ -1211,10 +1183,6 @@ export function getOriginOfCurrentTab(state) {
 
 export function getIpfsGateway(state) {
   return state.metamask.ipfsGateway;
-}
-
-export function getUseExternalServices(state) {
-  return state.metamask.useExternalServices;
 }
 
 export function getInfuraBlocked(state) {
@@ -1537,10 +1505,6 @@ export function getSnaps(state) {
   return state.metamask.snaps;
 }
 
-export function getLocale(state) {
-  return state.metamask.currentLocale;
-}
-
 export const getSnap = createDeepEqualSelector(
   getSnaps,
   (_, snapId) => snapId,
@@ -1550,31 +1514,25 @@ export const getSnap = createDeepEqualSelector(
 );
 
 /**
- * Get a selector that returns all Snaps metadata (name and description) for all Snaps.
+ * Get a selector that returns the snap manifest for a given `snapId`.
  *
  * @param {object} state - The Redux state object.
- * @returns {object} An object mapping all installed snaps to their metadata, which contains the snap name and description.
+ * @param {string} snapId - The snap ID to get the manifest for.
+ * @returns {object | undefined} The snap manifest.
  */
-export const getSnapsMetadata = createDeepEqualSelector(
-  getLocale,
-  getSnaps,
-  (locale, snaps) => {
-    return Object.values(snaps).reduce((snapsMetadata, snap) => {
-      const snapId = snap.id;
-      const manifest = snap.localizationFiles
-        ? getLocalizedSnapManifest(
-            snap.manifest,
-            locale,
-            snap.localizationFiles,
-          )
-        : snap.manifest;
+export const getSnapManifest = createDeepEqualSelector(
+  (state) => state.metamask.currentLocale,
+  (state, snapId) => getSnap(state, snapId),
+  (locale, snap) => {
+    if (!snap?.localizationFiles) {
+      return snap?.manifest;
+    }
 
-      snapsMetadata[snapId] = {
-        name: manifest.proposedName,
-        description: manifest.description,
-      };
-      return snapsMetadata;
-    }, {});
+    return getLocalizedSnapManifest(
+      snap.manifest,
+      locale,
+      snap.localizationFiles,
+    );
   },
 );
 
@@ -1587,14 +1545,35 @@ export const getSnapsMetadata = createDeepEqualSelector(
  * @returns {object} An object containing the snap name and description.
  */
 export const getSnapMetadata = createDeepEqualSelector(
-  getSnapsMetadata,
+  (state, snapId) => getSnapManifest(state, snapId),
   (_, snapId) => snapId,
-  (metadata, snapId) => {
-    return (
-      metadata[snapId] ?? {
-        name: snapId ? stripSnapPrefix(snapId) : null,
-      }
-    );
+  (manifest, snapId) => {
+    return {
+      // The snap manifest may not be available if the Snap is not installed, so
+      // we use the snap ID as the name in that case.
+      name: manifest?.proposedName ?? (snapId ? stripSnapPrefix(snapId) : null),
+      description: manifest?.description,
+    };
+  },
+);
+
+/**
+ * Get a selector that returns all snaps metadata (name and description) for a
+ * given `snapId`.
+ *
+ * @param {object} state - The Redux state object.
+ * @returns {object} An object mapping all installed snaps to their metadata, which contains the snap name and description.
+ */
+export const getSnapsMetadata = createDeepEqualSelector(
+  (state) => state,
+  (state) => {
+    return Object.keys(getSnaps(state));
+  },
+  (state, snapIds) => {
+    return snapIds.reduce((snapsMetadata, snapId) => {
+      snapsMetadata[snapId] = getSnapMetadata(state, snapId);
+      return snapsMetadata;
+    }, {});
   },
 );
 
@@ -1723,10 +1702,12 @@ function getAllowedAnnouncementIds(state) {
     // This syntax is unusual, but very helpful here.  It's equivalent to `unnamedObject[NOTIFICATION_DROP_LEDGER_FIREFOX] =`
     [NOTIFICATION_DROP_LEDGER_FIREFOX]: currentKeyringIsLedger && isFirefox,
     [NOTIFICATION_U2F_LEDGER_LIVE]: currentKeyringIsLedger && !isFirefox,
+    [NOTIFICATION_STAKING_PORTFOLIO]: true,
     ///: BEGIN:ONLY_INCLUDE_IF(blockaid)
     [NOTIFICATION_BLOCKAID_DEFAULT]: true,
     ///: END:ONLY_INCLUDE_IF
     [NOTIFICATION_PETNAMES]: true,
+    [NOTIFICATION_PORTFOLIO_V2]: true,
     [NOTIFICATION_SIMULATIONS]: true,
   };
 }
@@ -1840,7 +1821,8 @@ export function getNetworkToAutomaticallySwitchTo(state) {
     getIsUnlocked(state) &&
     useRequestQueue &&
     selectedTabOrigin &&
-    numberOfUnapprovedTx === 0
+    numberOfUnapprovedTx === 0 &&
+    process.env.MULTICHAIN
   ) {
     const domainNetworks = getAllDomains(state);
     const networkIdForThisDomain = domainNetworks[selectedTabOrigin];
@@ -2429,14 +2411,6 @@ export function getOnboardedInThisUISession(state) {
   return state.appState.onboardedInThisUISession;
 }
 
-export function getShowBasicFunctionalityModal(state) {
-  return state.appState.showBasicFunctionalityModal;
-}
-
-export function getExternalServicesOnboardingToggleState(state) {
-  return state.appState.externalServicesOnboardingToggleState;
-}
-
 export const useSafeChainsListValidationSelector = (state) => {
   return state.metamask.useSafeChainsListValidation;
 };
@@ -2498,10 +2472,7 @@ export function getIsDesktopEnabled(state) {
 export function getSnapsList(state) {
   const snaps = getSnaps(state);
   return Object.entries(snaps)
-    .filter(
-      ([_key, snap]) =>
-        !snap.preinstalled && snap.status !== SnapStatus.Installing,
-    )
+    .filter(([_key, snap]) => !snap.preinstalled)
     .map(([key, snap]) => {
       const targetSubjectMetadata = getTargetSubjectMetadata(state, snap?.id);
       return {

@@ -41,8 +41,8 @@ export const useGasItemFeeDetails = (priorityLevel) => {
 
   if (gasFeeEstimates?.[priorityLevel]) {
     maxFeePerGas = gasFeeEstimates[priorityLevel].suggestedMaxFeePerGas;
-    maxPriorityFeePerGas =
-      gasFeeEstimates[priorityLevel].suggestedMaxPriorityFeePerGas;
+    maxPriorityFeePerGas = gasFeeEstimates[priorityLevel].suggestedMaxPriorityFeePerGas;
+
   } else if (
     priorityLevel === PriorityLevels.dAppSuggested &&
     dappSuggestedGasFees
@@ -53,13 +53,16 @@ export const useGasItemFeeDetails = (priorityLevel) => {
     maxPriorityFeePerGas = hexWEIToDecGWEI(
       dappSuggestedGasFees.maxPriorityFeePerGas || maxFeePerGas,
     );
+
   } else if (priorityLevel === PriorityLevels.custom) {
     if (estimateUsed === PriorityLevels.custom) {
       maxFeePerGas = maxFeePerGasValue;
       maxPriorityFeePerGas = maxPriorityFeePerGasValue;
+
     } else if (advancedGasFeeValues && editGasMode !== EditGasModes.swaps) {
       maxFeePerGas = advancedGasFeeValues.maxBaseFee;
       maxPriorityFeePerGas = advancedGasFeeValues.priorityFee;
+
     }
   } else if (
     priorityLevel === PriorityLevels.tenPercentIncreased &&
@@ -71,7 +74,11 @@ export const useGasItemFeeDetails = (priorityLevel) => {
     maxPriorityFeePerGas = hexWEIToDecGWEI(
       addTenPercentAndRound(transaction.previousGas?.maxPriorityFeePerGas),
     );
+
   }
+
+
+
 
   const { waitTimeEstimate } = useCustomTimeEstimate({
     gasFeeEstimates,
@@ -88,13 +95,19 @@ export const useGasItemFeeDetails = (priorityLevel) => {
     minWaitTime = waitTimeEstimate;
   }
 
-  const hexMaximumTransactionFee = maxFeePerGas
+
+
+
+
+  const hexMaximumTransactionFee =
+  maxFeePerGas
     ? getMaximumGasTotalInHexWei({
         gasLimit: decimalToHex(gasLimit),
         maxFeePerGas: decGWEIToHexWEI(maxFeePerGas),
+        // maxFeePerGas: decGWEIToHexWEI(400),
+
       })
     : null;
-
   useEffect(() => {
     // For cancel and speed-up medium / high option is disabled if
     // gas used in transaction + 10% is greater tham estimate

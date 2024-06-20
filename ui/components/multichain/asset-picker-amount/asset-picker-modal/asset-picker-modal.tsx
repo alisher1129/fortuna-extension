@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useMemo } from 'react';
-
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { isEqual, uniqBy } from 'lodash';
+import classnames from 'classnames';
+import { isEqual } from 'lodash';
 import { Tab, Tabs } from '../../../ui/tabs';
 import NftsItems from '../../../app/nfts-items/nfts-items';
 import {
@@ -16,12 +16,11 @@ import {
   ButtonLinkSize,
   ButtonIconSize,
   TextFieldSearchSize,
-  AvatarTokenSize,
-  AvatarToken,
 } from '../../../component-library';
 import {
   BlockSize,
   BorderRadius,
+  BackgroundColor,
   TextColor,
   TextVariant,
   TextAlign,
@@ -29,61 +28,151 @@ import {
   JustifyContent,
   AlignItems,
   FlexDirection,
+  FlexWrap,
 } from '../../../../helpers/constants/design-system';
 import { useI18nContext } from '../../../../hooks/useI18nContext';
-
-import { AssetType } from '../../../../../shared/constants/transaction';
-
-import { useNftsCollections } from '../../../../hooks/useNftsCollections';
-import ZENDESK_URLS from '../../../../helpers/constants/zendesk-url';
 import {
-  getCurrentChainId,
-  getCurrentCurrency,
   getNativeCurrencyImage,
   getSelectedAccountCachedBalance,
   getSelectedInternalAccount,
   getShouldHideZeroBalanceTokens,
-  getTokenExchangeRates,
-  getTokenList,
 } from '../../../../selectors';
+
+import { PRIMARY, SECONDARY } from '../../../../helpers/constants/common';
 import {
-  getConversionRate,
   getNativeCurrency,
   getTokens,
 } from '../../../../ducks/metamask/metamask';
+import {
+  AssetType,
+  TokenStandard,
+} from '../../../../../shared/constants/transaction';
 import { useTokenTracker } from '../../../../hooks/useTokenTracker';
-import { getTopAssets } from '../../../../ducks/swaps/swaps';
-import { getRenderableTokenData } from '../../../../hooks/useTokensToSearch';
-import { useEqualityCheck } from '../../../../hooks/useEqualityCheck';
-import AssetList from './AssetList';
-import { Asset, Collection, Token } from './types';
+import { type Asset } from '../../../../ducks/send';
+import { useUserPreferencedCurrency } from '../../../../hooks/useUserPreferencedCurrency';
+import { useCurrencyDisplay } from '../../../../hooks/useCurrencyDisplay';
+import TokenCell from '../../../app/token-cell';
+import { TokenListItem } from '../../token-list-item';
+import { useNftsCollections } from '../../../../hooks/useNftsCollections';
+import ZENDESK_URLS from '../../../../helpers/constants/zendesk-url';
 
 type AssetPickerModalProps = {
   isOpen: boolean;
   onClose: () => void;
   asset: Asset;
   onAssetChange: (asset: Asset) => void;
-  sendingAssetImage?: string;
-  sendingAssetSymbol?: string;
 };
 
-const MAX_UNOWNED_TOKENS_RENDERED = 30;
+type NFT = {
+  address: string;
+  description: string | null;
+  favorite: boolean;
+  image: string | null;
+  isCurrentlyOwned: boolean;
+  name: string | null;
+  standard: TokenStandard;
+  tokenId: string;
+  tokenURI?: string;
+};
+
+type Token = {
+  address: string | null;
+  symbol: string;
+  decimals: number;
+  image: string;
+  balance: string;
+  string: string;
+  type: AssetType;
+  isSelected: boolean;
+};
+
+type Collection = {
+  collectionName: string;
+  collectionImage: string | null;
+  nfts: NFT[];
+};
 
 export function AssetPickerModal({
   isOpen,
   onClose,
   asset,
   onAssetChange,
-  sendingAssetImage,
-  sendingAssetSymbol,
 }: AssetPickerModalProps) {
   const t = useI18nContext();
+  const { address: selectedAddress } = useSelector(getSelectedInternalAccount);
 
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedToken, setSelectedToken] = useState(
+    asset.details?.address || null,
+  );
+
+  const nativeCurrencyImage = useSelector(getNativeCurrencyImage);
+  const nativeCurrency = useSelector(getNativeCurrency);
+  const shouldHideZeroBalanceTokens = useSelector(
+    getShouldHideZeroBalanceTokens,
+  );
+  const balanceValue = useSelector(getSelectedAccountCachedBalance);
+  const tokens = useSelector(getTokens, isEqual);
+  const { tokensWithBalances } = useTokenTracker({
+    tokens,
+    address: selectedAddress,
+    hideZeroBalanceTokens: Boolean(shouldHideZeroBalanceTokens),
+  });
 
   const { collections, previouslyOwnedCollection } = useNftsCollections();
 
   const hasAnyNfts = Object.keys(collections).length > 0;
+
+  const {
+    currency: primaryCurrency,
+    numberOfDecimals: primaryNumberOfDecimals,
+  } = useUserPreferencedCurrency(PRIMARY, { ethNumberOfDecimals: 4 });
+
+  const {
+    currency: secondaryCurrency,
+    numberOfDecimals: secondaryNumberOfDecimals,
+  } = useUserPreferencedCurrency(SECONDARY, { ethNumberOfDecimals: 4 });
+
+  const [, primaryCurrencyProperties] = useCurrencyDisplay(balanceValue, {
+    numberOfDecimals: primaryNumberOfDecimals,
+    currency: primaryCurrency,
+  });
+
+  const [secondaryCurrencyDisplay, secondaryCurrencyProperties] =
+    useCurrencyDisplay(balanceValue, {
+      numberOfDecimals: secondaryNumberOfDecimals,
+      currency: secondaryCurrency,
+    });
+
+  const tokenList = tokensWithBalances.map((token: Token) => {
+    token.isSelected =
+      token.address?.toLowerCase() === selectedToken?.toLowerCase();
+    return token;
+  });
+
+  tokenList.push({
+    address: null,
+    symbol: nativeCurrency,
+    decimals: 18,
+    image: nativeCurrencyImage,
+    balance: balanceValue,
+    string: primaryCurrencyProperties.value,
+    type: AssetType.native,
+    isSelected: selectedToken === null,
+  });
+
+  tokenList.sort((a, b) => {
+    if (a.type === AssetType.native) {
+      return -1;
+    } else if (b.type === AssetType.native) {
+      return 1;
+    }
+    return 0;
+  });
+
+  const tokensData = tokenList.filter((token) =>
+    token.symbol?.toLowerCase().includes(searchQuery.toLowerCase()),
+  );
 
   const collectionsKeys = Object.keys(collections);
 
@@ -104,158 +193,28 @@ export function AssetPickerModal({
   }, []);
 
   // filter and exclude ERC1155
-  const collectionDataFiltered = (collectionsData as Collection[]).filter(
-    (collection) => collection.nfts.length > 0,
-  );
+  const collectionDataFiltered = (collectionsData as Collection[])
+    .map((collection) => {
+      return {
+        ...collection,
+        nfts: collection.nfts.filter(
+          (nft) => nft.standard !== TokenStandard.ERC1155,
+        ),
+      };
+    })
+    .filter((collection) => collection.nfts.length > 0);
 
-  const handleAssetChange = useCallback(
-    (token: Token) => {
-      onAssetChange(token);
-      onClose();
-    },
-    [onAssetChange],
-  );
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+  };
+
+  const handleAssetChange = (token: Token) => () => {
+    onAssetChange(token);
+    setSelectedToken(token.address);
+    onClose();
+  };
 
   const defaultActiveTabKey = asset?.type === AssetType.NFT ? 'nfts' : 'tokens';
-
-  const isDest = sendingAssetImage && sendingAssetSymbol;
-  const chainId = useSelector(getCurrentChainId);
-
-  const nativeCurrencyImage = useSelector(getNativeCurrencyImage);
-  const nativeCurrency = useSelector(getNativeCurrency);
-  const balanceValue = useSelector(getSelectedAccountCachedBalance);
-
-  const tokenConversionRates = useSelector(getTokenExchangeRates, isEqual);
-  const conversionRate = useSelector(getConversionRate);
-  const currentCurrency = useSelector(getCurrentCurrency);
-
-  const { address: selectedAddress } = useSelector(getSelectedInternalAccount);
-  const shouldHideZeroBalanceTokens = useSelector(
-    getShouldHideZeroBalanceTokens,
-  );
-  const tokens = useSelector(getTokens, isEqual);
-  const { tokensWithBalances } = useTokenTracker({
-    tokens,
-    address: selectedAddress,
-    hideZeroBalanceTokens: Boolean(shouldHideZeroBalanceTokens),
-  });
-
-  // Swaps token list
-  const tokenList = useSelector(getTokenList) as Record<string, Token>;
-  const topTokens = useSelector(getTopAssets, isEqual);
-
-  const usersTokens = uniqBy([...tokensWithBalances, ...tokens], 'address');
-
-  const memoizedUsersTokens = useEqualityCheck(usersTokens);
-
-  const filteredTokenList = useMemo(() => {
-    const nativeToken = {
-      address: null,
-      symbol: nativeCurrency,
-      decimals: 18,
-      image: nativeCurrencyImage,
-      balance: balanceValue,
-      type: AssetType.native,
-    };
-
-    const filteredTokens: Token[] = [];
-    // undefined would be the native token address
-    const filteredTokensAddresses = new Set<string | undefined>();
-
-    function* tokenGenerator() {
-      yield nativeToken;
-
-      for (const token of memoizedUsersTokens) {
-        yield token;
-      }
-
-      // topTokens should already be sorted by popularity
-      for (const address of Object.keys(topTokens)) {
-        const token = tokenList?.[address];
-        if (token) {
-          yield token;
-        }
-      }
-
-      for (const token of Object.values(tokenList)) {
-        yield token;
-      }
-    }
-
-    let token: Token;
-    for (token of tokenGenerator()) {
-      if (
-        token.symbol?.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        !filteredTokensAddresses.has(token.address?.toLowerCase())
-      ) {
-        filteredTokensAddresses.add(token.address?.toLowerCase());
-        filteredTokens.push(
-          getRenderableTokenData(
-            token.address
-              ? {
-                  ...token,
-                  ...tokenList[token.address.toLowerCase()],
-                  type: AssetType.token,
-                }
-              : token,
-            tokenConversionRates,
-            conversionRate,
-            currentCurrency,
-            chainId,
-            tokenList,
-          ),
-        );
-      }
-
-      if (filteredTokens.length > MAX_UNOWNED_TOKENS_RENDERED) {
-        break;
-      }
-    }
-
-    return filteredTokens;
-  }, [
-    memoizedUsersTokens,
-    topTokens,
-    searchQuery,
-    nativeCurrency,
-    nativeCurrencyImage,
-    balanceValue,
-    tokenConversionRates,
-    conversionRate,
-    currentCurrency,
-    chainId,
-    tokenList,
-  ]);
-
-  const Search = useCallback(
-    () => (
-      <Box padding={1} paddingLeft={4} paddingRight={4}>
-        <TextFieldSearch
-          borderRadius={BorderRadius.LG}
-          placeholder={t('searchTokenOrNFT')}
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          error={false}
-          autoFocus
-          autoComplete={false}
-          width={BlockSize.Full}
-          clearButtonOnClick={() => setSearchQuery('')}
-          clearButtonProps={{
-            size: ButtonIconSize.Sm,
-          }}
-          showClearButton={true}
-          className="asset-picker-modal__search-list"
-          inputProps={{
-            'data-testid': 'asset-picker-modal-search-input',
-          }}
-          endAccessory={null}
-          size={TextFieldSearchSize.Lg}
-          marginBottom={1}
-        />
-      </Box>
-    ),
-    [searchQuery],
-  );
 
   return (
     <Modal
@@ -266,124 +225,197 @@ export function AssetPickerModal({
     >
       <ModalOverlay />
       <ModalContent modalDialogProps={{ padding: 0 }}>
-        <ModalHeader onClose={onClose}>
-          <Text variant={TextVariant.headingSm} textAlign={TextAlign.Center}>
-            {t(isDest ? 'sendSelectReceiveAsset' : 'sendSelectSendAsset')}
-          </Text>
+        <ModalHeader padding={4} onClose={onClose}>
+          {t('selectAToken')}
         </ModalHeader>
-        {isDest && (
-          <Box
-            display={Display.Flex}
-            gap={1}
-            alignItems={AlignItems.center}
-            marginInline="auto"
-            marginBottom={4}
+        <Box style={{ flexGrow: '1' }}>
+          <Tabs
+            defaultActiveTabKey={defaultActiveTabKey}
+            tabsClassName="modal-tab__tabs"
           >
-            <AvatarToken
-              borderRadius={BorderRadius.full}
-              src={sendingAssetImage}
-              size={AvatarTokenSize.Xs}
-            />
-            <Text variant={TextVariant.bodySm}>
-              {t('sendingAsset', [sendingAssetSymbol])}
-            </Text>
-          </Box>
-        )}
-        <Box className="modal-tab__wrapper">
-          {isDest ? (
-            <>
-              <Search />
-              <AssetList
-                handleAssetChange={handleAssetChange}
-                asset={asset}
-                tokenList={filteredTokenList}
-                sendingAssetSymbol={sendingAssetSymbol}
-              />
-            </>
-          ) : (
-            <Tabs
-              defaultActiveTabKey={defaultActiveTabKey}
-              tabsClassName="modal-tab__tabs"
-            >
-              {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                <Tab
-                  activeClassName="modal-tab__tab--active"
-                  className="modal-tab__tab"
-                  name={t('tokens')}
-                  tabKey="tokens"
-                >
-                  <Search />
-                  <AssetList
-                    handleAssetChange={handleAssetChange}
-                    asset={asset}
-                    tokenList={filteredTokenList}
+            {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              <Tab
+                activeClassName="modal-tab__tab--active"
+                className="modal-tab__tab"
+                name={t('tokens')}
+                tabKey="tokens"
+              >
+                <Box paddingBottom={4} paddingTop={4} padding={4}>
+                  <TextFieldSearch
+                    placeholder={t('searchTokenOrNFT')}
+                    value={searchQuery}
+                    // TODO: Replace `any` with type
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    onChange={(e: any) => handleSearch(e.target.value)}
+                    error={false}
+                    autoFocus
+                    autoComplete={false}
+                    width={BlockSize.Full}
+                    clearButtonOnClick={() => setSearchQuery('')}
+                    clearButtonProps={{
+                      size: ButtonIconSize.Sm,
+                    }}
+                    showClearButton={true}
+                    className="asset-picker-modal__search-list"
+                    inputProps={{
+                      'data-testid': 'asset-picker-modal-search-input',
+                    }}
+                    endAccessory={null}
+                    size={TextFieldSearchSize.Lg}
                   />
-                </Tab>
-              }
-
-              {
-                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                // @ts-ignore
-                <Tab
-                  activeClassName="modal-tab__tab--active"
-                  className="modal-tab__tab"
-                  name={t('nfts')}
-                  tabKey="nfts"
-                >
-                  {hasAnyNfts ? (
-                    <Box className="modal-tab__main-view">
-                      <Search />
-                      <NftsItems
-                        collections={collectionDataFiltered}
-                        previouslyOwnedCollection={previouslyOwnedCollection}
-                        isModal={true}
-                        onCloseModal={() => onClose()}
-                        showTokenId={true}
-                        displayPreviouslyOwnedCollection={false}
-                      />
-                    </Box>
-                  ) : (
-                    <Box
-                      padding={12}
-                      display={Display.Flex}
-                      flexDirection={FlexDirection.Column}
-                      alignItems={AlignItems.center}
-                      justifyContent={JustifyContent.center}
-                    >
-                      <Box justifyContent={JustifyContent.center}>
-                        <img src="./images/no-nfts.svg" />
-                      </Box>
+                </Box>
+                <Box className="tokens-main-view-modal">
+                  {tokensData.map((token) => {
+                    return (
                       <Box
-                        display={Display.Flex}
-                        justifyContent={JustifyContent.center}
-                        alignItems={AlignItems.center}
-                        flexDirection={FlexDirection.Column}
-                        className="nfts-tab__link"
+                        padding={0}
+                        gap={0}
+                        margin={0}
+                        key={token.symbol}
+                        backgroundColor={
+                          token.isSelected
+                            ? BackgroundColor.primaryMuted
+                            : BackgroundColor.transparent
+                        }
+                        className={classnames(
+                          'multichain-asset-picker-list-item',
+                          {
+                            'multichain-asset-picker-list-item--selected':
+                              token.isSelected,
+                          },
+                        )}
+                        onClick={handleAssetChange(token)}
                       >
-                        <Text
-                          color={TextColor.textMuted}
-                          variant={TextVariant.headingSm}
-                          textAlign={TextAlign.Center}
-                          as="h4"
+                        {token.isSelected ? (
+                          <Box
+                            className="multichain-asset-picker-list-item__selected-indicator"
+                            borderRadius={BorderRadius.pill}
+                            backgroundColor={BackgroundColor.primaryDefault}
+                          />
+                        ) : null}
+                        <Box
+                          key={token.address}
+                          padding={0}
+                          display={Display.Block}
+                          flexWrap={FlexWrap.NoWrap}
+                          alignItems={AlignItems.center}
+                          style={{ cursor: 'pointer' }}
                         >
-                          {t('noNFTs')}
-                        </Text>
-                        <ButtonLink
-                          size={ButtonLinkSize.Sm}
-                          href={ZENDESK_URLS.NFT_TOKENS}
-                          externalLink
-                        >
-                          {t('learnMoreUpperCase')}
-                        </ButtonLink>
+                          <Box marginInlineStart={2}>
+                            {token.type === AssetType.native ? (
+                              <TokenListItem
+                                title={nativeCurrency}
+                                primary={
+                                  primaryCurrencyProperties.value ??
+                                  secondaryCurrencyProperties.value
+                                }
+                                tokenSymbol={primaryCurrencyProperties.suffix}
+                                secondary={secondaryCurrencyDisplay}
+                                tokenImage={token.image}
+                              />
+                            ) : (
+                              <TokenCell
+                                key={token.address}
+                                {...token}
+                                onClick={handleAssetChange(token)}
+                              />
+                            )}
+                          </Box>
+                        </Box>
                       </Box>
+                    );
+                  })}
+                </Box>
+              </Tab>
+            }
+
+            {
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              <Tab
+                activeClassName="modal-tab__tab--active"
+                className="modal-tab__tab"
+                name={t('nfts')}
+                tabKey="nfts"
+              >
+                <Box paddingBottom={4} paddingTop={4} padding={4}>
+                  <TextFieldSearch
+                    placeholder={t('searchTokenOrNFT')}
+                    value={searchQuery}
+                    // TODO: Replace `any` with type
+                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                    onChange={(e: any) => handleSearch(e.target.value)}
+                    error={false}
+                    autoFocus
+                    autoComplete={false}
+                    width={BlockSize.Full}
+                    clearButtonOnClick={() => setSearchQuery('')}
+                    clearButtonProps={{
+                      size: ButtonIconSize.Sm,
+                    }}
+                    showClearButton={true}
+                    className="asset-picker-modal__search-list"
+                    inputProps={{
+                      'data-testid': 'asset-picker-modal-search-input',
+                    }}
+                    endAccessory={null}
+                    size={TextFieldSearchSize.Lg}
+                  />
+                </Box>
+                {hasAnyNfts ? (
+                  <Box className="modal-tab__main-view">
+                    <NftsItems
+                      collections={collectionDataFiltered}
+                      previouslyOwnedCollection={previouslyOwnedCollection}
+                      isModal={true}
+                      onCloseModal={() => onClose()}
+                      showTokenId={true}
+                      displayPreviouslyOwnedCollection={false}
+                    />
+                  </Box>
+                ) : (
+                  <Box
+                    padding={12}
+                    display={Display.Flex}
+                    flexDirection={FlexDirection.Column}
+                    alignItems={AlignItems.center}
+                    justifyContent={JustifyContent.center}
+                  >
+                    <Box justifyContent={JustifyContent.center}>
+                      <img src="./images/no-nfts.svg" />
                     </Box>
-                  )}
-                </Tab>
-              }
-            </Tabs>
-          )}
+                    <Box
+                      marginTop={4}
+                      marginBottom={12}
+                      display={Display.Flex}
+                      justifyContent={JustifyContent.center}
+                      alignItems={AlignItems.center}
+                      flexDirection={FlexDirection.Column}
+                      className="nfts-tab__link"
+                    >
+                      <Text
+                        color={TextColor.textMuted}
+                        variant={TextVariant.headingSm}
+                        textAlign={TextAlign.Center}
+                        as="h4"
+                      >
+                        {t('noNFTs')}
+                      </Text>
+                      <ButtonLink
+                        size={ButtonLinkSize.Sm}
+                        // href={ZENDESK_URLS.NFT_TOKENS}
+                        externalLink
+                      >
+                        {t('learnMoreUpperCase')}
+                      </ButtonLink>
+                    </Box>
+                  </Box>
+                )}
+              </Tab>
+            }
+          </Tabs>
         </Box>
       </ModalContent>
     </Modal>

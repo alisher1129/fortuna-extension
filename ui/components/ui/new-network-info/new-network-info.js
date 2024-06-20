@@ -18,7 +18,7 @@ import {
 import {
   getCurrentNetwork,
   getIsBridgeChain,
-  getMetaMetricsId,
+  // getMetaMetricsId,
   getUseTokenDetection,
   getUseExternalServices,
 } from '../../../selectors';
@@ -35,8 +35,8 @@ import {
   AvatarNetworkSize,
 } from '../../component-library';
 import Popover from '../popover';
-import { getPortfolioUrl } from '../../../helpers/utils/portfolio';
-import ZENDESK_URLS from '../../../helpers/constants/zendesk-url';
+// import { getPortfolioUrl } from '../../../helpers/utils/portfolio';
+// import ZENDESK_URLS from '../../../helpers/constants/zendesk-url';
 
 export default function NewNetworkInfo() {
   const t = useContext(I18nContext);
@@ -47,7 +47,7 @@ export default function NewNetworkInfo() {
   const areExternalServicesEnabled = useSelector(getUseExternalServices);
   const providerConfig = useSelector(getProviderConfig);
   const currentNetwork = useSelector(getCurrentNetwork);
-  const metaMetricsId = useSelector(getMetaMetricsId);
+  // const metaMetricsId = useSelector(getMetaMetricsId);
   const isBridgeChain = useSelector(getIsBridgeChain);
 
   const onCloseClick = () => {
@@ -88,7 +88,7 @@ export default function NewNetworkInfo() {
           <>
             <Button
               variant="secondary"
-              href={ZENDESK_URLS.USER_GUIDE_CUSTOM_NETWORKS}
+              // href={ZENDESK_URLS.USER_GUIDE_CUSTOM_NETWORKS}
               externalLink
               rel="noreferrer"
               size={ButtonPrimarySize.Md}
@@ -199,11 +199,11 @@ export default function NewNetworkInfo() {
                   {isBridgeChain
                     ? t('attemptSendingAssetsWithPortfolio', [
                         <a
-                          href={`${getPortfolioUrl(
-                            'bridge',
-                            'ext_bridge_new_network_info_link',
-                            metaMetricsId,
-                          )}&destChain=${currentNetwork?.chainId}`}
+                          // href={`${getPortfolioUrl(
+                          //   'bridge',
+                          //   'ext_bridge_new_network_info_link',
+                          //   metaMetricsId,
+                          // )}&destChain=${currentNetwork?.chainId}`}
                           target="_blank"
                           rel="noreferrer"
                           key="bridge-link"

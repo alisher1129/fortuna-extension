@@ -7,10 +7,11 @@ import { useI18nContext } from '../../../../../hooks/useI18nContext';
 import { MAX_GAS_LIMIT_DEC } from '../../../send/send.constants';
 import Button from '../../../../../components/ui/button';
 import FormField from '../../../../../components/ui/form-field';
-
+// import { useUserPreferencedCurrency } from '../../../../../../hooks/useUserPreferencedCurrency';
+import { useUserPreferencedCurrency } from '../../../../../hooks/useUserPreferencedCurrency';
+import { PRIMARY } from '../../../../../helpers/constants/common';
 import { useAdvancedGasFeePopoverContext } from '../context';
 import { Text } from '../../../../../components/component-library';
-import { IGNORE_GAS_LIMIT_CHAIN_IDS } from '../../../constants';
 
 const validateGasLimit = (gasLimit, minimumGasLimitDec) => {
   return bnLessThan(gasLimit, minimumGasLimitDec) ||
@@ -20,14 +21,12 @@ const validateGasLimit = (gasLimit, minimumGasLimitDec) => {
 };
 
 const AdvancedGasFeeGasLimit = () => {
+  const { currency, numberOfDecimals } = useUserPreferencedCurrency(PRIMARY);
   const t = useI18nContext();
   const { setGasLimit: setGasLimitInContext, setErrorValue } =
     useAdvancedGasFeePopoverContext();
-  const {
-    gasLimit: gasLimitInTransaction,
-    minimumGasLimitDec,
-    transaction: { chainId },
-  } = useGasFeeContext();
+  const { gasLimit: gasLimitInTransaction, minimumGasLimitDec } =
+    useGasFeeContext();
   const [isEditing, setEditing] = useState(false);
   const [gasLimit, setGasLimit] = useState(gasLimitInTransaction);
   const [gasLimitError, setGasLimitError] = useState();
@@ -36,21 +35,25 @@ const AdvancedGasFeeGasLimit = () => {
     setGasLimit(value);
   };
 
+// useEffect(()=>
+// {
+//   if(currency === 'LAVA')
+//   {
+//     setGasLimit(3000000);
+
+//   }
+
+// },[]
+// )
+
   useEffect(() => {
+
     setGasLimitInContext(gasLimit);
-    if (IGNORE_GAS_LIMIT_CHAIN_IDS.includes(chainId)) {
-      return;
-    }
+
     const error = validateGasLimit(gasLimit, minimumGasLimitDec);
     setGasLimitError(error);
     setErrorValue('gasLimit', error === 'editGasLimitOutOfBoundsV2');
-  }, [
-    chainId,
-    gasLimit,
-    minimumGasLimitDec,
-    setGasLimitInContext,
-    setErrorValue,
-  ]);
+  }, [gasLimit, minimumGasLimitDec, setGasLimitInContext, setErrorValue]);
 
   if (isEditing) {
     return (

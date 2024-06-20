@@ -12,6 +12,7 @@ import {
 import {
   BUILD_QUOTE_ROUTE,
   CONFIRM_TRANSACTION_ROUTE,
+  CONNECTED_ACCOUNTS_ROUTE,
   CONNECTIONS,
   DEFAULT_ROUTE,
   SWAPS_ROUTE,
@@ -48,6 +49,9 @@ import {
   getTestNetworkBackgroundColor,
   getSelectedInternalAccount,
   getUnapprovedTransactions,
+  ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
+  getTheme,
+  ///: END:ONLY_INCLUDE_IF
 } from '../../../selectors';
 import { AccountPicker, GlobalMenu } from '..';
 
@@ -64,8 +68,6 @@ import { useCopyToClipboard } from '../../../hooks/useCopyToClipboard';
 import { MINUTE } from '../../../../shared/constants/time';
 import { shortenAddress } from '../../../helpers/utils/util';
 import { toChecksumHexAddress } from '../../../../shared/modules/hexstring-utils';
-import { NotificationsTagCounter } from '../notifications-tag-counter';
-import { MultichainMetaFoxLogo } from './multichain-meta-fox-logo';
 
 export const AppHeader = ({ location }) => {
   const trackEvent = useContext(MetaMetricsContext);
@@ -83,6 +85,10 @@ export const AppHeader = ({ location }) => {
     internalAccount &&
     shortenAddress(toChecksumHexAddress(internalAccount.address));
   const dispatch = useDispatch();
+
+  ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
+  const theme = useSelector((state) => getTheme(state));
+  ///: END:ONLY_INCLUDE_IF
 
   // Used for network icon / dropdown
   const currentNetwork = useSelector(getCurrentNetwork);
@@ -152,25 +158,30 @@ export const AppHeader = ({ location }) => {
   const handleConnectionsRoute = () => {
     history.push(`${CONNECTIONS}/${encodeURIComponent(origin)}`);
   };
-
-  const handleMainMenuOpened = () => {
-    trackEvent({
-      event: MetaMetricsEventName.NavMainMenuOpened,
-      category: MetaMetricsEventCategory.Navigation,
-      properties: {
-        location: 'Home',
-      },
-    });
-    setAccountOptionsMenuOpen(true);
-  };
-
   // This is required to ensure send and confirmation screens
   // look as desired
   const headerBottomMargin = !popupStatus && disableNetworkPicker ? 4 : 0;
 
   return (
     <>
-      {isUnlocked && !popupStatus ? <MultichainMetaFoxLogo /> : null}
+      {isUnlocked && !popupStatus ? (
+        <Box
+          display={[Display.None, Display.Flex]}
+          alignItems={AlignItems.center}
+          margin={2}
+          className="multichain-app-header-logo"
+          data-testid="app-header-logo"
+          justifyContent={JustifyContent.center}
+        >
+          <MetafoxLogo
+            unsetIconHeight
+            onClick={async () => history.push(DEFAULT_ROUTE)}
+            ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
+            theme={theme}
+            ///: END:ONLY_INCLUDE_IF
+          />
+        </Box>
+      ) : null}
       <Box
         display={Display.Flex}
         className={classnames('multichain-app-header', {
@@ -181,7 +192,7 @@ export const AppHeader = ({ location }) => {
         width={BlockSize.Full}
         backgroundColor={
           !isUnlocked || popupStatus
-            ? BackgroundColor.backgroundDefault
+            ? BackgroundColor.backgroundAlternative
             : BackgroundColor.backgroundAlternative
         }
       >
@@ -193,7 +204,6 @@ export const AppHeader = ({ location }) => {
               })}
               alignItems={AlignItems.center}
               width={BlockSize.Full}
-              backgroundColor={BackgroundColor.backgroundDefault}
               padding={2}
               paddingLeft={4}
               paddingRight={4}
@@ -330,7 +340,16 @@ export const AppHeader = ({ location }) => {
                     <Box ref={menuRef}>
                       <ConnectedStatusIndicator
                         onClick={() => {
-                          handleConnectionsRoute();
+                          if (process.env.MULTICHAIN) {
+                            handleConnectionsRoute();
+                          } else {
+                            history.push(CONNECTED_ACCOUNTS_ROUTE);
+                            trackEvent({
+                              event:
+                                MetaMetricsEventName.NavConnectedSitesOpened,
+                              category: MetaMetricsEventCategory.Navigation,
+                            });
+                          }
                         }}
                       />
                     </Box>
@@ -341,19 +360,20 @@ export const AppHeader = ({ location }) => {
                     justifyContent={JustifyContent.flexEnd}
                     width={BlockSize.Full}
                   >
-                    {!accountOptionsMenuOpen && (
-                      <Box
-                        style={{ position: 'relative' }}
-                        onClick={() => handleMainMenuOpened()}
-                      >
-                        <NotificationsTagCounter noLabel />
-                      </Box>
-                    )}
                     <ButtonIcon
                       iconName={IconName.MoreVertical}
                       data-testid="account-options-menu-button"
                       ariaLabel={t('accountOptions')}
-                      onClick={() => handleMainMenuOpened()}
+                      onClick={() => {
+                        trackEvent({
+                          event: MetaMetricsEventName.NavMainMenuOpened,
+                          category: MetaMetricsEventCategory.Navigation,
+                          properties: {
+                            location: 'Home',
+                          },
+                        });
+                        setAccountOptionsMenuOpen(true);
+                      }}
                       size={ButtonIconSize.Sm}
                     />
                   </Box>
@@ -374,7 +394,6 @@ export const AppHeader = ({ location }) => {
               alignItems={AlignItems.center}
               width={BlockSize.Full}
               justifyContent={JustifyContent.spaceBetween}
-              backgroundColor={BackgroundColor.backgroundDefault}
               padding={2}
               gap={2}
             >

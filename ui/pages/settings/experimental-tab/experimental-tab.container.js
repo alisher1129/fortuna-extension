@@ -31,7 +31,7 @@ const mapStateToProps = (state) => {
     useRequestQueue: getUseRequestQueue(state),
     petnamesEnabled,
     featureNotificationsEnabled,
-    redesignedConfirmationsEnabled: getRedesignedConfirmationsEnabled(state),
+    redesignedConfirmations: getRedesignedConfirmationsEnabled(state),
   };
 };
 

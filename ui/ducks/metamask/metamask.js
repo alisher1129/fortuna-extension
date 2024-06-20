@@ -50,7 +50,6 @@ const initialState = {
     useNativeCurrencyAsPrimaryCurrency: true,
     petnamesEnabled: true,
     featureNotificationsEnabled: false,
-    showTokenAutodetectModal: false,
   },
   firstTimeFlowType: null,
   completedOnboarding: false,
@@ -206,13 +205,6 @@ export default function reduceMetamask(state = initialState, action) {
       return {
         ...metamaskState,
         firstTimeFlowType: action.value,
-      };
-    }
-
-    case actionConstants.SET_SHOW_TOKEN_AUTO_DETECT_MODAL_UPGRADE: {
-      return {
-        ...metamaskState,
-        showTokenAutodetectModalOnUpgrade: action.value,
       };
     }
 
@@ -383,85 +375,31 @@ export function isEIP1559Network(state, networkClientId) {
   );
 }
 
-function getGasFeeControllerEstimateType(state) {
+export function getGasEstimateType(state) {
   return state.metamask.gasEstimateType;
 }
 
-function getGasFeeControllerEstimateTypeByChainId(state, chainId) {
-  return state.metamask.gasFeeEstimatesByChainId?.[chainId]?.gasEstimateType;
-}
-
-function getGasFeeControllerEstimates(state) {
+export function getGasFeeControllerEstimates(state) {
   return state.metamask.gasFeeEstimates;
 }
 
-function getGasFeeControllerEstimatesByChainId(state, chainId) {
-  return state.metamask.gasFeeEstimatesByChainId?.[chainId]?.gasFeeEstimates;
-}
-
-function getTransactionGasFeeEstimates(state) {
+export function getTransactionGasFeeEstimates(state) {
   const transactionMetadata = state.confirmTransaction?.txData;
   return transactionMetadata?.gasFeeEstimates;
 }
-
-function getTransactionGasFeeEstimatesByChainId(state, chainId) {
-  const transactionMetadata = state.confirmTransaction?.txData;
-  const transactionChainId = transactionMetadata?.chainId;
-
-  if (transactionChainId !== chainId) {
-    return undefined;
-  }
-
-  return transactionMetadata?.gasFeeEstimates;
-}
-
-const getTransactionGasFeeEstimateType = createSelector(
-  getTransactionGasFeeEstimates,
-  (transactionGasFeeEstimates) => transactionGasFeeEstimates?.type,
-);
-
-const getTransactionGasFeeEstimateTypeByChainId = createSelector(
-  getTransactionGasFeeEstimatesByChainId,
-  (transactionGasFeeEstimates) => transactionGasFeeEstimates?.type,
-);
-
-export const getGasEstimateType = createSelector(
-  getGasFeeControllerEstimateType,
-  getTransactionGasFeeEstimateType,
-  (gasFeeControllerEstimateType, transactionGasFeeEstimateType) => {
-    return transactionGasFeeEstimateType ?? gasFeeControllerEstimateType;
-  },
-);
-
-export const getGasEstimateTypeByChainId = createSelector(
-  getGasFeeControllerEstimateTypeByChainId,
-  getTransactionGasFeeEstimateTypeByChainId,
-  (gasFeeControllerEstimateType, transactionGasFeeEstimateType) => {
-    return transactionGasFeeEstimateType ?? gasFeeControllerEstimateType;
-  },
-);
-
-export const getGasFeeEstimatesByChainId = createSelector(
-  getGasFeeControllerEstimatesByChainId,
-  getTransactionGasFeeEstimatesByChainId,
-  (gasFeeControllerEstimates, transactionGasFeeEstimates) => {
-    if (transactionGasFeeEstimates) {
-      return mergeGasFeeEstimates({
-        gasFeeControllerEstimates,
-        transactionGasFeeEstimates,
-      });
-    }
-
-    return gasFeeControllerEstimates;
-  },
-);
 
 export const getGasFeeEstimates = createSelector(
+  getGasEstimateType,
   getGasFeeControllerEstimates,
   getTransactionGasFeeEstimates,
-  (gasFeeControllerEstimates, transactionGasFeeEstimates) => {
+  (
+    gasFeeControllerEstimateType,
+    gasFeeControllerEstimates,
+    transactionGasFeeEstimates,
+  ) => {
     if (transactionGasFeeEstimates) {
       return mergeGasFeeEstimates({
+        gasFeeControllerEstimateType,
         gasFeeControllerEstimates,
         transactionGasFeeEstimates,
       });
@@ -473,6 +411,14 @@ export const getGasFeeEstimates = createSelector(
 
 export function getEstimatedGasFeeTimeBounds(state) {
   return state.metamask.estimatedGasFeeTimeBounds;
+}
+
+export function getGasEstimateTypeByChainId(state, chainId) {
+  return state.metamask.gasFeeEstimatesByChainId?.[chainId]?.gasEstimateType;
+}
+
+export function getGasFeeEstimatesByChainId(state, chainId) {
+  return state.metamask.gasFeeEstimatesByChainId?.[chainId]?.gasFeeEstimates;
 }
 
 export function getEstimatedGasFeeTimeBoundsByChainId(state, chainId) {
@@ -525,6 +471,11 @@ export function getIsGasEstimatesLoadingByChainId(
   return isGasEstimatesLoading;
 }
 
+export function getIsNetworkBusy(state) {
+  const gasFeeEstimates = getGasFeeEstimates(state);
+  return gasFeeEstimates?.networkCongestion >= NetworkCongestionThresholds.busy;
+}
+
 export function getIsNetworkBusyByChainId(state, chainId) {
   const gasFeeEstimates = getGasFeeEstimatesByChainId(state, chainId);
   return gasFeeEstimates?.networkCongestion >= NetworkCongestionThresholds.busy;
@@ -533,7 +484,6 @@ export function getIsNetworkBusyByChainId(state, chainId) {
 export function getCompletedOnboarding(state) {
   return state.metamask.completedOnboarding;
 }
-
 export function getIsInitialized(state) {
   return state.metamask.isInitialized;
 }

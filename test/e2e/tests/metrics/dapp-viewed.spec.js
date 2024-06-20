@@ -7,6 +7,7 @@ const {
   openDapp,
   waitForAccountRendered,
   WINDOW_TITLES,
+  DAPP_URL,
 } = require('../../helpers');
 const FixtureBuilder = require('../../fixture-builder');
 const {
@@ -83,6 +84,7 @@ describe('Dapp viewed Event @no-mmi', function () {
         testSpecificMock: mockSegment,
       },
       async ({ driver, mockedEndpoint: mockedEndpoints }) => {
+        await driver.navigate();
         await unlockWallet(driver);
         await connectToDapp(driver);
         const events = await getEventPayloads(driver, mockedEndpoints);
@@ -331,38 +333,24 @@ describe('Dapp viewed Event @no-mmi', function () {
         await driver.clickElement(
           '[data-testid ="account-options-menu-button"]',
         );
+        await driver.clickElement({ text: 'Connected sites', tag: 'div' });
+        await driver.findElement({
+          text: DAPP_URL,
+          tag: 'bdi',
+        });
+        await driver.clickElement({ text: 'Disconnect', tag: 'a' });
         await driver.clickElement({
-          text: 'All Permissions',
-          tag: 'div',
+          text: `Disconnect ${DAPP_URL}`,
+          tag: 'h2',
         });
-        await driver.clickElementAndWaitToDisappear({
-          text: 'Got it',
-          tag: 'button',
-        });
-        await driver.clickElement({
-          text: '127.0.0.1:8080',
-          tag: 'p',
-        });
-        await driver.clickElement(
-          '[data-testid ="account-list-item-menu-button"]',
-        );
-        await driver.clickElement({
-          text: 'Disconnect',
-          tag: 'button',
-        });
-        await driver.clickElement('[data-testid ="disconnect-all"]');
-        await driver.clickElement('button[aria-label="Back"]');
-        await driver.clickElement('button[aria-label="Back"]');
+        await driver.clickElement({ text: 'Disconnect', tag: 'button' });
         // validate dapp is not connected
         await driver.clickElement(
           '[data-testid ="account-options-menu-button"]',
         );
-        await driver.clickElement({
-          text: 'All Permissions',
-          tag: 'div',
-        });
+        await driver.clickElement({ text: 'Connected sites', tag: 'div' });
         await driver.findElement({
-          text: 'Nothing to see here',
+          text: 'Account 1 is not connected to any sites.',
           tag: 'p',
         });
         // reconnect again

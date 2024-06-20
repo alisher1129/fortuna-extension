@@ -125,7 +125,7 @@ const NetworksListItem = ({
         })}
       >
         {label || t(getNetworkLabelKey(labelKey))}
-        {currentProviderType !== NETWORK_TYPES.RPC && (
+        {(
           <Icon
             name={IconName.Lock}
             color={IconColor.iconMuted}
@@ -133,6 +133,14 @@ const NetworksListItem = ({
             marginInlineStart={2}
           />
         )}
+        {/* {currentProviderType !== NETWORK_TYPES.RPC && (
+          <Icon
+            name={IconName.Lock}
+            color={IconColor.iconMuted}
+            size={IconSize.Inherit}
+            marginInlineStart={2}
+          />
+        )} */}
       </div>
     </div>
   );

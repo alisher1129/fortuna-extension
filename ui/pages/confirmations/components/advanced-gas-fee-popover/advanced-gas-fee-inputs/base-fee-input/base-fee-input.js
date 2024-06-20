@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-
+import { NetworkController } from '@metamask/network-controller';
 import { HIGH_FEE_WARNING_MULTIPLIER } from '../../../../send/send.constants';
 import {
   EditGasModes,
   PriorityLevels,
 } from '../../../../../../../shared/constants/gas';
 import { PRIMARY } from '../../../../../../helpers/constants/common';
-import { getAdvancedGasFeeValues } from '../../../../../../selectors';
+import { getAdvancedGasFeeValues, getCurrentChainId } from '../../../../../../selectors';
 import { useGasFeeContext } from '../../../../../../contexts/gasFee';
 import { useI18nContext } from '../../../../../../hooks/useI18nContext';
 import { useUserPreferencedCurrency } from '../../../../../../hooks/useUserPreferencedCurrency';
@@ -19,22 +19,17 @@ import { useAdvancedGasFeePopoverContext } from '../../context';
 import AdvancedGasFeeInputSubtext from '../../advanced-gas-fee-input-subtext';
 import { decGWEIToHexWEI } from '../../../../../../../shared/modules/conversion.utils';
 import { Numeric } from '../../../../../../../shared/modules/Numeric';
-import { IGNORE_GAS_LIMIT_CHAIN_IDS } from '../../../../constants';
 
-const validateBaseFee = (
-  value,
-  gasFeeEstimates,
-  maxPriorityFeePerGas,
-  chainId,
-) => {
+
+const validateBaseFee = (value, gasFeeEstimates, maxPriorityFeePerGas) => {
+
   const baseFeeValue = new Numeric(value, 10);
   if (new Numeric(maxPriorityFeePerGas, 10).greaterThan(baseFeeValue)) {
     return 'editGasMaxBaseFeeGWEIImbalance';
   }
   if (
     gasFeeEstimates?.low &&
-    baseFeeValue.lessThan(gasFeeEstimates.low.suggestedMaxFeePerGas, 10) &&
-    IGNORE_GAS_LIMIT_CHAIN_IDS.includes(chainId)
+    baseFeeValue.lessThan(gasFeeEstimates.low.suggestedMaxFeePerGas, 10)
   ) {
     return 'editGasMaxBaseFeeLow';
   }
@@ -45,12 +40,15 @@ const validateBaseFee = (
       10,
     )
   ) {
-    return 'editGasMaxBaseFeeHigh';
+
+      return 'editGasMaxBaseFeeHigh';
+
   }
   return null;
 };
 
 const BaseFeeInput = () => {
+
   const t = useI18nContext();
 
   const {
@@ -58,7 +56,6 @@ const BaseFeeInput = () => {
     estimateUsed,
     maxFeePerGas: maxBaseFeeNumber,
     editGasMode,
-    transaction: { chainId },
   } = useGasFeeContext();
   const maxFeePerGas = new Numeric(maxBaseFeeNumber, 10).toString();
   const {
@@ -84,14 +81,18 @@ const BaseFeeInput = () => {
       ? advancedGasFeeValues.maxBaseFee
       : maxFeePerGas;
 
-  const [baseFee, setBaseFee] = useState(
-    defaultBaseFee > 0 ? defaultBaseFee : undefined,
-  );
+
+  const [baseFee, setBaseFee] = useState(defaultBaseFee);
   useEffect(() => {
-    if (baseFee === undefined && defaultBaseFee > 0) {
+
+    // if(currency === 'LAVA'){
+    //   setBaseFee(300)
+    // }
+    // else{
       setBaseFee(defaultBaseFee);
-    }
-  }, [baseFee, defaultBaseFee, setBaseFee]);
+
+    // }
+  }, [defaultBaseFee, setBaseFee]);
 
   const [baseFeeInPrimaryCurrency] = useCurrencyDisplay(
     decGWEIToHexWEI(baseFee * gasLimit),
@@ -111,7 +112,6 @@ const BaseFeeInput = () => {
       baseFee,
       gasFeeEstimates,
       maxPriorityFeePerGas,
-      chainId,
     );
 
     setBaseFeeError(error);
@@ -119,7 +119,6 @@ const BaseFeeInput = () => {
     setMaxBaseFee(baseFee);
   }, [
     baseFee,
-    chainId,
     gasFeeEstimates,
     maxPriorityFeePerGas,
     setBaseFeeError,
@@ -128,11 +127,21 @@ const BaseFeeInput = () => {
     setMaxBaseFee,
   ]);
 
+  //Function to show Error Messages
+  const errorMessage = ()=>{
+    if (baseFeeError) {
+      return currency === 'LAVA' ? '' : t(baseFeeError);
+    }
+    return null; // Or a default error message if needed
+
+  }
+
   return (
     <Box className="base-fee-input" marginLeft={2} marginRight={2}>
       <FormField
         dataTestId="base-fee-input"
-        error={baseFeeError ? t(baseFeeError) : ''}
+        // error={baseFeeError ? t(baseFeeError) : ''}
+        error={errorMessage()}
         onChange={updateBaseFee}
         titleText={t('maxBaseFee')}
         titleUnit={`(${t('gwei')})`}

@@ -18,11 +18,16 @@ import UserPreferencedCurrencyDisplay from '../../../../../components/app/user-p
 import InfoTooltip from '../../../../../components/ui/info-tooltip';
 import LoadingHeartBeat from '../../../../../components/ui/loading-heartbeat';
 import {
+  FONT_STYLE,
   TextVariant,
   TextColor,
 } from '../../../../../helpers/constants/design-system';
 import { useDraftTransactionWithTxParams } from '../../../hooks/useDraftTransactionWithTxParams';
-import { Icon, IconName } from '../../../../../components/component-library';
+import {
+  Icon,
+  IconName,
+  Text,
+} from '../../../../../components/component-library';
 import { addHexes } from '../../../../../../shared/modules/conversion.utils';
 
 const renderHeartBeatIfNotInTest = () =>
@@ -85,7 +90,7 @@ const ConfirmLegacyGasDisplay = ({ 'data-testid': dataTestId } = {}) => {
                   <p>{t('transactionDetailGasTooltipExplanation')}</p>
                   <p>
                     <a
-                      href="https://community.metamask.io/t/what-is-gas-why-do-transactions-take-so-long/3172"
+                      // href="https://community.metamask.io/t/what-is-gas-why-do-transactions-take-so-long/3172"
                       target="_blank"
                       rel="noopener noreferrer"
                     >
@@ -120,14 +125,6 @@ const ConfirmLegacyGasDisplay = ({ 'data-testid': dataTestId } = {}) => {
             type={PRIMARY}
             value={estimatedHexMinFeeTotal}
             hideLabel={!useNativeCurrencyAsPrimaryCurrency}
-            suffixProps={{
-              color: TextColor.textDefault,
-              variant: TextVariant.bodyMdBold,
-            }}
-            textProps={{
-              color: TextColor.textDefault,
-              variant: TextVariant.bodyMdBold,
-            }}
             numberOfDecimals={6}
           />
         </div>
@@ -148,7 +145,20 @@ const ConfirmLegacyGasDisplay = ({ 'data-testid': dataTestId } = {}) => {
           </div>
         </>
       }
-      subTitle={dappSuggestedGasFees && t('transactionDetailDappGasMoreInfo')}
+      subTitle={
+        <>
+          {dappSuggestedGasFees && (
+            <Text
+              variant={TextVariant.bodySm}
+              fontStyle={FONT_STYLE.ITALIC}
+              color={TextColor.textAlternative}
+              as="h6"
+            >
+              {t('transactionDetailDappGasMoreInfo')}
+            </Text>
+          )}
+        </>
+      }
     />
   );
 };

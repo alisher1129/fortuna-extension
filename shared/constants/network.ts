@@ -154,12 +154,9 @@ export const CHAIN_IDS = {
   POLYGON_ZKEVM: '0x44d',
   SCROLL: '0x82750',
   SCROLL_SEPOLIA: '0x8274f',
-  WETHIO: '0x4e',
-  CHZ: '0x15b38',
-  NUMBERS: '0x290b',
 } as const;
 
-export const CHAINLIST_CHAIN_IDS_MAP = {
+const CHAINLIST_CHAIN_IDS_MAP = {
   ...CHAIN_IDS,
   SCROLL: '0x82750',
   TAIKO_JOLNIR_L2_MAINNET: '0x28c5f',
@@ -210,13 +207,13 @@ export const CHAINLIST_CHAIN_IDS_MAP = {
   ZKATANA: '0x133e40',
   ZORA_MAINNET: '0x76adf1',
   FILECOIN: '0x13a',
-  NUMBERS: '0x290b',
 } as const;
 
 // To add a deprecation warning to a network, add it to the array
-// `DEPRECATED_NETWORKS` and optionally add network specific logic to
+// `DEPRECATED_NETWORKS` and as a new case to `getDeprecationWarningCopy() in
 // `ui/components/ui/deprecated-networks/deprecated-networks.js`.
 export const DEPRECATED_NETWORKS = [
+  CHAIN_IDS.AURORA,
   CHAIN_IDS.GOERLI,
   CHAIN_IDS.ARBITRUM_GOERLI,
   CHAIN_IDS.OPTIMISM_GOERLI,
@@ -250,14 +247,13 @@ export const CELO_DISPLAY_NAME = 'Celo Mainnet';
 export const GNOSIS_DISPLAY_NAME = 'Gnosis';
 export const ZK_SYNC_ERA_DISPLAY_NAME = 'zkSync Era Mainnet';
 export const BASE_DISPLAY_NAME = 'Base Mainnet';
-export const AURORA_DISPLAY_NAME = 'Aurora Mainnet';
+export const AURORA_ETH_DISPLAY_NAME = 'Aurora';
 export const CRONOS_DISPLAY_NAME = 'Cronos';
 export const POLYGON_ZKEVM_DISPLAY_NAME = 'Polygon zkEVM';
 export const MOONBEAM_DISPLAY_NAME = 'Moonbeam';
 export const MOONRIVER_DISPLAY_NAME = 'Moonriver';
 export const SCROLL_DISPLAY_NAME = 'Scroll';
 export const SCROLL_SEPOLIA_DISPLAY_NAME = 'Scroll Sepolia';
-export const OP_BNB_DISPLAY_NAME = 'opBNB';
 
 export const infuraProjectId = process.env.INFURA_PROJECT_ID;
 export const getRpcUrl = ({
@@ -372,11 +368,6 @@ const CHAINLIST_CURRENCY_SYMBOLS_MAP = {
   ACALA_NETWORK: 'ACA',
 } as const;
 
-export const CHAINLIST_CURRENCY_SYMBOLS_MAP_NETWORK_COLLISION = {
-  WETHIO: 'ZYN',
-  CHZ: 'CHZ',
-};
-
 export const ETH_TOKEN_IMAGE_URL = './images/eth_logo.svg';
 export const LINEA_GOERLI_TOKEN_IMAGE_URL = './images/linea-logo-testnet.png';
 export const LINEA_SEPOLIA_TOKEN_IMAGE_URL = './images/linea-logo-testnet.png';
@@ -384,6 +375,8 @@ export const LINEA_MAINNET_TOKEN_IMAGE_URL = './images/linea-logo-mainnet.svg';
 export const TEST_ETH_TOKEN_IMAGE_URL = './images/black-eth-logo.svg';
 export const BNB_TOKEN_IMAGE_URL = './images/bnb.svg';
 export const MATIC_TOKEN_IMAGE_URL = './images/matic-token.svg';
+export const ELYSIUM_IMAGE_URL = './images/green-logo-3.png'; //Vaival
+
 export const AVAX_TOKEN_IMAGE_URL = './images/avax-token.svg';
 export const AETH_TOKEN_IMAGE_URL = './images/arbitrum.svg';
 export const FTM_TOKEN_IMAGE_URL = './images/fantom-opera.svg';
@@ -440,8 +433,6 @@ export const ZKATANA_MAINNET_IMAGE_URL = './images/zkatana.png';
 export const ZORA_MAINNET_IMAGE_URL = './images/zora.svg';
 export const FILECOIN_MAINNET_IMAGE_URL = './images/filecoin.svg';
 export const SCROLL_IMAGE_URL = './images/scroll.svg';
-export const NUMBERS_MAINNET_IMAGE_URL = './images/numbers-mainnet.svg';
-export const NUMBERS_TOKEN_IMAGE_URL = './images/numbers-token.png';
 
 export const INFURA_PROVIDER_TYPES = [
   NETWORK_TYPES.MAINNET,
@@ -453,8 +444,8 @@ export const INFURA_PROVIDER_TYPES = [
 
 export const TEST_CHAINS = [
   CHAIN_IDS.SEPOLIA,
-  NETWORK_TYPES.LINEA_GOERLI,
   CHAIN_IDS.LINEA_SEPOLIA,
+  NETWORK_TYPES.LINEA_GOERLI,
   CHAIN_IDS.LOCALHOST,
 ];
 
@@ -553,7 +544,6 @@ export const NETWORK_TO_NAME_MAP = {
   [CHAIN_IDS.SCROLL]: SCROLL_DISPLAY_NAME,
   [CHAIN_IDS.SCROLL_SEPOLIA]: SCROLL_SEPOLIA_DISPLAY_NAME,
   [CHAIN_IDS.SEPOLIA]: SEPOLIA_DISPLAY_NAME,
-  [CHAIN_IDS.OPBNB]: OP_BNB_DISPLAY_NAME,
 } as const;
 
 export const CHAIN_ID_TO_CURRENCY_SYMBOL_MAP = {
@@ -670,23 +660,6 @@ export const CHAIN_ID_TO_CURRENCY_SYMBOL_MAP = {
     CHAINLIST_CURRENCY_SYMBOLS_MAP.ACALA_NETWORK,
 } as const;
 
-/**
- * A mapping for networks with chain ID collisions to their currencies symbols.
- * Useful for networks not listed on https://chainid.network/chains.json due to ID conflicts.
- */
-export const CHAIN_ID_TO_CURRENCY_SYMBOL_MAP_NETWORK_COLLISION = {
-  [CHAINLIST_CHAIN_IDS_MAP.CHZ]: [
-    {
-      currencySymbol: CHAINLIST_CURRENCY_SYMBOLS_MAP_NETWORK_COLLISION.CHZ,
-    },
-  ],
-  [CHAINLIST_CHAIN_IDS_MAP.WETHIO]: [
-    {
-      currencySymbol: CHAINLIST_CURRENCY_SYMBOLS_MAP_NETWORK_COLLISION.WETHIO,
-    },
-  ],
-};
-
 export const CHAIN_ID_TO_TYPE_MAP = {
   [CHAIN_IDS.MAINNET]: NETWORK_TYPES.MAINNET,
   [CHAIN_IDS.GOERLI]: NETWORK_TYPES.GOERLI,
@@ -715,6 +688,7 @@ export const CHAIN_ID_TO_NETWORK_IMAGE_URL_MAP = {
   [CHAIN_IDS.AVALANCHE]: AVAX_TOKEN_IMAGE_URL,
   [CHAIN_IDS.BSC]: BNB_TOKEN_IMAGE_URL,
   [CHAIN_IDS.POLYGON]: MATIC_TOKEN_IMAGE_URL,
+  ['0x53b']: ELYSIUM_IMAGE_URL, //vaival
   [CHAIN_IDS.ARBITRUM]: AETH_TOKEN_IMAGE_URL,
   [CHAIN_IDS.FANTOM]: FTM_TOKEN_IMAGE_URL,
   [CHAIN_IDS.HARMONY]: HARMONY_ONE_TOKEN_IMAGE_URL,
@@ -770,8 +744,6 @@ export const CHAIN_ID_TO_NETWORK_IMAGE_URL_MAP = {
   [CHAINLIST_CHAIN_IDS_MAP.ZKATANA]: ZKATANA_MAINNET_IMAGE_URL,
   [CHAINLIST_CHAIN_IDS_MAP.ZORA_MAINNET]: ZORA_MAINNET_IMAGE_URL,
   [CHAINLIST_CHAIN_IDS_MAP.FILECOIN]: FILECOIN_MAINNET_IMAGE_URL,
-  [CHAINLIST_CHAIN_IDS_MAP.BASE]: BASE_TOKEN_IMAGE_URL,
-  [CHAINLIST_CHAIN_IDS_MAP.NUMBERS]: NUMBERS_MAINNET_IMAGE_URL,
 } as const;
 
 export const CHAIN_ID_TO_ETHERS_NETWORK_NAME_MAP = {
@@ -796,7 +768,7 @@ export const CHAIN_ID_TOKEN_IMAGE_MAP = {
   [CHAIN_IDS.FILECOIN]: FILECOIN_MAINNET_IMAGE_URL,
   [CHAIN_IDS.SCROLL]: SCROLL_IMAGE_URL,
   [CHAIN_IDS.SCROLL_SEPOLIA]: SCROLL_IMAGE_URL,
-  [CHAIN_IDS.NUMBERS]: NUMBERS_TOKEN_IMAGE_URL,
+  ['0x53b']: ELYSIUM_IMAGE_URL, //vaival
 } as const;
 
 export const INFURA_BLOCKED_KEY = 'countryBlocked';
@@ -892,6 +864,10 @@ export const ETHERSCAN_SUPPORTED_NETWORKS = {
     domain: 'gnosisscan.io',
     subdomain: `${defaultEtherscanSubdomainPrefix}-gnosis`,
   },
+  ['0x53b']: {
+    domain: 'blockscout.elysiumchain.tech',
+    subdomain: 'elysium',
+  },
 };
 
 export const CHAIN_ID_TO_GAS_LIMIT_BUFFER_MAP = {
@@ -941,9 +917,6 @@ export const BUYABLE_CHAINS_MAP: {
     | typeof CHAIN_IDS.POLYGON_ZKEVM
     | typeof CHAIN_IDS.SCROLL
     | typeof CHAIN_IDS.SCROLL_SEPOLIA
-    | typeof CHAIN_IDS.WETHIO
-    | typeof CHAIN_IDS.CHZ
-    | typeof CHAIN_IDS.NUMBERS
   >]: BuyableChainSettings;
 } = {
   [CHAIN_IDS.MAINNET]: {

@@ -8,6 +8,7 @@ import IdleTimer from 'react-idle-timer';
 import browserAPI from 'webextension-polyfill';
 ///: END:ONLY_INCLUDE_IF
 
+import SendTransactionScreen from '../confirmations/send';
 import Swaps from '../swaps';
 import ConfirmTransaction from '../confirmations/confirm-transaction';
 import Home from '../home';
@@ -45,10 +46,8 @@ import Alerts from '../../components/app/alerts';
 import Asset from '../asset';
 import OnboardingAppHeader from '../onboarding-flow/onboarding-app-header/onboarding-app-header';
 import TokenDetailsPage from '../token-details';
-import Notifications from '../notifications';
-import NotificationsSettings from '../notifications-settings';
-import NotificationDetails from '../notification-details';
 ///: BEGIN:ONLY_INCLUDE_IF(snaps)
+import Notifications from '../notifications';
 import SnapList from '../snaps/snaps-list';
 import SnapView from '../snaps/snap-view';
 ///: END:ONLY_INCLUDE_IF
@@ -95,6 +94,7 @@ import {
   CUSTODY_ACCOUNT_ROUTE,
   ///: END:ONLY_INCLUDE_IF
   ///: BEGIN:ONLY_INCLUDE_IF(snaps)
+  NOTIFICATIONS_ROUTE,
   SNAPS_ROUTE,
   SNAPS_VIEW_ROUTE,
   ///: END:ONLY_INCLUDE_IF
@@ -102,8 +102,6 @@ import {
   DESKTOP_PAIRING_ROUTE,
   DESKTOP_ERROR_ROUTE,
   ///: END:ONLY_INCLUDE_IF
-  NOTIFICATIONS_ROUTE,
-  NOTIFICATIONS_SETTINGS_ROUTE,
 } from '../../helpers/constants/routes';
 
 ///: BEGIN:ONLY_INCLUDE_IF(desktop)
@@ -135,7 +133,6 @@ import {
   IconName,
 } from '../../components/component-library';
 import { ToggleIpfsModal } from '../../components/app/nft-default-image/toggle-ipfs-modal';
-import { BasicConfigurationModal } from '../../components/app/basic-configuration-modal';
 ///: BEGIN:ONLY_INCLUDE_IF(keyring-snaps)
 import KeyringSnapRemovalResult from '../../components/app/modals/keyring-snap-removal-modal';
 ///: END:ONLY_INCLUDE_IF
@@ -145,15 +142,6 @@ import { DeprecatedNetworkModal } from '../settings/deprecated-network-modal/Dep
 import { getURLHost } from '../../helpers/utils/util';
 import { BorderColor, IconColor } from '../../helpers/constants/design-system';
 import { MILLISECOND } from '../../../shared/constants/time';
-import { MultichainMetaFoxLogo } from '../../components/multichain/app-header/multichain-meta-fox-logo';
-
-const isConfirmTransactionRoute = (pathname) =>
-  Boolean(
-    matchPath(pathname, {
-      path: CONFIRM_TRANSACTION_ROUTE,
-      exact: false,
-    }),
-  );
 
 export default class Routes extends Component {
   static propTypes = {
@@ -199,7 +187,6 @@ export default class Routes extends Component {
     isImportNftsModalOpen: PropTypes.bool.isRequired,
     hideImportNftsModal: PropTypes.func.isRequired,
     isIpfsModalOpen: PropTypes.bool.isRequired,
-    isBasicConfigurationModalOpen: PropTypes.bool.isRequired,
     hideIpfsModal: PropTypes.func.isRequired,
     isImportTokensModalOpen: PropTypes.bool.isRequired,
     hideImportTokensModal: PropTypes.func.isRequired,
@@ -239,18 +226,27 @@ export default class Routes extends Component {
 
   getTheme() {
     const { theme } = this.props;
+    const defaultTheme =  ThemeType.dark;
+
     if (theme === ThemeType.os) {
       if (window?.matchMedia('(prefers-color-scheme: dark)')?.matches) {
         return ThemeType.dark;
       }
-      return ThemeType.light;
+      // return ThemeType.light;
+      return ThemeType.dark;
+
     }
-    return theme;
+    // return theme;
+    // return ThemeType.dark;
+    return defaultTheme;
+
   }
 
   setTheme() {
     const theme = this.getTheme();
     document.documentElement.setAttribute('data-theme', theme);
+    // document.documentElement.setAttribute('data-theme', defaultTheme);
+
   }
 
   componentDidMount() {
@@ -312,6 +308,7 @@ export default class Routes extends Component {
     // if the user is using RPC queueing
     if (
       useRequestQueue &&
+      process.env.MULTICHAIN &&
       currentExtensionPopupId !== undefined &&
       global.metamask.id !== undefined &&
       currentExtensionPopupId !== global.metamask.id
@@ -377,15 +374,11 @@ export default class Routes extends Component {
           exact
         />
         <Authenticated path={SETTINGS_ROUTE} component={Settings} />
-        <Authenticated
-          path={NOTIFICATIONS_SETTINGS_ROUTE}
-          component={NotificationsSettings}
-        />
-        <Authenticated
-          path={`${NOTIFICATIONS_ROUTE}/:uuid`}
-          component={NotificationDetails}
-        />
-        <Authenticated path={NOTIFICATIONS_ROUTE} component={Notifications} />
+        {
+          ///: BEGIN:ONLY_INCLUDE_IF(snaps)
+          <Authenticated path={NOTIFICATIONS_ROUTE} component={Notifications} />
+          ///: END:ONLY_INCLUDE_IF
+        }
         {
           ///: BEGIN:ONLY_INCLUDE_IF(snaps)
           <Authenticated exact path={SNAPS_ROUTE} component={SnapList} />
@@ -400,7 +393,11 @@ export default class Routes extends Component {
           path={`${CONFIRM_TRANSACTION_ROUTE}/:id?`}
           component={ConfirmTransaction}
         />
-        <Authenticated path={SEND_ROUTE} component={SendPage} exact />
+        <Authenticated
+          path={SEND_ROUTE}
+          component={process.env.MULTICHAIN ? SendPage : SendTransactionScreen}
+          exact
+        />
         <Authenticated
           path={`${TOKEN_DETAILS}/:address/`}
           component={TokenDetailsPage}
@@ -472,11 +469,15 @@ export default class Routes extends Component {
           />
           ///: END:ONLY_INCLUDE_IF
         }
-        <Authenticated
-          path={`${CONNECTIONS}/:origin`}
-          component={Connections}
-        />
-        <Authenticated path={PERMISSIONS} component={PermissionsPage} exact />
+        {process.env.MULTICHAIN && (
+          <Authenticated
+            path={`${CONNECTIONS}/:origin`}
+            component={Connections}
+          />
+        )}
+        {process.env.MULTICHAIN && (
+          <Authenticated path={PERMISSIONS} component={PermissionsPage} exact />
+        )}
         <Authenticated path={DEFAULT_ROUTE} component={Home} />
       </Switch>
     );
@@ -555,17 +556,6 @@ export default class Routes extends Component {
     }
     ///: END:ONLY_INCLUDE_IF
 
-    const isNotificationsPage = Boolean(
-      matchPath(location.pathname, {
-        path: `${NOTIFICATIONS_ROUTE}`,
-        exact: false,
-      }),
-    );
-
-    if (isNotificationsPage) {
-      return true;
-    }
-
     const isInitializing = Boolean(
       matchPath(location.pathname, {
         path: ONBOARDING_ROUTE,
@@ -622,7 +612,7 @@ export default class Routes extends Component {
         exact: false,
       }),
     );
-    if (isMultichainSend) {
+    if (process.env.MULTICHAIN && isMultichainSend) {
       return true;
     }
 
@@ -633,11 +623,7 @@ export default class Routes extends Component {
       }),
     );
 
-    return (
-      isHandlingPermissionsRequest ||
-      isHandlingAddEthereumChainRequest ||
-      isConfirmTransactionRoute(this.pathname)
-    );
+    return isHandlingPermissionsRequest || isHandlingAddEthereumChainRequest;
   }
 
   showOnboardingHeader() {
@@ -840,7 +826,6 @@ export default class Routes extends Component {
       isImportNftsModalOpen,
       hideImportNftsModal,
       isIpfsModalOpen,
-      isBasicConfigurationModalOpen,
       hideIpfsModal,
       hideImportTokensModal,
       hideDeprecatedNetworkModal,
@@ -915,7 +900,6 @@ export default class Routes extends Component {
         <Modal />
         <Alert visible={this.props.alertOpen} msg={alertMessage} />
         {!this.hideAppHeader() && <AppHeader location={location} />}
-        {isConfirmTransactionRoute(this.pathname) && <MultichainMetaFoxLogo />}
         {this.showOnboardingHeader() && <OnboardingAppHeader />}
         {
           ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
@@ -937,7 +921,6 @@ export default class Routes extends Component {
         {isIpfsModalOpen ? (
           <ToggleIpfsModal onClose={() => hideIpfsModal()} />
         ) : null}
-        {isBasicConfigurationModalOpen ? <BasicConfigurationModal /> : null}
         {isImportTokensModalOpen ? (
           <ImportTokensModal onClose={() => hideImportTokensModal()} />
         ) : null}

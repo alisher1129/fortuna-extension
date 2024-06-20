@@ -27,9 +27,7 @@ export class MMIMainPage {
 
   async finishOnboarding() {
     await this.page.getByRole('button', { name: /continue/iu }).click();
-    await this.page
-      .getByRole('button', { name: /continue to wallet/iu })
-      .click();
+    await this.page.getByRole('button', { name: /continue to wallet/iu }).click();
   }
 
   async checkLastTransactionStatus(status: string | RegExp) {

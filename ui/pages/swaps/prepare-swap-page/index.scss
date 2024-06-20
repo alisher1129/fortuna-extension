@@ -53,13 +53,13 @@
     align-items: center;
     border-radius: 50%;
     padding: 7px;
-    background: var(--color-background-default);
+    background: var(--color-primary-alternative);
     border: 1px solid var(--color-border-muted);
     transition: all 0.3s ease-in-out;
     cursor: pointer;
 
     .mm-icon {
-      color: var(--color-icon-alternative);
+      color: var(--color-background-default);
       transition: all 0.3s ease-in-out;
     }
 

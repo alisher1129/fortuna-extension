@@ -50,10 +50,14 @@ const GasDetailsItem = ({
 
   const draftTransaction = useSelector(getCurrentDraftTransaction);
   const transactionData = useDraftTransactionWithTxParams();
+
+
+
   const {
     hexMinimumTransactionFee: draftHexMinimumTransactionFee,
     hexMaximumTransactionFee: draftHexMaximumTransactionFee,
   } = useSelector((state) => transactionFeeSelector(state, transactionData));
+
 
   const {
     estimateUsed,
@@ -69,6 +73,8 @@ const GasDetailsItem = ({
   const { useNativeCurrencyAsPrimaryCurrency } = useSelector(getPreferences);
 
   const useCurrencyRateCheck = useSelector(getUseCurrencyRateCheck);
+
+
   const getTransactionFeeTotal = useMemo(() => {
     if (layer1GasFee) {
       return sumHexes(hexMinimumTransactionFee, layer1GasFee);
@@ -98,7 +104,6 @@ const GasDetailsItem = ({
     maxFeePerGas ??
     hexWEIToDecGWEI(transactionData.txParams?.maxFeePerGas ?? '0x0')
   ).toString();
-
   const detailTitle = () => {
     if (supportsEIP1559 && isNetworkBusy) {
       return (

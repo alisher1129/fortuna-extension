@@ -159,7 +159,7 @@ class SettingsPage extends PureComponent {
               className="settings-page__header__title-container__search"
               display={[Display.Block]}
             >
-              <SettingsSearch
+              {/* <SettingsSearch
                 onSearch={({ searchQuery = '', results = [] }) => {
                   this.setState({
                     isSearchList: searchQuery !== '',
@@ -168,7 +168,7 @@ class SettingsPage extends PureComponent {
                   });
                 }}
                 settingsRoutesList={getSettingsRoutes()}
-              />
+              /> */}
               {isSearchList && searchText.length >= 3 && (
                 <SettingsSearchList
                   results={searchResults}

@@ -56,7 +56,7 @@ export default class ExperimentalTab extends PureComponent {
     setPetnamesEnabled: PropTypes.func.isRequired,
     featureNotificationsEnabled: PropTypes.bool,
     setFeatureNotificationsEnabled: PropTypes.func,
-    redesignedConfirmationsEnabled: PropTypes.bool.isRequired,
+    redesignedConfirmations: PropTypes.bool.isRequired,
     setRedesignedConfirmationsEnabled: PropTypes.func.isRequired,
   };
 
@@ -113,10 +113,8 @@ export default class ExperimentalTab extends PureComponent {
 
   renderToggleRedesignedConfirmations() {
     const { t } = this.context;
-    const {
-      redesignedConfirmationsEnabled,
-      setRedesignedConfirmationsEnabled,
-    } = this.props;
+    const { redesignedConfirmations, setRedesignedConfirmationsEnabled } =
+      this.props;
 
     return (
       <Box
@@ -133,7 +131,7 @@ export default class ExperimentalTab extends PureComponent {
         <div className="settings-page__content-item-col">
           <ToggleButton
             className="redesigned-confirmations-toggle"
-            value={redesignedConfirmationsEnabled}
+            value={redesignedConfirmations}
             onToggle={(value) => setRedesignedConfirmationsEnabled(!value)}
             offLabel={t('off')}
             onLabel={t('on')}
@@ -315,7 +313,8 @@ export default class ExperimentalTab extends PureComponent {
     return (
       <div className="settings-page__body">
         {this.renderTogglePetnames()}
-        {this.renderToggleRedesignedConfirmations()}
+        {process.env.ENABLE_CONFIRMATION_REDESIGN &&
+          this.renderToggleRedesignedConfirmations()}
         {process.env.NOTIFICATIONS ? this.renderNotificationsToggle() : null}
         {
           ///: BEGIN:ONLY_INCLUDE_IF(keyring-snaps)

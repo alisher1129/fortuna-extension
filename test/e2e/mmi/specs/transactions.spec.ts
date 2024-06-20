@@ -115,8 +115,12 @@ test.describe('MMI send', () => {
     const client = new CustodianTestClient();
     await client.setup();
     const repeatTx = true;
-    const { mainPage, custodianTxId, secondCustodianTxId } =
-      await sendTransaction(page, context, client, repeatTx);
+    const { mainPage, custodianTxId, secondCustodianTxId } = await sendTransaction(
+      page,
+      context,
+      client,
+      repeatTx,
+    );
 
     // Sign and submit
     const statusName = await client.submitTransactionById(custodianTxId);
@@ -126,6 +130,7 @@ test.describe('MMI send', () => {
       await client.submitTransactionById(secondCustodianTxId);
     }
   });
+
 
   test('Send a transaction from one account to another and abort it from custody', async ({
     page,

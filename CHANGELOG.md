@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [11.16.3]
 ### Changed
 - Update Trezor logo ([#24343]https://github.com/MetaMask/metamask-extension/pull/24343)
+## [11.16.5]
+### Changed
+- Re-enable the opt-in modal (2df1eb566b)
+
+## [11.16.4]
+### Changed
+- Temporarily disable the opt-in modal ([#25007](https://github.com/MetaMask/metamask-extension/pull/25007))
+
+## [11.16.3]
+### Changed
+- Update Trezor logo ([#24343](https://github.com/MetaMask/metamask-extension/pull/24343))
 
 ## [11.16.2]
 ### Fixed
@@ -4761,6 +4772,9 @@ Update styles and spacing on the critical error page  ([#20350](https://github.c
 
 
 [Unreleased]: https://github.com/MetaMask/metamask-extension/compare/v11.16.3...HEAD
+[Unreleased]: https://github.com/MetaMask/metamask-extension/compare/v11.16.5...HEAD
+[11.16.5]: https://github.com/MetaMask/metamask-extension/compare/v11.16.4...v11.16.5
+[11.16.4]: https://github.com/MetaMask/metamask-extension/compare/v11.16.3...v11.16.4
 [11.16.3]: https://github.com/MetaMask/metamask-extension/compare/v11.16.2...v11.16.3
 [11.16.2]: https://github.com/MetaMask/metamask-extension/compare/v11.16.1...v11.16.2
 [11.16.1]: https://github.com/MetaMask/metamask-extension/compare/v11.16.0...v11.16.1

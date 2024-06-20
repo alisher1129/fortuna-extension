@@ -178,6 +178,18 @@ export const ImportTokensModal = ({ onClose }) => {
   const pendingTokens = useSelector(getPendingTokens);
   const networkClientId = useSelector(getSelectedNetworkClientId);
 
+
+
+
+
+
+
+
+
+
+
+
+
   const handleAddTokens = useCallback(async () => {
     try {
       const addedTokenValues = Object.values(pendingTokens);
@@ -641,7 +653,7 @@ export const ImportTokensModal = ({ onClose }) => {
                                   key="import-token-fake-token-warning"
                                   rel="noopener noreferrer"
                                   target="_blank"
-                                  href={ZENDESK_URLS.TOKEN_SAFETY_PRACTICES}
+                                  // href={ZENDESK_URLS.TOKEN_SAFETY_PRACTICES}
                                 >
                                   {t('learnScamRisk')}
                                 </ButtonLink>,
@@ -787,6 +799,9 @@ export const ImportTokensModal = ({ onClose }) => {
     </Modal>
   );
 };
+
+
+
 
 ImportTokensModal.propTypes = {
   onClose: PropTypes.func.isRequired,

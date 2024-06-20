@@ -3,24 +3,24 @@ import PropTypes from 'prop-types';
 import React, { PureComponent } from 'react';
 import {
   addUrlProtocolPrefix,
-  getEnvironmentType,
+  // getEnvironmentType,
 } from '../../../../app/scripts/lib/util';
-import { ENVIRONMENT_TYPE_POPUP } from '../../../../shared/constants/app';
+// import { ENVIRONMENT_TYPE_POPUP } from '../../../../shared/constants/app';
 import {
   MetaMetricsEventCategory,
   MetaMetricsEventKeyType,
   MetaMetricsEventName,
 } from '../../../../shared/constants/metametrics';
 import { IPFS_DEFAULT_GATEWAY_URL } from '../../../../shared/constants/network';
-import {
-  AUTO_DETECT_TOKEN_LEARN_MORE_LINK,
-  COINGECKO_LINK,
-  CONSENSYS_PRIVACY_LINK,
-  CRYPTOCOMPARE_LINK,
-  PRIVACY_POLICY_LINK,
-  SECURITY_ALERTS_LEARN_MORE_LINK,
-  TRANSACTION_SIMULATIONS_LEARN_MORE_LINK,
-} from '../../../../shared/lib/ui-utils';
+// import {
+//   AUTO_DETECT_TOKEN_LEARN_MORE_LINK,
+//   COINGECKO_LINK,
+//   CONSENSYS_PRIVACY_LINK,
+//   CRYPTOCOMPARE_LINK,
+//   PRIVACY_POLICY_LINK,
+//   SECURITY_ALERTS_LEARN_MORE_LINK,
+//   TRANSACTION_SIMULATIONS_LEARN_MORE_LINK,
+// } from '../../../../shared/lib/ui-utils';
 import SRPQuiz from '../../../components/app/srp-quiz-modal/SRPQuiz';
 import {
   Button,
@@ -37,15 +37,13 @@ import {
   TextColor,
   TextVariant,
 } from '../../../helpers/constants/design-system';
-import { ADD_POPULAR_CUSTOM_NETWORK } from '../../../helpers/constants/routes';
+// import { ADD_POPULAR_CUSTOM_NETWORK } from '../../../helpers/constants/routes';
 import {
   getNumberOfSettingRoutesInTab,
   handleSettingsRefs,
 } from '../../../helpers/utils/settings-search';
 
 import IncomingTransactionToggle from '../../../components/app/incoming-trasaction-toggle/incoming-transaction-toggle';
-import ProfileSyncToggle from './profile-sync-toggle';
-import MetametricsToggle from './metametrics-toggle';
 
 export default class SecurityTab extends PureComponent {
   static contextTypes = {
@@ -60,6 +58,8 @@ export default class SecurityTab extends PureComponent {
     setOpenSeaEnabled: PropTypes.func,
     useNftDetection: PropTypes.bool,
     setUseNftDetection: PropTypes.func,
+    participateInMetaMetrics: PropTypes.bool.isRequired,
+    setParticipateInMetaMetrics: PropTypes.func.isRequired,
     incomingTransactionsPreferences: PropTypes.object.isRequired,
     allNetworks: PropTypes.array.isRequired,
     setIncomingTransactionsPreferences: PropTypes.func.isRequired,
@@ -82,13 +82,10 @@ export default class SecurityTab extends PureComponent {
     setUseAddressBarEnsResolution: PropTypes.func.isRequired,
     useExternalNameSources: PropTypes.bool.isRequired,
     setUseExternalNameSources: PropTypes.func.isRequired,
-    setBasicFunctionalityModalOpen: PropTypes.func.isRequired,
     setUseTransactionSimulations: PropTypes.func.isRequired,
     useTransactionSimulations: PropTypes.bool.isRequired,
     petnamesEnabled: PropTypes.bool.isRequired,
     securityAlertsEnabled: PropTypes.bool,
-    useExternalServices: PropTypes.bool,
-    toggleExternalServices: PropTypes.func.isRequired,
     ///: BEGIN:ONLY_INCLUDE_IF(blockaid)
     setSecurityAlertsEnabled: PropTypes.func,
     ///: END:ONLY_INCLUDE_IF
@@ -213,7 +210,7 @@ export default class SecurityTab extends PureComponent {
                 {t('securityAlertsDescription', [
                   <a
                     key="learn_more_link"
-                    href={SECURITY_ALERTS_LEARN_MORE_LINK}
+                    // href={SECURITY_ALERTS_LEARN_MORE_LINK}
                     rel="noreferrer"
                     target="_blank"
                   >
@@ -325,51 +322,90 @@ export default class SecurityTab extends PureComponent {
     );
   }
 
-  renderChooseYourNetworkButton() {
-    const { t } = this.context;
+  // renderMetaMetricsOptIn() {
+  //   const { t } = this.context;
+  //   const { participateInMetaMetrics, setParticipateInMetaMetrics } =
+  //     this.props;
 
-    return (
-      <Box
-        className="settings-page__content-row"
-        data-testid="advanced-setting-choose-your-network"
-        display={Display.Flex}
-        flexDirection={FlexDirection.Column}
-        gap={4}
-      >
-        <div className="settings-page__content-item">
-          <span>{t('chooseYourNetwork')}</span>
-          <div className="settings-page__content-description">
-            {t('chooseYourNetworkDescription', [
-              // TODO: Update to use real link
-              <a
-                href={CONSENSYS_PRIVACY_LINK}
-                target="_blank"
-                rel="noopener noreferrer"
-                key="cyn-consensys-privacy-link"
-              >
-                {t('privacyMsg')}
-              </a>,
-            ])}
-          </div>
-        </div>
-        <div className="settings-page__content-item-col">
-          <Button
-            type="secondary"
-            className="settings-page__button"
-            onClick={() => {
-              getEnvironmentType() === ENVIRONMENT_TYPE_POPUP
-                ? global.platform.openExtensionInBrowser(
-                    ADD_POPULAR_CUSTOM_NETWORK,
-                  )
-                : this.props.history.push(ADD_POPULAR_CUSTOM_NETWORK);
-            }}
-          >
-            {t('addCustomNetwork')}
-          </Button>
-        </div>
-      </Box>
-    );
-  }
+  //   return (
+
+  //     <Box
+  //       ref={this.settingsRefs[4]}
+  //       className="settings-page__content-row"
+  //       display={Display.Flex}
+  //       flexDirection={FlexDirection.Row}
+  //       justifyContent={JustifyContent.spaceBetween}
+  //       gap={4}
+  //     >
+  //       <div className="settings-page__content-item">
+  //         <span>{t('participateInMetaMetrics')}</span>
+  //         <div className="settings-page__content-description">
+  //           <span>{t('participateInMetaMetricsDescription')}</span>
+  //         </div>
+  //       </div>
+
+  //       <div
+  //         className="settings-page__content-item-col"
+  //         data-testid="participateInMetaMetrics"
+  //       >
+  //         <ToggleButton
+  //           value={participateInMetaMetrics}
+  //           // value={false}
+
+  //           onToggle={(value) => setParticipateInMetaMetrics(!value)}
+  //           offLabel={t('off')}
+  //           onLabel={t('on')}
+  //         />
+  //       </div>
+  //     </Box>
+  //   );
+  // }
+
+  // renderChooseYourNetworkButton() {
+  //   const { t } = this.context;
+
+  //   return (
+  //     <Box
+  //       className="settings-page__content-row"
+  //       data-testid="advanced-setting-choose-your-network"
+  //       display={Display.Flex}
+  //       flexDirection={FlexDirection.Column}
+  //       gap={4}
+  //     >
+  //       <div className="settings-page__content-item">
+  //         <span>{t('chooseYourNetwork')}</span>
+  //         <div className="settings-page__content-description">
+  //           {t('chooseYourNetworkDescription', [
+  //             // TODO: Update to use real link
+  //             <a
+  //               // href={CONSENSYS_PRIVACY_LINK}
+  //               target="_blank"
+  //               rel="noopener noreferrer"
+  //               key="cyn-consensys-privacy-link"
+  //             >
+  //               {t('privacyMsg')}
+  //             </a>,
+  //           ])}
+  //         </div>
+  //       </div>
+  //       <div className="settings-page__content-item-col">
+  //         <Button
+  //           type="secondary"
+  //           className="settings-page__button"
+  //           onClick={() => {
+  //             getEnvironmentType() === ENVIRONMENT_TYPE_POPUP
+  //               ? global.platform.openExtensionInBrowser(
+  //                   ADD_POPULAR_CUSTOM_NETWORK,
+  //                 )
+  //               : this.props.history.push(ADD_POPULAR_CUSTOM_NETWORK);
+  //           }}
+  //         >
+  //           {t('addCustomNetwork')}
+  //         </Button>
+  //       </div>
+  //     </Box>
+  //   );
+  // }
 
   renderSafeChainsListValidationToggle() {
     const { t } = this.context;
@@ -603,7 +639,7 @@ export default class SecurityTab extends PureComponent {
             {t('autoDetectTokensDescription', [
               // TODO: Update to use real link
               <a
-                href={AUTO_DETECT_TOKEN_LEARN_MORE_LINK}
+                // href={AUTO_DETECT_TOKEN_LEARN_MORE_LINK}
                 target="_blank"
                 rel="noopener noreferrer"
                 key="cyn-consensys-privacy-link"
@@ -698,7 +734,7 @@ export default class SecurityTab extends PureComponent {
             {t('currencyRateCheckToggleDescription', [
               <a
                 key="coingecko_link"
-                href={COINGECKO_LINK}
+                // href={COINGECKO_LINK}
                 rel="noreferrer"
                 target="_blank"
               >
@@ -706,7 +742,7 @@ export default class SecurityTab extends PureComponent {
               </a>,
               <a
                 key="cryptocompare_link"
-                href={CRYPTOCOMPARE_LINK}
+                // href={CRYPTOCOMPARE_LINK}
                 rel="noreferrer"
                 target="_blank"
               >
@@ -714,7 +750,7 @@ export default class SecurityTab extends PureComponent {
               </a>,
               <a
                 key="privacy_policy_link"
-                href={PRIVACY_POLICY_LINK}
+                // href={PRIVACY_POLICY_LINK}
                 rel="noreferrer"
                 target="_blank"
               >
@@ -900,7 +936,7 @@ export default class SecurityTab extends PureComponent {
             {t('simulationsSettingDescription', [
               <a
                 key="learn_more_link"
-                href={TRANSACTION_SIMULATIONS_LEARN_MORE_LINK}
+                // href={TRANSACTION_SIMULATIONS_LEARN_MORE_LINK}
                 rel="noreferrer"
                 target="_blank"
               >
@@ -945,66 +981,11 @@ export default class SecurityTab extends PureComponent {
   }
   ///: END:ONLY_INCLUDE_IF
 
-  renderUseExternalServices() {
-    const { t } = this.context;
-    const {
-      useExternalServices,
-      toggleExternalServices,
-      setBasicFunctionalityModalOpen,
-    } = this.props;
-
-    return (
-      <Box
-        ref={this.settingsRefs[3]}
-        className="settings-page__content-row"
-        display={Display.Flex}
-        flexDirection={FlexDirection.Row}
-        justifyContent={JustifyContent.spaceBetween}
-        gap={4}
-        data-testid="advanced-setting-show-testnet-conversion"
-      >
-        <div className="settings-page__content-item">
-          <span>{t('basicConfigurationLabel')}</span>
-          <div className="settings-page__content-description">
-            {t('basicConfigurationDescription', [
-              <a
-                href="https://consensys.io/privacy-policy"
-                key="link"
-                target="_blank"
-                rel="noreferrer noopener"
-              >
-                {t('privacyMsg')}
-              </a>,
-            ])}
-          </div>
-        </div>
-
-        <div className="settings-page__content-item-col">
-          <ToggleButton
-            value={useExternalServices}
-            onToggle={() => {
-              if (useExternalServices) {
-                // If we are going to be disabling external services, then we want to show the "turn off" warning modal
-                setBasicFunctionalityModalOpen();
-              } else {
-                toggleExternalServices(true);
-              }
-            }}
-            offLabel={t('off')}
-            onLabel={t('on')}
-          />
-        </div>
-      </Box>
-    );
-  }
-
   render() {
     const { warning, petnamesEnabled } = this.props;
 
     return (
       <div className="settings-page__body">
-        {this.renderUseExternalServices()}
-
         {warning && <div className="settings-tab__error">{warning}</div>}
         <span className="settings-page__security-tab-sub-header__bold">
           {this.context.t('security')}
@@ -1016,10 +997,6 @@ export default class SecurityTab extends PureComponent {
         <span className="settings-page__security-tab-sub-header__bold">
           {this.context.t('privacy')}
         </span>
-
-        <div className="settings-page__content-padded">
-          <ProfileSyncToggle />
-        </div>
 
         <div>
           <span className="settings-page__security-tab-sub-header">
@@ -1055,7 +1032,7 @@ export default class SecurityTab extends PureComponent {
           {this.context.t('networkProvider')}
         </span>
         <div className="settings-page__content-padded">
-          {this.renderChooseYourNetworkButton()}
+          {/* {this.renderChooseYourNetworkButton()} */}
           {this.renderSafeChainsListValidationToggle()}
           {this.renderIpfsGatewayControl()}
         </div>
@@ -1080,13 +1057,13 @@ export default class SecurityTab extends PureComponent {
             </div>
           </>
         )}
-
+{/*
         <span className="settings-page__security-tab-sub-header">
           {this.context.t('metrics')}
-        </span>
-        <div className="settings-page__content-padded">
-          <MetametricsToggle />
-        </div>
+        </span> */}
+        {/* <div className="settings-page__content-padded">
+          {this.renderMetaMetricsOptIn()}
+        </div> */}
       </div>
     );
   }

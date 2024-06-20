@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import {
   AlignItems,
   BackgroundColor,
-  BlockSize,
+  BlockSize, BorderRadius,
   Display,
   FlexDirection,
   FlexWrap,
@@ -34,7 +34,7 @@ export const ActivityListItem = ({
   return (
     <Box
       tabIndex={0}
-      backgroundColor={BackgroundColor.backgroundDefault}
+      backgroundColor={BackgroundColor.backgroundAlternative}
       className={primaryClassName}
       onClick={onClick}
       onKeyPress={(event) => {
@@ -44,6 +44,8 @@ export const ActivityListItem = ({
       }}
       data-testid={dataTestId}
       padding={4}
+      borderRadius={BorderRadius.MD}
+      marginTop={3}
       display={Display.Flex}
       width={BlockSize.Full}
       flexWrap={FlexWrap.Wrap}

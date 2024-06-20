@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { sanitizeMessage } from '../../../../../../helpers/utils/util';
 import { useI18nContext } from '../../../../../../hooks/useI18nContext';
 import { Box } from '../../../../../../components/component-library';
 import { BlockSize } from '../../../../../../helpers/constants/design-system';
@@ -9,7 +10,12 @@ import {
 } from '../../../../../../components/app/confirm/info/row';
 
 import { DataTree } from '../dataTree';
-import { parseSanitizeTypedDataMessage } from '../../../../utils';
+
+const parseMessage = (dataToParse: string) => {
+  const { message, primaryType, types } = JSON.parse(dataToParse);
+  const sanitizedMessage = sanitizeMessage(message, primaryType, types);
+  return { sanitizedMessage, primaryType };
+};
 
 export const ConfirmInfoRowTypedSignData = ({ data }: { data: string }) => {
   const t = useI18nContext();
@@ -18,7 +24,7 @@ export const ConfirmInfoRowTypedSignData = ({ data }: { data: string }) => {
     return null;
   }
 
-  const { sanitizedMessage, primaryType } = parseSanitizeTypedDataMessage(data);
+  const { sanitizedMessage, primaryType } = parseMessage(data);
 
   return (
     <Box width={BlockSize.Full}>

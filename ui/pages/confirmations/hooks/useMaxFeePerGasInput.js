@@ -39,10 +39,10 @@ export function useMaxFeePerGasInput({
     useSelector(checkNetworkAndAccountSupports1559) &&
     !isLegacyTransaction(transaction?.txParams);
 
-  const initialMaxFeePerGas = supportsEIP1559
+  const initialMaxFeePerGas  = supportsEIP1559
     ? getMaxFeePerGasFromTransaction(transaction, gasFeeEstimates)
-    : 0;
-
+    :
+     0;
   // This hook keeps track of a few pieces of transitional state. It is
   // transitional because it is only used to modify a transaction in the
   // metamask (background) state tree.
@@ -72,8 +72,8 @@ export function useMaxFeePerGasInput({
       estimateToUse,
       initialMaxFeePerGas || 0,
     );
-
   return {
+
     maxFeePerGas: maxFeePerGasToUse,
     setMaxFeePerGas,
   };

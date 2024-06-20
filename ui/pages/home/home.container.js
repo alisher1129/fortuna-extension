@@ -18,7 +18,6 @@ import { getInstitutionalConnectRequests } from '../../ducks/institutional/insti
 ///: END:ONLY_INCLUDE_IF
 import {
   activeTabHasPermissions,
-  getUseExternalServices,
   getFirstPermissionRequest,
   ///: BEGIN:ONLY_INCLUDE_IF(snaps)
   getFirstSnapInstallOrUpdateRequest,
@@ -29,7 +28,7 @@ import {
   getUnapprovedTemplatedConfirmations,
   getWeb3ShimUsageStateForOrigin,
   getInfuraBlocked,
-  getShowWhatsNewPopup,
+  // getShowWhatsNewPopup,
   getSortedAnnouncementsToShow,
   getShowRecoveryPhraseReminder,
   getShowTermsOfUse,
@@ -50,10 +49,7 @@ import {
   getAccountType,
   ///: END:ONLY_INCLUDE_IF
 } from '../../selectors';
-import {
-  getIsShowTokenAutodetectModal,
-  getIsSmartTransactionsOptInModalAvailable,
-} from '../../../shared/modules/selectors';
+import { getIsSmartTransactionsOptInModalAvailable } from '../../../shared/modules/selectors';
 
 import {
   closeNotificationPopup,
@@ -71,13 +67,8 @@ import {
   setNewTokensImported,
   setActiveNetwork,
   setNewTokensImportedError,
-  setShowTokenAutodetectModal,
-  setShowTokenAutodetectModalOnUpgrade,
 } from '../../store/actions';
-import {
-  hideWhatsNewPopup,
-  openBasicFunctionalityModal,
-} from '../../ducks/app/app';
+import { hideWhatsNewPopup } from '../../ducks/app/app';
 import { getWeb3ShimUsageAlertEnabledness } from '../../ducks/metamask/metamask';
 import { getSwapsFeatureIsLive } from '../../ducks/swaps/swaps';
 import { getEnvironmentType } from '../../../app/scripts/lib/util';
@@ -151,8 +142,6 @@ const mapStateToProps = (state) => {
   ]);
 
   return {
-    useExternalServices: getUseExternalServices(state),
-    isBasicConfigurationModalOpen: appState.showBasicFunctionalityModal,
     forgottenPassword,
     hasWatchTokenPendingApprovals,
     hasWatchNftPendingApprovals,
@@ -178,7 +167,7 @@ const mapStateToProps = (state) => {
     pendingConfirmations,
     infuraBlocked: getInfuraBlocked(state),
     announcementsToShow: getSortedAnnouncementsToShow(state).length > 0,
-    showWhatsNewPopup: getShowWhatsNewPopup(state),
+    // showWhatsNewPopup: getShowWhatsNewPopup(state),
     showRecoveryPhraseReminder: getShowRecoveryPhraseReminder(state),
     showTermsOfUsePopup: getShowTermsOfUse(state),
     showOutdatedBrowserWarning:
@@ -205,7 +194,6 @@ const mapStateToProps = (state) => {
     ///: END:ONLY_INCLUDE_IF
     isSmartTransactionsOptInModalAvailable:
       getIsSmartTransactionsOptInModalAvailable(state),
-    isShowTokenAutodetectModal: getIsShowTokenAutodetectModal(state),
   };
 };
 
@@ -254,12 +242,6 @@ const mapDispatchToProps = (dispatch) => {
     setActiveNetwork: (networkConfigurationId) => {
       dispatch(setActiveNetwork(networkConfigurationId));
     },
-    setTokenAutodetectModal: (val) => {
-      dispatch(setShowTokenAutodetectModal(val));
-    },
-    setShowTokenAutodetectModalOnUpgrade: (val) => {
-      dispatch(setShowTokenAutodetectModalOnUpgrade(val));
-    },
     ///: BEGIN:ONLY_INCLUDE_IF(build-mmi)
     setWaitForConfirmDeepLinkDialog: (wait) =>
       dispatch(mmiActions.setWaitForConfirmDeepLinkDialog(wait)),
@@ -288,8 +270,6 @@ const mapDispatchToProps = (dispatch) => {
       dispatch(setCustodianDeepLink({}));
     },
     ///: END:ONLY_INCLUDE_IF
-    setBasicFunctionalityModalOpen: () =>
-      dispatch(openBasicFunctionalityModal()),
   };
 };
 

@@ -19,7 +19,6 @@ import {
 import {
   BUILT_IN_NETWORKS,
   CHAIN_IDS,
-  CHAINLIST_CURRENCY_SYMBOLS_MAP_NETWORK_COLLISION,
   FEATURED_RPCS,
   infuraProjectId,
 } from '../../../../../shared/constants/network';
@@ -58,10 +57,6 @@ import {
   TextColor,
   TextVariant,
 } from '../../../../helpers/constants/design-system';
-import {
-  getMatchedChain,
-  getMatchedSymbols,
-} from '../../../../helpers/utils/network-helper';
 
 /**
  * Attempts to convert the given chainId to a decimal string, for display
@@ -107,7 +102,6 @@ const NetworksForm = ({
 }) => {
   const t = useI18nContext();
   const dispatch = useDispatch();
-  const DEFAULT_SUGGESTED_TICKER = [];
   const { label, labelKey, viewOnly, rpcPrefs } = selectedNetwork;
   const selectedNetworkName =
     label || (labelKey && t(getNetworkLabelKey(labelKey)));
@@ -115,9 +109,7 @@ const NetworksForm = ({
   const [rpcUrl, setRpcUrl] = useState(selectedNetwork?.rpcUrl || '');
   const [chainId, setChainId] = useState(selectedNetwork?.chainId || '');
   const [ticker, setTicker] = useState(selectedNetwork?.ticker || '');
-  const [suggestedTicker, setSuggestedTicker] = useState(
-    DEFAULT_SUGGESTED_TICKER,
-  );
+  const [suggestedTicker, setSuggestedTicker] = useState('');
   const [blockExplorerUrl, setBlockExplorerUrl] = useState(
     selectedNetwork?.blockExplorerUrl || '',
   );
@@ -153,21 +145,7 @@ const NetworksForm = ({
             chainList[index].nativeCurrency.symbol = network.ticker;
           }
         });
-        safeChainsList.current = [
-          ...chainList,
-          {
-            chainId: 78,
-            nativeCurrency: {
-              symbol: CHAINLIST_CURRENCY_SYMBOLS_MAP_NETWORK_COLLISION.WETHIO,
-            },
-          },
-          {
-            chainId: 88888,
-            nativeCurrency: {
-              symbol: CHAINLIST_CURRENCY_SYMBOLS_MAP_NETWORK_COLLISION.CHZ,
-            },
-          },
-        ];
+        safeChainsList.current = chainList;
       } catch (error) {
         log.warn('Failed to fetch chainList from chainid.network', error);
       }
@@ -185,7 +163,7 @@ const NetworksForm = ({
     setBlockExplorerUrl(selectedNetwork?.blockExplorerUrl);
     setErrors({});
     setWarnings({});
-    setSuggestedTicker([]);
+    setSuggestedTicker('');
     setIsSubmitting(false);
     setIsEditing(false);
     setPreviousNetwork(selectedNetwork);
@@ -283,28 +261,18 @@ const NetworksForm = ({
   const autoSuggestTicker = useCallback((formChainId) => {
     const decimalChainId = getDisplayChainId(formChainId);
     if (decimalChainId.trim() === '' || safeChainsList.current.length === 0) {
-      setSuggestedTicker([]);
+      setSuggestedTicker('');
       return;
     }
     const matchedChain = safeChainsList.current?.find(
       (chain) => chain.chainId.toString() === decimalChainId,
     );
-
-    const matchedSymbol = safeChainsList.current?.reduce(
-      (accumulator, currentNetwork) => {
-        if (currentNetwork.chainId.toString() === decimalChainId) {
-          accumulator.push(currentNetwork.nativeCurrency?.symbol);
-        }
-        return accumulator;
-      },
-      [],
-    );
-
     if (matchedChain === undefined) {
-      setSuggestedTicker([]);
+      setSuggestedTicker('');
       return;
     }
-    setSuggestedTicker([...matchedSymbol]);
+    const returnedTickerSymbol = matchedChain.nativeCurrency?.symbol;
+    setSuggestedTicker(returnedTickerSymbol);
   }, []);
 
   const hasErrors = () => {
@@ -474,26 +442,23 @@ const NetworksForm = ({
         warningKey = 'failedToFetchTickerSymbolData';
         warningMessage = t('failedToFetchTickerSymbolData');
       } else {
-        const matchedChain = getMatchedChain(
-          decimalChainId,
-          safeChainsList.current,
-        );
-        const matchedSymbols = getMatchedSymbols(
-          decimalChainId,
-          safeChainsList.current,
+        const matchedChain = safeChainsList.current?.find(
+          (chain) => chain.chainId.toString() === decimalChainId,
         );
 
         if (matchedChain === undefined) {
           warningKey = 'failedToFetchTickerSymbolData';
           warningMessage = t('failedToFetchTickerSymbolData');
-        } else if (
-          !matchedSymbols.some(
-            (symbol) => symbol.toLowerCase() === formTickerSymbol.toLowerCase(),
-          )
-        ) {
-          warningKey = 'chainListReturnedDifferentTickerSymbol';
-          warningMessage = t('chainListReturnedDifferentTickerSymbol');
-          setSuggestedTicker([...matchedSymbols]);
+        } else {
+          const returnedTickerSymbol = matchedChain.nativeCurrency?.symbol;
+          if (
+            returnedTickerSymbol.toLowerCase() !==
+            formTickerSymbol.toLowerCase()
+          ) {
+            warningKey = 'chainListReturnedDifferentTickerSymbol';
+            warningMessage = t('chainListReturnedDifferentTickerSymbol');
+            setSuggestedTicker(returnedTickerSymbol);
+          }
         }
       }
 
@@ -577,7 +542,7 @@ const NetworksForm = ({
       setWarnings({
         ...warnings,
         chainId: chainIdWarning,
-        ticker: tickerWarning,
+        // ticker: tickerWarning,
       });
     }
 
@@ -716,12 +681,6 @@ const NetworksForm = ({
     !rpcUrl ||
     !chainId ||
     !ticker;
-  let displayRpcUrl = rpcUrl?.includes(`/v3/${infuraProjectId}`)
-    ? rpcUrl.replace(`/v3/${infuraProjectId}`, '')
-    : rpcUrl;
-  if (viewOnly) {
-    displayRpcUrl = displayRpcUrl?.toLowerCase();
-  }
 
   return (
     <div
@@ -757,7 +716,8 @@ const NetworksForm = ({
           }}
           titleText={t('networkName')}
           value={networkName}
-          disabled={viewOnly}
+          // disabled={viewOnly}
+          disabled={viewOnly || !addNewNetwork || addNewNetwork} //vaival
           dataTestId="network-form-network-name"
         />
         <FormField
@@ -767,8 +727,13 @@ const NetworksForm = ({
             setRpcUrl(value);
           }}
           titleText={t('rpcUrl')}
-          value={displayRpcUrl}
-          disabled={viewOnly}
+          value={
+            rpcUrl?.includes(`/v3/${infuraProjectId}`)
+              ? rpcUrl.replace(`/v3/${infuraProjectId}`, '')
+              : rpcUrl
+          }
+          // disabled={viewOnly}
+          disabled={viewOnly || !addNewNetwork || addNewNetwork} //vaival
           dataTestId="network-form-rpc-url"
         />
         <FormField
@@ -781,17 +746,15 @@ const NetworksForm = ({
           }}
           titleText={t('chainId')}
           value={chainId}
-          disabled={viewOnly}
+          // disabled={viewOnly}
+          disabled={viewOnly || !addNewNetwork || addNewNetwork} //vaival
           tooltipText={viewOnly ? null : t('networkSettingsChainIdDescription')}
           dataTestId="network-form-chain-id"
         />
         <FormTextField
           data-testid="network-form-ticker"
           helpText={
-            suggestedTicker &&
-            !suggestedTicker.some(
-              (symbolSuggested) => symbolSuggested === ticker,
-            ) ? (
+            suggestedTicker && suggestedTicker !== ticker ? (
               <Text
                 as="span"
                 variant={TextVariant.bodySm}
@@ -799,22 +762,19 @@ const NetworksForm = ({
                 data-testid="network-form-ticker-suggestion"
               >
                 {t('suggestedTokenSymbol')}
-                {suggestedTicker.map((suggestedSymbol, i) => (
-                  <ButtonLink
-                    as="button"
-                    variant={TextVariant.bodySm}
-                    color={TextColor.primaryDefault}
-                    onClick={() => {
-                      setTicker(suggestedSymbol);
-                    }}
-                    paddingLeft={1}
-                    paddingRight={1}
-                    style={{ verticalAlign: 'baseline' }}
-                    key={i}
-                  >
-                    {suggestedSymbol}
-                  </ButtonLink>
-                ))}
+                <ButtonLink
+                  as="button"
+                  variant={TextVariant.bodySm}
+                  color={TextColor.primaryDefault}
+                  onClick={() => {
+                    setTicker(suggestedTicker);
+                  }}
+                  paddingLeft={1}
+                  paddingRight={1}
+                  style={{ verticalAlign: 'baseline' }}
+                >
+                  {suggestedTicker}
+                </ButtonLink>
               </Text>
             ) : null
           }
@@ -835,7 +795,8 @@ const NetworksForm = ({
             'data-testid': 'network-form-ticker-input',
           }}
           value={ticker}
-          disabled={viewOnly}
+          // disabled={viewOnly}
+          disabled={viewOnly || !addNewNetwork || addNewNetwork} //vaival
         />
         {warnings.ticker?.msg ? (
           <HelpText
@@ -855,7 +816,8 @@ const NetworksForm = ({
           titleText={t('blockExplorerUrl')}
           titleUnit={t('optionalWithParanthesis')}
           value={blockExplorerUrl}
-          disabled={viewOnly}
+          // disabled={viewOnly}
+          disabled={viewOnly || !addNewNetwork || addNewNetwork} //vaival
           autoFocus={window.location.hash.split('#')[2] === 'blockExplorerUrl'}
           dataTestId="network-form-block-explorer-url"
         />
@@ -868,12 +830,12 @@ const NetworksForm = ({
       >
         {!viewOnly && (
           <>
-            {deletable && (
+            {/* {deletable && (
               <Button type="danger" onClick={onDelete}>
                 {t('delete')}
               </Button>
-            )}
-            <Button
+            )} */}
+            {/* <Button
               type="secondary"
               onClick={onCancel}
               disabled={stateUnchanged}
@@ -886,7 +848,7 @@ const NetworksForm = ({
               onClick={onSubmit}
             >
               {t('save')}
-            </Button>
+            </Button> */}
           </>
         )}
       </div>

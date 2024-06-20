@@ -171,7 +171,7 @@ export default function NftsTab() {
                   ///: BEGIN:ONLY_INCLUDE_IF(build-main,build-beta,build-flask)
                   <ButtonLink
                     size={Size.MD}
-                    href={ZENDESK_URLS.NFT_TOKENS}
+                    // href={ZENDESK_URLS.NFT_TOKENS}
                     externalLink
                   >
                     {t('learnMoreUpperCase')}
@@ -186,7 +186,8 @@ export default function NftsTab() {
           className="nfts-tab__buttons"
           display={Display.Flex}
           flexDirection={FlexDirection.Column}
-          alignItems={AlignItems.flexStart}
+          alignItems={AlignItems.center}
+          justifyContent={JustifyContent.center}
           margin={4}
           gap={2}
           marginBottom={2}

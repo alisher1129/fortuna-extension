@@ -9,8 +9,7 @@ import {
 const defaultNetworksData = [
   {
     labelKey: NETWORK_TYPES.MAINNET,
-    // eslint-disable-next-line @metamask/design-tokens/color-no-hex
-    iconColor: '#29B6AF', // third party color
+    iconColor: '#29B6AF',
     providerType: NETWORK_TYPES.MAINNET,
     rpcUrl: getRpcUrl({
       network: NETWORK_TYPES.MAINNET,
@@ -22,8 +21,7 @@ const defaultNetworksData = [
   },
   {
     labelKey: NETWORK_TYPES.SEPOLIA,
-    // eslint-disable-next-line @metamask/design-tokens/color-no-hex
-    iconColor: '#CFB5F0', // third party color
+    iconColor: '#CFB5F0',
     providerType: NETWORK_TYPES.SEPOLIA,
     rpcUrl: getRpcUrl({
       network: NETWORK_TYPES.SEPOLIA,
@@ -47,8 +45,7 @@ const defaultNetworksData = [
   },
   {
     labelKey: NETWORK_TYPES.LINEA_SEPOLIA,
-    // eslint-disable-next-line @metamask/design-tokens/color-no-hex
-    iconColor: '#61dfff', // third party color
+    iconColor: '#61dfff',
     providerType: NETWORK_TYPES.LINEA_SEPOLIA,
     rpcUrl: getRpcUrl({
       network: NETWORK_TYPES.LINEA_SEPOLIA,
@@ -60,8 +57,7 @@ const defaultNetworksData = [
   },
   {
     labelKey: NETWORK_TYPES.LINEA_MAINNET,
-    // eslint-disable-next-line @metamask/design-tokens/color-no-hex
-    iconColor: '#121212', // third party color
+    iconColor: '#121212',
     providerType: NETWORK_TYPES.LINEA_MAINNET,
     rpcUrl: getRpcUrl({
       network: NETWORK_TYPES.LINEA_MAINNET,

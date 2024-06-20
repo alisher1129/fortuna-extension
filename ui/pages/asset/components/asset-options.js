@@ -1,7 +1,14 @@
 import React, { useContext, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
+import { useParams } from 'react-router-dom';
+import {
+
+  getTokens,
+} from '../../../ducks/metamask/metamask';
 
 import { useHistory } from 'react-router-dom';
+import { isEqualCaseInsensitive } from '../../../../shared/modules/string-utils';
+
 import { useSelector } from 'react-redux';
 import { I18nContext } from '../../../contexts/i18n';
 import { Menu, MenuItem } from '../../../components/ui/menu';
@@ -13,6 +20,9 @@ import {
   IconName,
 } from '../../../components/component-library';
 import { Color } from '../../../helpers/constants/design-system';
+
+
+
 
 const AssetOptions = ({
   onRemove,
@@ -26,6 +36,14 @@ const AssetOptions = ({
   const history = useHistory();
   const blockExplorerLinkText = useSelector(getBlockExplorerLinkText);
   const ref = useRef(false);
+
+//To check current token address
+  const tokens = useSelector(getTokens);
+  const { asset, id } = useParams();
+  const token = tokens.find(({ address }) =>
+  isEqualCaseInsensitive(address, asset),
+);
+//
 
   const routeToAddBlockExplorerUrl = () => {
     history.push(`${NETWORKS_ROUTE}#blockExplorerUrl`);
@@ -51,6 +69,7 @@ const AssetOptions = ({
         <Menu
           anchorElement={ref.current}
           onHide={() => setAssetOptionsOpen(false)}
+
         >
           <MenuItem
             iconName={IconName.Export}
@@ -68,25 +87,27 @@ const AssetOptions = ({
                 : [t('blockExplorerAssetAction')],
             )}
           </MenuItem>
-          {isNativeAsset ? null : (
+          {isNativeAsset || token.address == "0xa801b1A7846156d4C81bD188F96bfcb621517611" ? null : (
             <MenuItem
               iconName={IconName.Trash}
               data-testid="asset-options__hide"
               onClick={() => {
                 setAssetOptionsOpen(false);
                 onRemove();
+
               }}
             >
               {t('hideTokenSymbol', [tokenSymbol])}
             </MenuItem>
           )}
-          {isNativeAsset ? null : (
+          {isNativeAsset || token.address == "0xa801b1A7846156d4C81bD188F96bfcb621517611" ? null : (
             <MenuItem
               iconName={IconName.Info}
               data-testid="asset-options__token-details"
               onClick={() => {
                 setAssetOptionsOpen(false);
                 onViewTokenDetails();
+
               }}
             >
               {t('tokenDetails')}

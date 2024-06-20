@@ -35,6 +35,7 @@ export const MOCK_LOGIN_RESPONSE: LoginResponse = {
   profile: {
     identifier_id: 'MOCK_IDENTIFIER',
     profile_id: 'MOCK_PROFILE_ID',
+    metametrics_id: 'MOCK_METAMETRICS_ID',
   },
 };
 export function mockEndpointLogin(mockReply?: MockReply) {

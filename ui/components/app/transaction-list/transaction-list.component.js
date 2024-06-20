@@ -62,9 +62,7 @@ const tokenTransactionFilter = ({
 }) => {
   if (TOKEN_CATEGORY_HASH[type]) {
     return false;
-  } else if (
-    [TransactionType.swap, TransactionType.swapAndSend].includes(type)
-  ) {
+  } else if (type === TransactionType.swap) {
     return destinationTokenSymbol === 'ETH' || sourceTokenSymbol === 'ETH';
   }
   return true;
@@ -281,7 +279,7 @@ export default function TransactionList({
               })}
             </Box>
           )}
-          <Box className="transaction-list__completed-transactions">
+          <Box padding={3} className="transaction-list__completed-transactions">
             {completedTransactions.length > 0 ? (
               completedTransactions
                 .map(removeIncomingTxsButToAnotherAddress)

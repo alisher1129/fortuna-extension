@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { Text } from '../../../component-library';
 import UserPreferencedCurrencyDisplay from '../../../app/user-preferenced-currency-display';
 import { PRIMARY } from '../../../../helpers/constants/common';
+import TokenBalance from '../../../ui/token-balance';
 import { Asset } from '../../../../ducks/send';
 import {
   getCurrentCurrency,
@@ -10,8 +11,9 @@ import {
 } from '../../../../selectors';
 import { AssetType } from '../../../../../shared/constants/transaction';
 import {
-  TextColor,
+  type TextColor,
   TextVariant,
+  FontWeight,
 } from '../../../../helpers/constants/design-system';
 import CurrencyDisplay from '../../../ui/currency-display';
 import { useTokenTracker } from '../../../../hooks/useTokenTracker';
@@ -20,35 +22,28 @@ import { useTokenFiatAmount } from '../../../../hooks/useTokenFiatAmount';
 import { getIsFiatPrimary } from '../utils';
 import { useI18nContext } from '../../../../hooks/useI18nContext';
 import { hexToDecimal } from '../../../../../shared/modules/conversion.utils';
-import { Token } from '../asset-picker-modal/types';
 
 export type AssetBalanceTextProps = {
   asset: Asset;
   balanceColor: TextColor;
-  error?: string;
 };
 
 export function AssetBalanceText({
   asset,
   balanceColor,
-  error,
 }: AssetBalanceTextProps) {
   const t = useI18nContext();
   const secondaryCurrency = useSelector(getCurrentCurrency);
 
   const isFiatPrimary = useSelector(getIsFiatPrimary);
 
-  const { tokensWithBalances }: { tokensWithBalances: Token[] } =
-    useTokenTracker({
-      tokens:
-        asset.details?.address && !asset.balance
-          ? [{ address: asset.details.address }]
-          : [],
-      address: undefined,
-    });
-
-  const balanceString =
-    hexToDecimal(asset.balance) || tokensWithBalances[0]?.string;
+  const { tokensWithBalances } = useTokenTracker({
+    tokens: [{ address: asset.details?.address }],
+    address: undefined,
+  });
+  // TODO: Replace `any` with type
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const balanceString = (tokensWithBalances[0] as any)?.string;
 
   const balanceValue = useSelector(getSelectedAccountCachedBalance);
 
@@ -61,10 +56,7 @@ export function AssetBalanceText({
     asset.details?.address,
     balanceString,
     undefined,
-    // if balance is zero, conversion rate will not be available so we just assume ~0 we can't use 0 because it will set off an undefined guard
-    Number(balanceString) === 0
-      ? { exchangeRate: Number.MIN_VALUE }
-      : undefined,
+    undefined,
     true,
   );
 
@@ -85,15 +77,12 @@ export function AssetBalanceText({
     },
   };
 
-  const errorText = error ? `. ${t(error)}` : '';
-
   if (asset.type === AssetType.NFT) {
     const numberOfTokens = hexToDecimal(asset.balance || '0x0');
     return (
-      <Text {...commonProps.textProps}>
-        {`${numberOfTokens} ${t(
-          numberOfTokens === '1' ? 'token' : 'tokens',
-        )?.toLowerCase()}${errorText}`}
+      <Text fontWeight={FontWeight.Medium} {...commonProps.textProps}>
+        {numberOfTokens}{' '}
+        {t(numberOfTokens === '1' ? 'token' : 'tokens')?.toLowerCase()}
       </Text>
     );
   }
@@ -104,38 +93,32 @@ export function AssetBalanceText({
         {...commonProps}
         currency={secondaryCurrency}
         numberOfDecimals={2}
-        displayValue={`${formattedFiat}${errorText}`}
+        displayValue={formattedFiat}
       />
     );
   }
 
   if (asset.type === AssetType.native) {
     return (
-      <>
-        <UserPreferencedCurrencyDisplay
-          {...commonProps}
-          value={asset.balance}
-          type={PRIMARY}
-        />
-        {errorText ? (
-          <Text
-            variant={TextVariant.bodySm}
-            color={TextColor.errorDefault}
-            data-testid="send-page-amount-error"
-          >
-            {errorText}
-          </Text>
-        ) : null}
-      </>
+      <UserPreferencedCurrencyDisplay
+        {...commonProps}
+        value={asset.balance}
+        type={PRIMARY}
+      />
     );
   }
 
   // catch-all for non-natives; they should all have addresses
   if (asset.details?.address) {
     return (
-      <UserPreferencedCurrencyDisplay
+      <TokenBalance
         {...commonProps}
-        displayValue={`${balanceString || ''}${errorText}`}
+        token={{
+          ...asset.details,
+          decimals: asset.details.decimals
+            ? Number(asset.details.decimals)
+            : undefined,
+        }}
       />
     );
   }

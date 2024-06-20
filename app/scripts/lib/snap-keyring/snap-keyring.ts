@@ -3,16 +3,16 @@ import type { SnapController } from '@metamask/snaps-controllers';
 import browser from 'webextension-polyfill';
 import { SnapId } from '@metamask/snaps-sdk';
 import {
-  MetaMetricsEventAccountType,
   MetaMetricsEventCategory,
   MetaMetricsEventName,
+  MetaMetricsEventAccountType,
 } from '../../../../shared/constants/metametrics';
 import { SNAP_MANAGE_ACCOUNTS_CONFIRMATION_TYPES } from '../../../../shared/constants/app';
 import { t } from '../../translate';
 import MetamaskController from '../../metamask-controller';
 import { IconName } from '../../../../ui/components/component-library/icon';
 import { isBlockedUrl } from './utils/isBlockedUrl';
-import { showError, showSuccess } from './utils/showResult';
+import { showSuccess, showError } from './utils/showResult';
 import { SnapKeyringBuilderMessenger } from './types';
 
 /**
@@ -41,7 +41,6 @@ export const getAccountsBySnapId = async (
  * @param trackEvent - A function to track MetaMetrics events.
  * @param getSnapName - A function to get a snap's localized
  * (or non-localized if there are no localization files) name from its manifest.
- * @param isSnapPreinstalled - A function to check if a Snap is pre-installed.
  * @returns The constructed SnapKeyring builder instance with the following methods:
  * - `saveState`: Persists all keyrings in the keyring controller.
  * - `addAccount`: Initiates the process of adding an account with user confirmation and handling the user input.
@@ -64,7 +63,6 @@ export const snapKeyringBuilder = (
     options?: Record<string, any>,
   ) => void,
   getSnapName: (snapId: string) => string,
-  isSnapPreinstalled: (snapId: string) => boolean,
 ) => {
   const builder = (() => {
     // TODO: Replace `any` with type
@@ -122,10 +120,11 @@ export const snapKeyringBuilder = (
         address: string,
         snapId: string,
         handleUserInput: (accepted: boolean) => Promise<void>,
-        _accountNameSuggestion?: string,
-        displayConfirmation: boolean = false,
       ) => {
         const snapName = getSnapName(snapId);
+        const { id: addAccountApprovalId } = controllerMessenger.call(
+          'ApprovalController:startFlow',
+        );
 
         const trackSnapAccountEvent = (event: MetaMetricsEventName) => {
           trackEvent({
@@ -139,32 +138,22 @@ export const snapKeyringBuilder = (
           });
         };
 
-        const learnMoreLink =
-          'https://support.metamask.io/hc/en-us/articles/360015289452-How-to-add-accounts-in-your-wallet';
-
-        // If snap is preinstalled and does not request confirmation, skip the confirmation dialog
-        const skipConfirmation =
-          isSnapPreinstalled(snapId) && !displayConfirmation;
-        // If confirmation dialog is skipped, we consider the account creation to be confirmed
-        let confirmationResult = skipConfirmation;
-        let confirmationApprovalId = '';
+        // const learnMoreLink =
+        //   'https://support.metamask.io/hc/en-us/articles/360015289452-How-to-add-accounts-in-your-wallet';
+        const learnMoreLink = '';
+        // Since we use this in the finally, better to give it a default value if the controller call fails
+        let confirmationResult = false;
         try {
-          if (!skipConfirmation) {
-            const { id } = controllerMessenger.call(
-              'ApprovalController:startFlow',
-            );
-            confirmationApprovalId = id;
-            confirmationResult = Boolean(
-              await controllerMessenger.call(
-                'ApprovalController:addRequest',
-                {
-                  origin: snapId,
-                  type: SNAP_MANAGE_ACCOUNTS_CONFIRMATION_TYPES.confirmAccountCreation,
-                },
-                true,
-              ),
-            );
-          }
+          confirmationResult = Boolean(
+            await controllerMessenger.call(
+              'ApprovalController:addRequest',
+              {
+                origin: snapId,
+                type: SNAP_MANAGE_ACCOUNTS_CONFIRMATION_TYPES.confirmAccountCreation,
+              },
+              true,
+            ),
+          );
 
           if (confirmationResult) {
             try {
@@ -191,22 +180,19 @@ export const snapKeyringBuilder = (
               trackSnapAccountEvent(
                 MetaMetricsEventName.AddSnapAccountSuccessViewed,
               );
-
-              if (!skipConfirmation) {
-                await showSuccess(
-                  controllerMessenger,
-                  snapId,
-                  {
-                    icon: IconName.UserCircleAdd,
-                    title: t('snapAccountCreated'),
-                  },
-                  {
-                    message: t('snapAccountCreatedDescription') as string,
-                    address,
-                    learnMoreLink,
-                  },
-                );
-              }
+              await showSuccess(
+                controllerMessenger,
+                snapId,
+                {
+                  icon: IconName.UserCircleAdd,
+                  title: t('snapAccountCreated'),
+                },
+                {
+                  message: t('snapAccountCreatedDescription') as string,
+                  address,
+                  learnMoreLink,
+                },
+              );
 
               // User has clicked on "OK"
               trackSnapAccountEvent(
@@ -250,12 +236,10 @@ export const snapKeyringBuilder = (
           if (confirmationResult) {
             trackSnapAccountEvent(MetaMetricsEventName.AccountAdded);
           }
-          // End the approval flow if it was started
-          if (!skipConfirmation) {
-            controllerMessenger.call('ApprovalController:endFlow', {
-              id: confirmationApprovalId,
-            });
-          }
+
+          controllerMessenger.call('ApprovalController:endFlow', {
+            id: addAccountApprovalId,
+          });
         }
       },
       removeAccount: async (
@@ -268,9 +252,9 @@ export const snapKeyringBuilder = (
           'ApprovalController:startFlow',
         );
 
-        const learnMoreLink =
-          'https://support.metamask.io/hc/en-us/articles/360057435092-How-to-remove-an-account-from-your-MetaMask-wallet';
-
+        // const learnMoreLink =
+        //   'https://support.metamask.io/hc/en-us/articles/360057435092-How-to-remove-an-account-from-your-MetaMask-wallet';
+        const learnMoreLink = '';
         const trackSnapAccountEvent = (event: MetaMetricsEventName) => {
           trackEvent({
             event,

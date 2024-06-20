@@ -12,17 +12,12 @@ import {
   BackgroundColor,
   BorderRadius,
 } from '../../../../../../helpers/constants/design-system';
-import {
-  SignatureRequestType,
-  TypedSignDataV1Type,
-} from '../../../../types/confirm';
+import { TypedSignDataV1Type } from '../../../../types/confirm';
 import { ConfirmInfoRowTypedSignDataV1 } from '../../row/typed-sign-data-v1/typedSignDataV1';
 
 const TypedSignV1Info: React.FC = () => {
   const t = useI18nContext();
-  const currentConfirmation = useSelector(
-    currentConfirmationSelector,
-  ) as SignatureRequestType;
+  const currentConfirmation = useSelector(currentConfirmationSelector);
 
   if (!currentConfirmation?.msgParams) {
     return null;

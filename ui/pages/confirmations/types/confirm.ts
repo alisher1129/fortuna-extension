@@ -1,8 +1,5 @@
 import { ApprovalControllerState } from '@metamask/approval-controller';
-import {
-  TransactionMeta,
-  TransactionType,
-} from '@metamask/transaction-controller';
+import { TransactionType } from '@metamask/transaction-controller';
 
 export type TypedSignDataV1Type = {
   name: string;
@@ -26,16 +23,13 @@ export type SignatureRequestType = {
     origin: string;
     data: string | TypedSignDataV1Type;
     version?: string;
-    siwe?: {
-      isSIWEMessage: boolean;
-    };
   };
   type: TransactionType;
   custodyId?: string;
   securityAlertResponse?: SecurityAlertResponse;
 };
 
-export type Confirmation = SignatureRequestType | TransactionMeta;
+export type Confirmation = SignatureRequestType;
 
 export type ConfirmMetamaskState = {
   confirm: {

@@ -5,7 +5,6 @@ import { isValidAddress } from 'ethereumjs-util';
 import {
   ConfirmInfoRow,
   ConfirmInfoRowAddress,
-  ConfirmInfoRowDivider,
   ConfirmInfoRowUrl,
 } from '../../../../../../components/app/confirm/info/row';
 import { useI18nContext } from '../../../../../../hooks/useI18nContext';
@@ -15,59 +14,35 @@ import {
   BackgroundColor,
   BorderRadius,
 } from '../../../../../../helpers/constants/design-system';
-import { EIP712_PRIMARY_TYPE_PERMIT } from '../../../../constants';
-import { SignatureRequestType } from '../../../../types/confirm';
-import { parseTypedDataMessage } from '../../../../utils';
 import { ConfirmInfoRowTypedSignData } from '../../row/typed-sign-data/typedSignData';
 
 const TypedSignInfo: React.FC = () => {
   const t = useI18nContext();
-  const currentConfirmation = useSelector(
-    currentConfirmationSelector,
-  ) as SignatureRequestType;
+  const currentConfirmation = useSelector(currentConfirmationSelector);
 
   if (!currentConfirmation?.msgParams) {
     return null;
   }
 
-  const {
-    domain,
-    domain: { verifyingContract },
-    primaryType,
-  } = parseTypedDataMessage(currentConfirmation.msgParams.data as string);
+  const { domain = {} } = JSON.parse(
+    currentConfirmation.msgParams.data as string,
+  );
 
   return (
     <>
       <Box
         backgroundColor={BackgroundColor.backgroundDefault}
         borderRadius={BorderRadius.MD}
+        padding={2}
         marginBottom={4}
-        padding={0}
       >
-        {primaryType === EIP712_PRIMARY_TYPE_PERMIT && (
-          <>
-            <Box padding={2}>
-              <ConfirmInfoRow label={t('approvingTo')}>
-                <ConfirmInfoRowAddress address={verifyingContract} />
-              </ConfirmInfoRow>
-            </Box>
-            <ConfirmInfoRowDivider />
-          </>
-        )}
-        <Box padding={2}>
-          <ConfirmInfoRow
-            label={t('requestFrom')}
-            tooltip={t('requestFromInfo')}
-          >
-            <ConfirmInfoRowUrl url={currentConfirmation.msgParams.origin} />
-          </ConfirmInfoRow>
-        </Box>
+        <ConfirmInfoRow label={t('requestFrom')} tooltip={t('requestFromInfo')}>
+          <ConfirmInfoRowUrl url={currentConfirmation.msgParams.origin} />
+        </ConfirmInfoRow>
         {isValidAddress(domain.verifyingContract) && (
-          <Box padding={2}>
-            <ConfirmInfoRow label={t('interactingWith')}>
-              <ConfirmInfoRowAddress address={domain.verifyingContract} />
-            </ConfirmInfoRow>
-          </Box>
+          <ConfirmInfoRow label={t('interactingWith')}>
+            <ConfirmInfoRowAddress address={domain.verifyingContract} />
+          </ConfirmInfoRow>
         )}
       </Box>
       <Box

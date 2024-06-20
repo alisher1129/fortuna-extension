@@ -1,16 +1,17 @@
+import { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+
 import { ApprovalRequest } from '@metamask/approval-controller';
 import { ApprovalType } from '@metamask/controller-utils';
 import { Json } from '@metamask/utils';
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+
 import {
   getRedesignedConfirmationsEnabled,
   latestPendingConfirmationSelector,
   pendingConfirmationsSelector,
   unconfirmedTransactionsHashSelector,
 } from '../../../selectors';
-import { REDESIGN_APPROVAL_TYPES, REDESIGN_TRANSACTION_TYPES } from '../utils';
 
 type Approval = ApprovalRequest<Record<string, Json>>;
 
@@ -32,12 +33,13 @@ const useCurrentConfirmation = () => {
   );
 
   useEffect(() => {
-    if (!redesignedConfirmationsEnabled) {
+    if (
+      !process.env.ENABLE_CONFIRMATION_REDESIGN ||
+      !redesignedConfirmationsEnabled
+    ) {
       return;
     }
-
     let pendingConfirmation: Approval | undefined;
-
     if (paramsTransactionId) {
       if (paramsTransactionId === currentConfirmation?.id) {
         return;
@@ -46,7 +48,6 @@ const useCurrentConfirmation = () => {
         ({ id: confirmId }) => confirmId === paramsTransactionId,
       );
     }
-
     if (!pendingConfirmation) {
       if (!latestPendingConfirmation) {
         setCurrentConfirmation(undefined);
@@ -54,7 +55,6 @@ const useCurrentConfirmation = () => {
       }
       pendingConfirmation = latestPendingConfirmation;
     }
-
     if (pendingConfirmation.id !== currentConfirmation?.id) {
       const unconfirmedTransaction =
         unconfirmedTransactions[pendingConfirmation.id];
@@ -62,23 +62,14 @@ const useCurrentConfirmation = () => {
         setCurrentConfirmation(undefined);
         return;
       }
-
-      const isConfirmationRedesignType =
-        REDESIGN_APPROVAL_TYPES.find(
-          (type) => type === pendingConfirmation?.type,
-        ) ||
-        REDESIGN_TRANSACTION_TYPES.find(
-          (type) => type === unconfirmedTransaction?.type,
-        );
-
-      if (!isConfirmationRedesignType) {
+      if (
+        pendingConfirmation.type !== ApprovalType.PersonalSign &&
+        pendingConfirmation.type !== ApprovalType.EthSignTypedData
+      ) {
         setCurrentConfirmation(undefined);
         return;
       }
-
-      // comment if condition below to enable re-design for SIWE signatures
-      // this can be removed once SIWE code changes are completed
-      if (pendingConfirmation?.type === ApprovalType.PersonalSign) {
+      if (pendingConfirmation.type === ApprovalType.PersonalSign) {
         const { siwe } = unconfirmedTransaction.msgParams;
         if (siwe?.isSIWEMessage) {
           setCurrentConfirmation(undefined);

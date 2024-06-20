@@ -11,6 +11,7 @@ import { Auth0Page } from '../pageObjects/mmi-auth0-page';
 import { MMIMainPage } from '../pageObjects/mmi-main-page';
 
 const portfolio = `${process.env.MMI_E2E_MMI_DASHBOARD_URL}/portfolio`;
+const swap = `${process.env.MMI_E2E_MMI_DASHBOARD_URL}/swap`;
 const stake = `${process.env.MMI_E2E_MMI_DASHBOARD_URL}/stake`;
 const support = 'https://mmi-support.metamask.io/hc/en-us';
 const supportContactUs =
@@ -121,7 +122,7 @@ test.describe('MMI Navigation', () => {
       context,
       mainMenuPage.page,
       'learn more',
-      'https://support.metamask.io',
+      learnMoreArticles,
     );
 
     await mainMenuPage.selectSettings('Security & privacy');

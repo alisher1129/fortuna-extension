@@ -54,6 +54,10 @@ import {
   getSmartTransactionsEnabled,
 } from '../../../shared/modules/selectors';
 import {
+  getSmartTransactionsOptInStatus,
+  getSmartTransactionsEnabled,
+} from '../../../shared/modules/selectors';
+import {
   AWAITING_SIGNATURES_ROUTE,
   AWAITING_SWAP_ROUTE,
   SMART_TRANSACTION_STATUS_ROUTE,

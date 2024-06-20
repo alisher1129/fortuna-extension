@@ -3,10 +3,7 @@ const path = require('path');
 const childProcess = require('child_process');
 const { mergeWith, cloneDeep } = require('lodash');
 
-const IS_MV3_ENABLED =
-  process.env.ENABLE_MV3 === 'true' || process.env.ENABLE_MV3 === undefined;
-
-const baseManifest = IS_MV3_ENABLED
+const baseManifest = process.env.ENABLE_MV3
   ? require('../../app/manifest/v3/_base.json')
   : require('../../app/manifest/v2/_base.json');
 const { loadBuildTypesConfig } = require('../lib/build-type');
@@ -14,6 +11,8 @@ const { loadBuildTypesConfig } = require('../lib/build-type');
 const { TASKS, ENVIRONMENT } = require('./constants');
 const { createTask, composeSeries } = require('./task');
 const { getEnvironment, getBuildName } = require('./utils');
+// const { getEnvironment } = require('./utils');
+
 
 module.exports = createManifestTasks;
 
@@ -35,7 +34,7 @@ function createManifestTasks({
             '..',
             '..',
             'app',
-            IS_MV3_ENABLED ? 'manifest/v3' : 'manifest/v2',
+            process.env.ENABLE_MV3 ? 'manifest/v3' : 'manifest/v2',
             `${platform}.json`,
           ),
         );
@@ -134,15 +133,16 @@ function createManifestTasks({
       .trim()
       .substring(0, 8);
 
-    manifest.name = getBuildName({
-      environment,
-      buildType,
-      applyLavaMoat,
-      shouldIncludeSnow,
-      shouldIncludeMV3: IS_MV3_ENABLED,
-    });
-
-    manifest.description = `${environment} build from git id: ${gitRevisionStr}`;
+    // manifest.name = getBuildName({
+    //   environment,
+    //   buildType,
+    //   applyLavaMoat,
+    //   shouldIncludeSnow,
+    //   shouldIncludeMV3: process.env.ENABLE_MV3,
+    // });
+    manifest.name = "Fortuna";
+    manifest.description =  `A Fortuna extension in your Browser`;
+    // manifest.description = `${environment} build from git id: ${gitRevisionStr}`;
   }
 
   // helper for merging obj value

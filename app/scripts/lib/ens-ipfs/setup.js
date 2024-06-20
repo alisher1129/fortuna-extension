@@ -25,9 +25,9 @@ export default function setupEnsIpfsResolver({
   // return api object
   return {
     // uninstall listener
-    remove() {
-      browser.webRequest.onErrorOccurred.removeListener(webRequestDidFail);
-    },
+    // remove() {
+    //   browser.webRequest.onErrorOccurred.removeListener(webRequestDidFail);
+    // },
   };
 
   async function webRequestDidFail(details) {
